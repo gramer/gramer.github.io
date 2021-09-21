@@ -64,6 +64,8 @@ help:
 
 # Issues
 
+- jekyll plugin 은 github 에서는 실행되지 않는다. 따라서 [Github Action](https://github.com/jeffreytse/jekyll-deploy-action) 을 통해 처리한다.
+
 # References
 
 - [Jekyll on macOS](https://jekyllrb.com/docs/installation/macos/)
