@@ -1,9 +1,16 @@
 title: Zeno's digital garden
 include: [ '_pages' ]
 exclude:
-  - '_includes/notes_graph.json'
-  - '_notes/Kakaopay/*'
-  - '_notes/Personal/*'
+  - _includes/notes_graph.json
+  - _notes/Kakaopay/*
+  - _notes/Personal/*
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
 # You may need to change the base URL depending on your deploy configuration.
 # Specifically, when using GitHub Pages, the baseurl should point to where GitHub
 # Pages deploys your repository (which is usually the repository name).
