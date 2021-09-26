@@ -62,17 +62,20 @@ help:
 .DEFAULT_GOAL = help
 ```
 
-# Issues
+# Issue and Solves
 
 - jekyll plugin 은 github 에서는 실행되지 않는다. 따라서 [Github Action](https://github.com/jeffreytse/jekyll-deploy-action) 을 통해 처리한다.
+	- github 에서 jekyll 의 결과물은 gh-pages 로 지정한다. 
 
 # References
 
-- [Jekyll on macOS](https://jekyllrb.com/docs/installation/macos/)
-- [jekyll 실행 시킬 때 webrick 관련 오류](https://junho85.pe.kr/1850)
-- [rbenv환경에서 Jekyll 블로그 생성하고 GitHub Pages에 배포하기](https://lhy.kr/create-jekyll-blog-using-rbenv-and-github-pages)
-- [Fully Functional Jekyll Blog](https://www.sitepoint.com/fully-functional-jekyll-blog/)
+
 - [올리브영 기술블로그 개발기](https://tech.oliveyoung.co.kr/tech/2011091042/)
 - [올리브영 기술블로그 소스](https://github.com/oy-alldev/oy-alldev.github.io)
-- [Obsidian Jekyll workflow](https://refinedmind.co/obsidian-jekyll-workflow)
+- [Fully Functional Jekyll Blog](https://www.sitepoint.com/fully-functional-jekyll-blog/)
+- [Jekyll 실행 시킬 때 webrick 관련 오류](https://junho85.pe.kr/1850)
+- [Jekyll mermaid plugin](https://github.com/jasonbellamy/jekyll-mermaid)
+- [Jekyll on macOS](https://jekyllrb.com/docs/installation/macos/)
   - [netlify](https://app.netlify.com/)
+- [Obsidian Jekyll workflow](https://refinedmind.co/obsidian-jekyll-workflow)
+- [rbenv환경에서 Jekyll 블로그 생성하고 GitHub Pages에 배포하기](https://lhy.kr/create-jekyll-blog-using-rbenv-and-github-pages)

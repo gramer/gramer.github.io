@@ -1,5 +1,6 @@
 ---
 tags: note,zettelkasten,gtd
+categories: Productivity
 ---
 
 # [[제텔카스텐]]

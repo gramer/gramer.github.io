@@ -1,7 +1,7 @@
 ---
 tags: chaos-gameday, chaos-engineering, gremlin
 title: Gremlin 관련 메모
-categories: 기술
+categories: [Tech]
 ---
 
 # Gremlin

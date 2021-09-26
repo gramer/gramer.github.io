@@ -1,0 +1,12 @@
+---
+layout: default
+---
+
+<content>
+    {% for note in site.notes %}
+        {% if note.categories contains "" %}
+            <li><span>{{ note.last_modified_at | date: "%B %-d, %Y" }}</span> &nbsp; <a href="{{ note.url }}">{{ note.title }}</a></li>
+        {% endif %}
+    {% endfor %}
+</content>
+

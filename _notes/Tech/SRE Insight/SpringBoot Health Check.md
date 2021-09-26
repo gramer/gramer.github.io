@@ -1,7 +1,7 @@
 ---
 tags: springboot,actuator,healthcheck,incident 
 title: About SpringBoot Health Check
-categories: SRE Insight
+categories: ["SRE Insight", "Tech"]
 ---
 
 # 현상

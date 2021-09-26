@@ -1,5 +1,6 @@
 ---
 tags: metric
+categories: Tech
 ---
 
 # References
