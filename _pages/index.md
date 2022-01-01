@@ -9,7 +9,7 @@ permalink: /
 # Welcome! 🌱
 
 <header class="site-category">  
-    {% assign categories = [] %} 
+    {% assign categories = "" %} 
     {% for note in site.notes %} 
         {% assign categories = categories | concat: note.categories %} 
     {% endfor %}

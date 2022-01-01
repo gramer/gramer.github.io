@@ -2,7 +2,7 @@ title: Zeno's digital garden
 repository: gramer/gramer.github.io
 email: gramer2188@gmail.com
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+url: gramer.github.io
 github_username:  gramer
 include: [ '_pages' ]
 exclude:
@@ -33,6 +33,7 @@ embed_tweets: false
 
 permalink: pretty
 relative_permalinks: false
+safe: true
 
 plugins:
   - jekyll-last-modified-at

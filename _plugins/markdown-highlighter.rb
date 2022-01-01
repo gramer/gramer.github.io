@@ -1,3 +1,4 @@
+puts "before #{__FILE__}.... "
 # frozen_string_literal: true
 
 # Turns ==something== in Markdown to <mark>something</mark> in output HTML

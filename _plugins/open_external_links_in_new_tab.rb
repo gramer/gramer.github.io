@@ -1,3 +1,4 @@
+puts "before #{__FILE__}.... "
 # If the configuration sets `open_external_links_in_new_tab` to a truthy value,
 # add 'target=_blank' to anchor tags that don't have `internal-link` class
 

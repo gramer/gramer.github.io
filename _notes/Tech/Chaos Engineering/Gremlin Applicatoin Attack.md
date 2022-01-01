@@ -12,7 +12,7 @@ Gremlin 의 아래 항목을 검증 완료하였으며, github 의 다양한 예
 - [alfi-apache-http-client](https://github.com/gremlin/alfi-apache-http-client)
 
 
-**장점 **
+**장점**
 
 - WebUI 를 통해서 `Latency 지연` 또는 `RuntimeException` 을 쉽게 발생시킬 수 있다.
 - Gremlin SDK 를 통해서 type 에 따라서 선별적으로 적용 가능하다.

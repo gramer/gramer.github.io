@@ -1,6 +1,6 @@
 ---
 tags: chaos-gameday, chaos-engineering, gremlin
-title: Gremlin 관련 메모
+title: Gremlin 관련
 categories: [Tech]
 ---
 
@@ -8,11 +8,11 @@ categories: [Tech]
 
 ## Useful Attack
 
-MSA 환경에서 대상 서비스가 문제가 발생하는 경우, 오류를 응답하거나 지연된다.
+- MSA 환경에서 대상 서비스가 문제가 발생하는 경우, 오류를 응답하거나 지연된다.
 
 ### Latency
 
-Connection Timeout, Read Timeout, 또는 이전 장애 상황에 따라서 지연 값을 참고한다.
+- Connection Timeout, Read Timeout, 또는 이전 장애 상황에 따라서 지연 값을 참고한다.
 
 ## Future Plan
 
@@ -25,6 +25,14 @@ Connection Timeout, Read Timeout, 또는 이전 장애 상황에 따라서 지�
 ## Operations
 
 - kakaowork webhook 을 이용해서 사용현황을 실시간으로 파악
+
+## Fire Drill
+
+- [Prepare your team to handle incidents remotely](https://www.gremlin.com/blog/prepare-your-team-to-handle-incidents-remotely/)
+
+## Process
+
+- [How To Establish a High Severity Incident Management Program](https://www.gremlin.com/community/tutorials/how-to-establish-a-high-severity-incident-management-program/#what-are-sevs)
 
 # References
 

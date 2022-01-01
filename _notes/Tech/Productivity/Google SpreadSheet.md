@@ -19,7 +19,7 @@ categories: Productivity
 
 Google SpreadSheet 와 연결하여 mobile app 을 빠르게 만들 수 있는 기능
 
-![[app-sheet-example.png]]
+![[assets/app-sheet-example.png]]
 
 ### Tip
 

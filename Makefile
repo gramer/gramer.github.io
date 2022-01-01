@@ -4,7 +4,7 @@ END=" \#\#\# \033[0m\n"
 .PHONY: setup
 jekyll-local: ## run jekyll-local
 	@echo ${TAG}starting${END}
-	@bundle exec jekyll serve
+	bundle exec jekyll serve
 	@echo ${TAG}completed${END}
 
 .PHONY: help

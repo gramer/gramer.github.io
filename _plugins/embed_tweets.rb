@@ -1,3 +1,4 @@
+puts "before #{__FILE__}.... "
 # frozen_string_literal: true
 class TweetEmbedGenerator < Jekyll::Generator
   def generate(site)

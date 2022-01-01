@@ -122,3 +122,4 @@ SpringBootApp 내에서 livenessState, readinessState 를 이벤트를 통해 �
 # References
 
 - [Auto-configured HealthIndicators 관련 메뉴얼 바로 가기](https://docs.spring.io/spring-boot/docs/2.3.0.RELEASE/reference/html/production-ready-features.html#production-ready-health-indicators)
+- [JDK 8u191 Update Release Notes](https://www.oracle.com/java/technologies/javase/8u191-relnotes.html)

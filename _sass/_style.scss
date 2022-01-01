@@ -144,3 +144,20 @@ code {
   color: #ccc;
   cursor: help;
 }
+
+table{
+  border-collapse: collapse;
+  border-spacing: 0;
+  border:1px solid #7a8288;
+  padding: 0.5em;
+}
+
+th{
+  border:1px solid #7a8288;
+  padding: 0.5em;
+}
+
+td{
+  border:1px solid #7a8288;
+  padding: 0.5em;
+}
