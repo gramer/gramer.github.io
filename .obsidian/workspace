@@ -1,0 +1,90 @@
+{
+  "main": {
+    "id": "47be0ed658660003",
+    "type": "split",
+    "children": [
+      {
+        "id": "4931664d9c30205a",
+        "type": "leaf",
+        "state": {
+          "type": "empty",
+          "state": {}
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "67d9e246decdb96e",
+    "type": "split",
+    "children": [
+      {
+        "id": "8201776e211b09e9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fecc49699f07c3fe",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "86a669d6f2ff205e",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "61e4fd00fa98f0e2",
+    "type": "split",
+    "children": [
+      {
+        "id": "71fd5537cd9241b9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5819172f4ec14fca",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "4931664d9c30205a",
+  "lastOpenFiles": [
+    "Kakaopay/2022.02/2022.02.12(토).md",
+    "Kakaopay/2022.02/2022.02.04(금).md"
+  ]
+}
