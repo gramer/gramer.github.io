@@ -13,4 +13,5 @@ _site
 .jekyll-metadata
 vendor
 
-
+# Git ignores
+.obsidian/workspace
