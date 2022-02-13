@@ -1,0 +1,22 @@
+{
+  "collapse-filter": false,
+  "search": "tag:#book",
+  "showTags": true,
+  "showAttachments": false,
+  "hideUnresolved": false,
+  "showOrphans": true,
+  "collapse-color-groups": false,
+  "colorGroups": [],
+  "collapse-display": false,
+  "showArrow": true,
+  "textFadeMultiplier": -0.5,
+  "nodeSizeMultiplier": 1.45274754213483,
+  "lineSizeMultiplier": 1.62823911516854,
+  "collapse-forces": false,
+  "centerStrength": 1,
+  "repelStrength": 10,
+  "linkStrength": 1,
+  "linkDistance": 250,
+  "scale": 2.1090414388096437,
+  "close": false
+}

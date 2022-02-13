@@ -7,8 +7,12 @@
         "id": "4931664d9c30205a",
         "type": "leaf",
         "state": {
-          "type": "empty",
-          "state": {}
+          "type": "markdown",
+          "state": {
+            "file": "_notes/Books/현명한 투자자.md",
+            "mode": "source",
+            "source": false
+          }
         }
       }
     ],
@@ -65,6 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "_notes/Books/현명한 투자자.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -84,6 +89,11 @@
   },
   "active": "4931664d9c30205a",
   "lastOpenFiles": [
+    "_notes/Books/현명한 투자자.md",
+    "_notes/Books/이벤트 기반 마이크로서비스 구축.md",
+    "_notes/Books/데이터 중심 애플리케이션 설계.md",
+    "_notes/Books/스프링 부트 실전 활용 마스터.md",
+    "_notes/Books/Clean Architecture.md",
     "Kakaopay/2022.02/2022.02.12(토).md",
     "Kakaopay/2022.02/2022.02.04(금).md"
   ]
