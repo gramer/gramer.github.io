@@ -1,3 +1,5 @@
 {
-  "legacyEditor": false
+  "legacyEditor": false,
+  "defaultViewMode": "source",
+  "readableLineLength": false
 }
