@@ -39,6 +39,7 @@ categories: Tech
 	- [[Mac] M1 Mac에 HomeBrew 설치하기](https://cloudest.oopy.io/posting/043)
 - [x] tmux: tmux-fzf-url 동작 안함.
 	- bash 파일을 /usr/loca/bin 으로 이동해 준다.
-
+- [x] java 에서 dns 이슈 (netty library.로 해결)
+	- Unable to load io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider
 
 	
