@@ -528,49 +528,50 @@ fun doSomething() {
 
 - 언제 SAM(Single Abstract Method) 을 사용할까?
   - 자바에서 사용해야 하는 경우에는 SAM 을 사용한다. (함수 타입은 IDE 에서 지원받을 수 없다.)
- 
+
 #### 태그  클래스 보다는 클래스 계층을 사용하라
 
 - 상수를 모아 둔 클래스를 태그 클래스
-	- 프로퍼티가 일관적으로 사용하지 않는 케이스가 발생한다. 
-	- 여러 목적으로 사용할 소지가 있다. 
-	- ==sealed class 를 사용하자. (외부에서 서브클래스를 만드는 행위를 제한할 수 있다. 즉 타입이 추가되지 않을 것이라는 보장)==
+  - 프로퍼티가 일관적으로 사용하지 않는 케이스가 발생한다.
+  - 여러 목적으로 사용할 소지가 있다.
+  - ==sealed class 를 사용하자. (외부에서 서브클래스를 만드는 행위를 제한할 수 있다. 즉 타입이 추가되지 않을 것이라는 보장)==
 - 상태 클래스
-	- 각 상태에 따라서 행위를 규정한다. 
+  - 각 상태에 따라서 행위를 규정한다.
 
-#### equals 의 규약을 지켜라. 
+#### equals 의 규약을 지켜라.
 
-- 구조적 동등성: `==, !=` 
+- 구조적 동등성: `==, !=`
 - 레퍼런스적 동등성: `===, !==`  를 통해 같은 객체를 가리키는 지
 - data class 에서 생성자에 포함되지 않는 프로퍼티는:
-	- equals 에 포함되지 않는다. 
-	- copy 에 포함되지 않는다.
+  - equals 에 포함되지 않는다.
+  - copy 에 포함되지 않는다.
 - equals 의 규약
-	- 반사적: x 가 null 이 아니면 x.equals(x) 는 참
-	- 대칭적: x, y 가 null 이 아니면 x.equals(y) == y.equals(x)
-		- 다른 타입을 검사하는 경우 실수가 생길 수 있다. 
-	- 연속적: x, y 가 equals 이고, y, z 가 equals 이면 x.equals(y) 도 같은 결과
-		- ex) DateTime 과 Date 를 비교하는 경우
-	- 일관적: 여러번 동작해도
-	- x.equals(null) 은 항상 false 를 리턴해야 한다.
-	- URL 의 equals 는 잘못된 설계
-		- 네트워크 상태에 따라서 실패가 야기된다. 
-		- equals 의 실행이 느려질 수 있다. 
+  - 반사적: x 가 null 이 아니면 x.equals(x) 는 참
+  - 대칭적: x, y 가 null 이 아니면 x.equals(y) == y.equals(x)
+    - 다른 타입을 검사하는 경우 실수가 생길 수 있다.
+  - 연속적: x, y 가 equals 이고, y, z 가 equals 이면 x.equals(y) 도 같은 결과
+    - ex) DateTime 과 Date 를 비교하는 경우
+  - 일관적: 여러번 동작해도
+  - x.equals(null) 은 항상 false 를 리턴해야 한다.
+  - URL 의 equals 는 잘못된 설계
+    - 네트워크 상태에 따라서 실패가 야기된다.
+    - equals 의 실행이 느려질 수 있다.
 
-#### hashcode 의 규약의 지켜라. 
+#### hashcode 의 규약의 지켜라.
 
 - 여러번 호출해도 동일 값
 - equals 가 true 이면 hashcode 도 동일값
-- 최대한 값을 넓게 퍼트려야 hashtable의 성능이 괜찮아 진다. 
-	- hashcode 를 먼저 호출 후에 equals 를 호출한다.
-- equals 와 동일한 프로퍼티로 hashcode 를 구현해야 한다. 
+- 최대한 값을 넓게 퍼트려야 hashtable의 성능이 괜찮아 진다.
+  - hashcode 를 먼저 호출 후에 equals 를 호출한다.
+- equals 와 동일한 프로퍼티로 hashcode 를 구현해야 한다.
 
-#### compareTo 의 규약을 지켜라 
+#### compareTo 의 규약을 지켜라
 
-- 비대칭적인 동작: a>=b, b>=a 라면 a == b 
+- 비대칭적인 동작: a>=b, b>=a 라면 a == b
 - 연속적 동작: a>=b, b>=c 이면 a>=c
 - 코넥스적 동작: a>=b, b>=a 이면 적어도 둘 중 하나는 true
 - 자주 사용하는  여러 프로퍼티의 순서를 정해야 한다면
+
 ```kotlin
 
 class User(val name:String, val surname:String) {
@@ -584,8 +585,15 @@ val sorted = names.sortedWith(User.DISPLAY_ORDER)
 ```
 
 - compareTo 구현할 때
-	- compareValues 를 이용 : 단순 비교 시
-	- compareValuesBy 를 이용: 좀 더 복잡한 경우
+  - compareValues 를 이용 : 단순 비교 시
+  - compareValuesBy 를 이용: 좀 더 복잡한 경우
 
 #### API 의 필수적이지 않는 부분을 확장함수로 추출하라.
- 
+
+- 확장 함수는 오버라이드가 불가능하다.
+- 확장 함수는 어노테이션 프로세서가 처리하지 않는다.
+
+#### 멤버 확장 함수의 사용을 피하라. 
+- 확장함수를 클래스 내부에 사용하지 말라.  (가시성을 제한하지 못한다.)
+- 맴버 확장함수는 레퍼런스를 지원하지 않는다. ex) str::isPhoneNumber
+- 확장 함수는 혼란을 야기할 여지가 있어 가시성 한정자를 사용하는 것을 고려하자.
