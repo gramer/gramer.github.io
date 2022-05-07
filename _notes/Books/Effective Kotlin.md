@@ -593,7 +593,203 @@ val sorted = names.sortedWith(User.DISPLAY_ORDER)
 - 확장 함수는 오버라이드가 불가능하다.
 - 확장 함수는 어노테이션 프로세서가 처리하지 않는다.
 
-#### 멤버 확장 함수의 사용을 피하라. 
+#### 멤버 확장 함수의 사용을 피하라.
+
 - 확장함수를 클래스 내부에 사용하지 말라.  (가시성을 제한하지 못한다.)
 - 맴버 확장함수는 레퍼런스를 지원하지 않는다. ex) str::isPhoneNumber
 - 확장 함수는 혼란을 야기할 여지가 있어 가시성 한정자를 사용하는 것을 고려하자.
+
+### 7장 비용 줄이기
+
+#### 뷸필요한 객체 생성을 피하라
+
+- Int? 를 사용하면 Integer 로 컴파일 된다.  Int 는 - int
+- 64bit 에서는 8 byte 의 배수만큼 공간을 차지
+- 12 byte 헤더가 있어 최소 16 byte 를 차지한다.
+- 64bit -Xmx 32G 부터는 8 Byte 레퍼런스 공간, 이전까지는 레퍼런스는 4 Byte
+- [Java Object Layout](https://www.baeldung.com/java-memory-layout) 를 통해 class 의 메모리 layout 를 손쉽게 알 수 있다.
+  - memory optimization 시에 재미 있게 사용할 수 있을 듯.
+- Empty 클래스(특정 상태를 나타내는)를 생성하지 말고 재활용하자.
+
+```kotlin
+
+sealed class LinkedList<out T>
+
+object Empty : LinkedList<Nothing>
+
+class Node<out T>(
+	val head T,
+	va tail : LinkedList<T>
+) : LinkedList<T>
+
+val list: LinkedList<Int> = Node(1, Node(2, Node(3, Empty)))
+```
+
+- 캐시 활용
+
+```kotlin
+private val FIB_CACHE = mutableMapOf(Int, BigInteger)() 
+
+fun fib(n: Int): BigInteger = FIB_CACHE.getOrPut(n) {
+	if (n <= 1) BigInteger.ONE else fib(n-1) + fib(n-2)
+}
+```
+
+- 캐시를 통해 처리할 때 메모리가 부담이 된다면
+- SoftReference 를 사용하자. (gc 에서 대상일 수도 아닐 수도 있다.)  [예제 바로 가기](https://github.com/Mauker1/CacheMap/blob/master/CacheMap.kt)
+- 무거운 객체 연산은 밖으로 빼자.
+  - 가장 많이 실수하는 부분이 Rex 연산을 매번 생성하는 행위 등
+
+```kotlin
+private val IS_VALID_EMAIL_ADDRESS by lazy {
+   "\\A..example".toRegex()
+}
+```
+
+- 성능이 중요하다면 가급적이면 기본 타입을 통해 연산하라.
+
+```kotlin
+public fun <T: Compareable<T>> Interable<T>.max(): T? {
+	val iterator = iterator()
+	if (!iterator.hasNext()) return null. // 빠른 리턴, 엘비스 연산자를 지양하고 이렇게 처리
+	val max = iterator.next()
+	while(iterator.hasNext) {
+		val e = iterator.next()
+		if (max < e) max = e
+	}
+
+	return max
+	
+}
+
+```
+
+#### 함수 타입 파라미터를 갖는 함수에 inline  한정자를 붙여라
+
+- reified 한정자를 붙여서 사용할 수 있다.
+- 훨씬 빠르다.
+- 비지역 리턴을 사용할 수 있다.
+- 간단한 함수에는 inline 이 붙어 있다.
+  - 함수를 호출하는 비용
+  - argument 를 래핑해서 사용해야 하는 비용
+- 단점
+  - 재귀에서 사용하지 못한다.
+  - 코드의 크기가 늘어날 수 있다.
+- intellij 가 알아서 아래의 상황을 추천해준다.
+  - crossinline: 비지역적 리턴 불가
+  - noinline : 인라인 불가
+
+#### 인라인 클래스의 사용을 고려하라.
+
+- compile 시점에 대체되어 오버헤드가 없다.
+- inline class 의 함수는 static 으로 컴파일 된다.
+- 타입을 강제할 때, 타입을 통해 가독성을 높일 때
+- interface 를 구현하는 inline class 는 소용이 없다.
+- typealias 는 반복적으로 사용해아 하는 함수타입일 때 유용하다.
+
+```kotlin
+inline class Minutes(val minutes: Int) {
+	fun toMillis(): Millis = Millis(minutes * 60 * 1000)
+}
+
+inline class Millis(val milliseconds) {
+
+}
+
+interface User {
+	fun decideAboutTime(): Minutes
+}
+
+val Int.min get() = Minutes(this)
+
+typealias ClickLinstener = (view: View, event:Event) -> Unit
+
+class View {
+	fun addClickListener(listener: ClickListener) {}
+	fun removeClickListener(listener: ClickListener) {}
+}
+
+// typealias 는 안전하지 않다. 
+typealias Seconds = Int
+typealias Millis = Int
+
+val seconds: Seconds = 10
+val millis: Millis = seconds // 컴파일 오류가 나지 않는다. 
+
+```
+
+#### 더 이상 사용하지 않는 객체의 레퍼런스를 제거하라.
+
+- lazy 시에 initializer 함수 타입을 사용 후에 null로 사용한다.
+- SoftReference 를 사용한다.
+- WeakReference 를 사용한다.
+- 힙 프로파일러를 사용하자.
+- 톱레벨 프로퍼티나 companion object 에는 용량이 큰 변수를 사용하지 않는다.
+
+### 8장 효율적인 컬렉션 처리
+
+#### 하나 이상의 처리 단계를 가지는 경우에는 시퀀스를 사용하라
+
+- 자연스러운 처리순서를 유지한다.
+- 최소한의 연산
+- 무한 시퀀스 형태로 사용할 수 있다.
+- 각각의 단계에서 컬렉션을 만들어 내지 않는다.
+- iterator 는 eager order, sequence 는 lazy order
+
+```kotlin
+val fibonacci = sequence {
+	yield(1)
+	var current = 1
+	var prev = 1
+	while(true) {
+		yield(current)
+		val temp = prev
+		prev = current
+		current += temp
+	}
+}
+
+fibonacci.take(10).toList()
+```
+
+- 무한 시퀀스는 무한루프에 빠지는 경우가 많으니, take 와 first 정도의 용도로만 사용하자.
+- 무한시퀀스에서는 sorted 를 조심히 사용해야 한다.
+- 자바 스트림과의 차이점
+  - 자바스트림은 병렬 처리가 가능하다.
+  - 코틀린이 확장함수가 많아 사용하기 편하다.
+
+#### 컬렉션 처리 단계 수를 제한하라.
+
+list 는 기본적으로 중간연산마다 객체를 새롭게 생성하기 때문에 단계를 줄이는 것이 효율적이다.
+가급적이면 sequence 를 사용하자.
+
+- filterNotNull,
+- mapNotNull,
+- filter { a && b},
+- filterIsInstance
+
+#### 성능이 중요한 부분에는 기본 자료형을 사용하라.
+
+- 1,000,000 인 정수 일때 약 5배 차이가 난다.
+	- header 12바이트, lenth 4byte 로 16바이트 추가
+	- IntArray 는 4,000,016 바이트
+	- `List<Int>` 는 2,0,006,944 바이트
+```kotlin
+
+import jdk.nashorn.internal.ir.debug.ObjectSizeCalculator
+
+
+fun main() {
+    val ints = List(1_000_000) { it }
+    val array: Array<Int> = ints.toTypedArray()
+    val intArray: IntArray = ints.toIntArray()
+    println(getObjectSize(ints))     // 20 000 040
+    println(getObjectSize(array))    // 20 000 016
+    println(getObjectSize(intArray)) //  4 000 016
+
+```
+
+#### mutable 컬렉션 사용을 고려하라. 
+
+- immutable 은 모든 연산에서 새로운 객체를 생성한다. 
+- 지역변수는 mutable 을 고려하자.
