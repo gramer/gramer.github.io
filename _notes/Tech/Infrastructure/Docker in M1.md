@@ -1,3 +1,9 @@
+---
+tags: mac
+title: Docker in M1
+categories: Tech
+---
+
 ```shell
 docker run --rm \
 -p 3306:3306 \
