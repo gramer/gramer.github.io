@@ -62,4 +62,21 @@ categories: Book
 
 - istio 의 한계를 극복하는 반향이 resilience4j 에 반영되었다. (bulkhead 등)
 
+## Chapter2 애플리케이션 메트릭
 
+- 화이트박스 모니터링: ex) micrometer
+- 블랙박스 모니터링: ex) pinpoint aget 
+- 차원형과 계층형
+	- 계층형은 계층 구조의 확장성에 있어 취약하다.
+- 오픈텔레메트리는 메트릭은 기본 수준, 추적에 초점에 맞춰져 있다. 
+- ==CompositeMeterRegistry== 를 통해 여러 개의 지원하는 것도 가능
+- StackDriverMeterResigtry?
+- 특정 메트릭을 비활성화 
+```java 
+MetricRegistry registry = registry.config().meterFilter(MeterFilter.denyNameStartsWith("jvm.gc"))
+```
+- 메트릭 naming 은  마침표로 구분한다.
+- NamingConvention 은 람다로 축약할 수 있으나, 예시를 알아보기 위해서?
+- 메트릭 태그값 총량 제한
+	- 404 인 경우에는 URI 를 NOT_FOUND 를 통해서 단일값으로 통일
+	- 403 인 경우에는 URI 를 REDIRECTION
