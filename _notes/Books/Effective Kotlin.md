@@ -7,8 +7,6 @@ categories: Book
 
 ### 1장 안정성
 
-````
-
 #### 가변성을 제한하라.
 
 - var 보다는 val
