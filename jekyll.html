@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+
+  <link rel="canonical" href="gramer.github.io/jekyll" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="Todo">
+
+  <meta property="og:site_name" content="Zeno's digital garden">
+
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+
+  <link rel="stylesheet" href="/styles.css">
+
+  
+  <meta property="og:description" content="Todo"/>
+  
+
+  
+  <meta property="og:title" content="Jekyll">
+  <meta property="og:type" content="article">
+  
+
+  
+  <meta property="article:published_time" content="2022-06-20T00:27:13+00:00">
+  <meta property="article:author" content="gramer.github.io/">
+  
+
+  <meta property="og:url" content="gramer.github.io/jekyll" />
+
+  
+
+  <title>
+    
+      Jekyll &mdash; Zeno's digital garden
+    
+  </title>
+</head>
+
+  <body>
+    <nav><div>
+    <a class="internal-link" href="/"><b>Zeno's digital garden</b></a>
+</div>
+</nav>
+    <div class="wrapper">
+      <main><article>
+  <div>
+    <h1>Jekyll</h1>
+    <time datetime="2022-06-20T00:26:21+00:00">
+      Last updated on June 20, 2022
+      
+    </time>
+  </div>
+
+  <div id="notes-entry-container">
+    <content>
+      <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1"><a href="#todo">Todo</a></li>
+<li class="toc-entry toc-h1"><a href="#install">Install</a></li>
+<li class="toc-entry toc-h1"><a href="#test">Test</a></li>
+<li class="toc-entry toc-h1"><a href="#issue-and-solves">Issue and Solves</a></li>
+<li class="toc-entry toc-h1"><a href="#references">References</a></li>
+</ul><h1 id="todo">
+<a class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Todo</h1>
+
+<ul class="task-list">
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>Install jekyll</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>Run jekyll in local</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>Deploy to github (gramer.github.io)</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Design categories</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Apply Obsidian Jekyll workflow</li>
+</ul>
+
+<hr>
+
+<ul class="task-list">
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Apply dark theme</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Apply relative link</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled>Expose to google search</li>
+</ul>
+
+<h1 id="install">
+<a class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h1>
+
+<p><a href="https://rubygems.org/gems/github-pages">github pages</a> 에서 의존성을 확인하고 Gemfile 을 업데이트 한다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ruby 환경 설정</span>
+rbenv <span class="nb">install </span>2.7.4
+rbenv global 2.7.4
+rbenv rehash
+
+<span class="c"># jekyll 설치 및 프로젝트 초기화</span>
+gem <span class="nb">install</span> <span class="nt">--user-install</span> bundler jekyll
+
+<span class="c"># 기존 파일이 있는 곳이면 --force </span>
+jekyll new <span class="nt">--skip-bundle</span> <span class="nb">.</span> <span class="nt">--force</span>
+
+<span class="c"># Gemfile 를 열어서 github page 활성화 </span>
+
+bundle <span class="nb">install</span>
+</code></pre></div></div>
+
+<h1 id="test">
+<a class="anchor" href="#test" aria-hidden="true"><span class="octicon octicon-link"></span></a>Test</h1>
+
+<p>Makefile 을 만들어서 로컬 테스트 Run 을 쉽게 사용하자.</p>
+
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">TAG</span><span class="o">=</span><span class="s2">"</span><span class="se">\n\n\0</span><span class="s2">33[0;32m</span><span class="se">\#\#\#</span><span class="s2"> "</span>  
+<span class="nv">END</span><span class="o">=</span><span class="s2">" </span><span class="se">\#\#\#</span><span class="s2"> </span><span class="se">\0</span><span class="s2">33[0m</span><span class="se">\n</span><span class="s2">"</span>  
+  
+<span class="nl">.PHONY</span><span class="o">:</span> <span class="nf">setup  </span>
+<span class="nl">jekyll-local</span><span class="o">:</span> <span class="c">##</span><span class="nf"> run jekyll-local  </span>
+ <span class="err">@echo</span> <span class="err">${TAG}starting${END}</span>  
+ <span class="err">@bundle</span> <span class="err">exec</span> <span class="err">jekyll</span> <span class="err">serve</span>  
+ <span class="err">@echo</span> <span class="err">${TAG}completed${END}</span>  
+  
+<span class="nl">.PHONY</span><span class="o">:</span> <span class="nf">help  </span>
+<span class="nl">help</span><span class="o">:</span>  
+   <span class="nl">@grep -E '^[a-zA-Z_-]+</span><span class="o">:</span><span class="nf">.*?</span><span class="c">##</span><span class="nf"> .*$$' $(MAKEFILE_LIST) | </span>\ <span class="nf"> </span>
+ <span class="nl">awk 'BEGIN {FS = "</span><span class="o">:</span><span class="nf">.*?</span><span class="c">##</span><span class="nf"> "}; {printf "</span>\0<span class="nf">33[36m%-30s</span>\0<span class="nf">33[0m %s</span>\n<span class="nf">"</span><span class="p">,</span><span class="nf"> $$1</span><span class="p">,</span><span class="nf"> $$2}'  </span>
+  
+  
+<span class="nv">.DEFAULT_GOAL</span> <span class="o">=</span> <span class="nb">help</span>
+</code></pre></div></div>
+
+<h1 id="issue-and-solves">
+<a class="anchor" href="#issue-and-solves" aria-hidden="true"><span class="octicon octicon-link"></span></a>Issue and Solves</h1>
+
+<ul>
+  <li>jekyll plugin 은 github 에서는 실행되지 않는다. 따라서 <a href="https://github.com/jeffreytse/jekyll-deploy-action">Github Action</a> 을 통해 처리한다.
+    <ul>
+      <li>github 에서 jekyll 의 결과물은 gh-pages 로 지정한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="references">
+<a class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h1>
+
+<ul>
+  <li><a href="https://tech.oliveyoung.co.kr/tech/2011091042/">올리브영 기술블로그 개발기</a></li>
+  <li><a href="https://github.com/oy-alldev/oy-alldev.github.io">올리브영 기술블로그 소스</a></li>
+  <li><a href="https://www.sitepoint.com/fully-functional-jekyll-blog/">Fully Functional Jekyll Blog</a></li>
+  <li><a href="https://junho85.pe.kr/1850">Jekyll 실행 시킬 때 webrick 관련 오류</a></li>
+  <li><a href="https://github.com/jasonbellamy/jekyll-mermaid">Jekyll mermaid plugin</a></li>
+  <li>
+<a href="https://jekyllrb.com/docs/installation/macos/">Jekyll on macOS</a>
+    <ul>
+      <li><a href="https://app.netlify.com/">netlify</a></li>
+    </ul>
+  </li>
+  <li><a href="https://refinedmind.co/obsidian-jekyll-workflow">Obsidian Jekyll workflow</a></li>
+  <li><a href="https://lhy.kr/create-jekyll-blog-using-rbenv-and-github-pages">rbenv환경에서 Jekyll 블로그 생성하고 GitHub Pages에 배포하기</a></li>
+</ul>
+
+    </content>
+
+    <side style="font-size: 0.9em">
+      <h3 style="margin-bottom: 1em">Notes mentioning this note</h3>
+      
+
+      <div style="font-size: 0.9em">
+        <p>
+          There are no notes linking to this note.
+        </p>
+      </div>
+      
+    </side>
+  </div>
+</article>
+
+<hr>
+
+<p>Here are all the notes in this garden, along with their links, visualized as a graph.</p>
+
+<style>
+  .links line {
+    stroke: #ccc;
+    opacity: 0.5;
+  }
+
+  .nodes circle {
+    cursor: pointer;
+    fill: #8b88e6;
+    transition: all 0.15s ease-out;
+  }
+
+  .text text {
+    cursor: pointer;
+    fill: #333;
+    text-shadow: -1px -1px 0 #fafafabb, 1px -1px 0 #fafafabb, -1px 1px 0 #fafafabb, 1px 1px 0 #fafafabb;
+  }
+
+  .nodes [active],
+  .text [active] {
+    cursor: pointer;
+    fill: black;
+  }
+
+  .inactive {
+    opacity: 0.1;
+    transition: all 0.15s ease-out;
+  }
+
+  #graph-wrapper {
+    background: #fcfcfc;
+    border-radius: 4px;
+    height: auto;
+  }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"
+  integrity="sha512-FHsFVKQ/T1KWJDGSbrUhTJyS1ph3eRrxI228ND0EGaEp6v4a/vGwPWd3Dtd/+9cI7ccofZvl/wulICEurHN1pg=="
+  crossorigin="anonymous"></script>
+
+<div id="graph-wrapper">
+  <script>
+    const MINIMAL_NODE_SIZE = 8;
+    const MAX_NODE_SIZE = 12;
+    const ACTIVE_RADIUS_FACTOR = 1.5;
+    const STROKE = 1;
+    const FONT_SIZE = 16;
+    const TICKS = 200;
+    const FONT_BASELINE = 40;
+    const MAX_LABEL_LENGTH = 50;
+
+    const graphData = {"edges":[{"source":"1105250","target":"0"},{"source":"1783189036595305315139779527442417148144190962786599794647","target":"36485673071"},{"source":"1173349929","target":"1173349929"},{"source":"0","target":"1105250"}],"nodes":[{"id":"0","path":"/%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A4%91%EC%8B%AC-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EC%84%A4%EA%B3%84","label":"데이터 중심 애플리케이션 설계"},{"id":"0","path":"/%EC%A0%9C%ED%85%94%EC%B9%B4%EC%8A%A4%ED%85%90","label":"제텔카스텐"},{"id":"0","path":"/%ED%98%84%EB%AA%85%ED%95%9C-%ED%88%AC%EC%9E%90%EC%9E%90","label":"현명한 투자자"},{"id":"1783189036595305315139779527442417148144190962786599794647","path":"/gremlin-applicatoin-attack","label":"Gremlin Application Layer Fault Injection"},{"id":"36485673071","path":"/gremlin","label":"Gremlin 관련"},{"id":"2356180470493017000564695","path":"/anomaly-detection","label":"Anomaly detection"},{"id":"132794565206938727014822709","path":"/google-spreadsheet","label":"Google spreadsheet"},{"id":"1173349929","path":"/jekyll","label":"Jekyll"},{"id":"1105250","path":"/note","label":"Note"},{"id":"8345289848942075317846035406687072346852","path":"/springboot-health-check","label":"About SpringBootHealth Check"}]}
+
+    let nodesData = graphData.nodes;
+    let linksData = graphData.edges;
+
+    const nodeSize = {};
+
+    const updateNodeSize = () => {
+      nodesData.forEach((el) => {
+        let weight =
+          3 *
+          Math.sqrt(
+            linksData.filter((l) => l.source === el.id || l.target === el.id)
+              .length + 1
+          );
+        if (weight < MINIMAL_NODE_SIZE) {
+          weight = MINIMAL_NODE_SIZE;
+        } else if (weight > MAX_NODE_SIZE) {
+          weight = MAX_NODE_SIZE;
+        }
+        nodeSize[el.id] = weight;
+      });
+    };
+
+    const onClick = (d) => {
+      window.location = d.path
+    };
+
+    const onMouseover = function (d) {
+      const relatedNodesSet = new Set();
+      linksData
+        .filter((n) => n.target.id == d.id || n.source.id == d.id)
+        .forEach((n) => {
+          relatedNodesSet.add(n.target.id);
+          relatedNodesSet.add(n.source.id);
+        });
+
+      node.attr("class", (node_d) => {
+        if (node_d.id !== d.id && !relatedNodesSet.has(node_d.id)) {
+          return "inactive";
+        }
+        return "";
+      });
+
+      link.attr("class", (link_d) => {
+        if (link_d.source.id !== d.id && link_d.target.id !== d.id) {
+          return "inactive";
+        }
+        return "";
+      });
+
+      link.attr("stroke-width", (link_d) => {
+        if (link_d.source.id === d.id || link_d.target.id === d.id) {
+          return STROKE * 4;
+        }
+        return STROKE;
+      });
+      text.attr("class", (text_d) => {
+        if (text_d.id !== d.id && !relatedNodesSet.has(text_d.id)) {
+          return "inactive";
+        }
+        return "";
+      });
+    };
+
+    const onMouseout = function (d) {
+      node.attr("class", "");
+      link.attr("class", "");
+      text.attr("class", "");
+      link.attr("stroke-width", STROKE);
+    };
+
+    const sameNodes = (previous, next) => {
+      if (next.length !== previous.length) {
+        return false;
+      }
+
+      const map = new Map();
+      for (const node of previous) {
+        map.set(node.id, node.label);
+      }
+
+      for (const node of next) {
+        const found = map.get(node.id);
+        if (!found || found !== node.title) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    const sameEdges = (previous, next) => {
+      if (next.length !== previous.length) {
+        return false;
+      }
+
+      const set = new Set();
+      for (const edge of previous) {
+        set.add(`${edge.source.id}-${edge.target.id}`);
+      }
+
+      for (const edge of next) {
+        if (!set.has(`${edge.source}-${edge.target}`)) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    const graphWrapper = document.getElementById('graph-wrapper')
+    const element = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    element.setAttribute("width", graphWrapper.getBoundingClientRect().width);
+    element.setAttribute("height", window.innerHeight * 0.8);
+    graphWrapper.appendChild(element);
+
+    const reportWindowSize = () => {
+      element.setAttribute("width", window.innerWidth);
+      element.setAttribute("height", window.innerHeight);
+    };
+
+    window.onresize = reportWindowSize;
+
+    const svg = d3.select("svg");
+    const width = Number(svg.attr("width"));
+    const height = Number(svg.attr("height"));
+    let zoomLevel = 1;
+
+    const simulation = d3
+      .forceSimulation(nodesData)
+      .force("forceX", d3.forceX().x(width / 2))
+      .force("forceY", d3.forceY().y(height / 2))
+      .force("charge", d3.forceManyBody())
+      .force(
+        "link",
+        d3
+          .forceLink(linksData)
+          .id((d) => d.id)
+          .distance(70)
+      )
+      .force("center", d3.forceCenter(width / 2, height / 2))
+      .force("collision", d3.forceCollide().radius(80))
+      .stop();
+
+    const g = svg.append("g");
+    let link = g.append("g").attr("class", "links").selectAll(".link");
+    let node = g.append("g").attr("class", "nodes").selectAll(".node");
+    let text = g.append("g").attr("class", "text").selectAll(".text");
+
+    const resize = () => {
+      if (d3.event) {
+        const scale = d3.event.transform;
+        zoomLevel = scale.k;
+        g.attr("transform", scale);
+      }
+
+      const zoomOrKeep = (value) => (zoomLevel >= 1 ? value / zoomLevel : value);
+
+      const font = Math.max(Math.round(zoomOrKeep(FONT_SIZE)), 1);
+
+      text.attr("font-size", (d) => font);
+      text.attr("y", (d) => d.y - zoomOrKeep(FONT_BASELINE) + 8);
+      link.attr("stroke-width", zoomOrKeep(STROKE));
+      node.attr("r", (d) => {
+        return zoomOrKeep(nodeSize[d.id]);
+      });
+      svg
+        .selectAll("circle")
+        .filter((_d, i, nodes) => d3.select(nodes[i]).attr("active"))
+        .attr("r", (d) => zoomOrKeep(ACTIVE_RADIUS_FACTOR * nodeSize[d.id]));
+    };
+
+    const ticked = () => {
+      node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+      text
+        .attr("x", (d) => d.x)
+        .attr("y", (d) => d.y - (FONT_BASELINE - nodeSize[d.id]) / zoomLevel);
+      link
+        .attr("x1", (d) => d.source.x)
+        .attr("y1", (d) => d.source.y)
+        .attr("x2", (d) => d.target.x)
+        .attr("y2", (d) => d.target.y);
+    };
+
+    const restart = () => {
+      updateNodeSize();
+      node = node.data(nodesData, (d) => d.id);
+      node.exit().remove();
+      node = node
+        .enter()
+        .append("circle")
+        .attr("r", (d) => {
+          return nodeSize[d.id];
+        })
+        .on("click", onClick)
+        .on("mouseover", onMouseover)
+        .on("mouseout", onMouseout)
+        .merge(node);
+
+      link = link.data(linksData, (d) => `${d.source.id}-${d.target.id}`);
+      link.exit().remove();
+      link = link.enter().append("line").attr("stroke-width", STROKE).merge(link);
+
+      text = text.data(nodesData, (d) => d.label);
+      text.exit().remove();
+      text = text
+        .enter()
+        .append("text")
+        .text((d) => shorten(d.label.replace(/_*/g, ""), MAX_LABEL_LENGTH))
+        .attr("font-size", `${FONT_SIZE}px`)
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "central")
+        .on("click", onClick)
+        .on("mouseover", onMouseover)
+        .on("mouseout", onMouseout)
+        .merge(text);
+
+      node.attr("active", (d) => isCurrentPath(d.path) ? true : null);
+      text.attr("active", (d) => isCurrentPath(d.path) ? true : null);
+
+      simulation.nodes(nodesData);
+      simulation.force("link").links(linksData);
+      simulation.alpha(1).restart();
+      simulation.stop();
+
+      for (let i = 0; i < TICKS; i++) {
+        simulation.tick();
+      }
+
+      ticked();
+    };
+
+    const zoomHandler = d3.zoom().scaleExtent([0.2, 3]).on("zoom", resize);
+
+    zoomHandler(svg);
+    restart();
+
+    function isCurrentPath(notePath) {
+      return window.location.pathname.includes(notePath)
+    }
+
+    function shorten(str, maxLen, separator = ' ') {
+      if (str.length <= maxLen) return str;
+      return str.substr(0, str.lastIndexOf(separator, maxLen)) + '...';
+    }
+  </script>
+</div>
+
+</main>
+      <footer>This is the footer. Include anything you'd like here, like a link to an <a class="internal-link" href="/about">About</a> page.
+</footer>
+    </div>
+
+    <!-- That file is not particularly elegant. This will need a refactor at some point. -->
+<style>
+  content a.internal-link {
+    border-color: #8b88e6;
+    background-color: #efefff;
+  }
+
+  #tooltip-wrapper {
+    background: white;
+    padding: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    position: absolute;
+    width: 400px;
+    height: 250px;
+    font-size: 0.8em;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    opacity: 0;
+    transition: opacity 100ms;
+  }
+
+  #tooltip-wrapper:after {
+		content: "";
+		position: absolute;
+		z-index: 1;
+		bottom: 0;
+		left: 0;
+		pointer-events: none;
+		background-image: linear-gradient(to bottom, rgba(255,255,255, 0), rgba(255,255,255, 1) 90%);
+		width: 100%;
+		height: 75px;
+  }
+</style>
+
+<div style="opacity: 0; display: none;" id='tooltip-wrapper'>
+  <div id='tooltip-content'>
+  </div>
+</div>
+
+<iframe style="display: none; height: 0; width: 0;" id='link-preview-iframe' src="">
+</iframe>
+
+<script>
+  var opacityTimeout;
+  var contentTimeout;
+  var transitionDurationMs = 100;
+
+  var iframe = document.getElementById('link-preview-iframe')
+  var tooltipWrapper = document.getElementById('tooltip-wrapper')
+  var tooltipContent = document.getElementById('tooltip-content')
+
+  function hideTooltip() {
+    opacityTimeout = setTimeout(function() {
+      tooltipWrapper.style.opacity = 0;
+      contentTimeout = setTimeout(function() {
+        tooltipContent.innerHTML = '';
+        tooltipWrapper.style.display = 'none';
+      }, transitionDurationMs + 1);
+    }, transitionDurationMs)
+  }
+
+  function showTooltip(event) {
+    var elem = event.target;
+    var elem_props = elem.getClientRects()[elem.getClientRects().length - 1];
+    var top = window.pageYOffset || document.documentElement.scrollTop
+
+    if (event.target.host === window.location.host) {
+      iframe.src = event.target.href
+      iframe.onload = function() {
+        tooltipContentHtml = ''
+        tooltipContentHtml += '<div style="font-weight: bold;">' + iframe.contentWindow.document.querySelector('h1').innerHTML + '</div>'
+        tooltipContentHtml += iframe.contentWindow.document.querySelector('content').innerHTML
+
+        tooltipContent.innerHTML = tooltipContentHtml
+
+        tooltipWrapper.style.display = 'block';
+        setTimeout(function() {
+          tooltipWrapper.style.opacity = 1;
+        }, 1)
+      }
+
+      tooltipWrapper.style.left = elem_props.left - (tooltipWrapper.offsetWidth / 2) + (elem_props.width / 2) + "px";
+      if ((window.innerHeight - elem_props.top) < (tooltipWrapper.offsetHeight)) {
+          tooltipWrapper.style.top = elem_props.top + top - tooltipWrapper.offsetHeight - 10 + "px";
+      } else if ((window.innerHeight - elem_props.top) > (tooltipWrapper.offsetHeight)) {
+          tooltipWrapper.style.top = elem_props.top + top + 35 + "px";
+      }
+
+      if ((elem_props.left + (elem_props.width / 2)) < (tooltipWrapper.offsetWidth / 2)) {
+          tooltipWrapper.style.left = "10px";
+      } else if ((document.body.clientWidth - elem_props.left - (elem_props.width / 2)) < (tooltipWrapper.offsetWidth / 2)) {
+          tooltipWrapper.style.left = document.body.clientWidth - tooltipWrapper.offsetWidth - 20 + "px";
+      }
+    }
+  }
+
+  function setupListeners(linkElement) {
+    linkElement.addEventListener('mouseleave', function(_event) {
+      hideTooltip();
+    });
+
+    tooltipWrapper.addEventListener('mouseleave', function(_event) {
+      hideTooltip();
+    });
+
+    linkElement.addEventListener('mouseenter', function(event) {
+      clearTimeout(opacityTimeout);
+      clearTimeout(contentTimeout);
+      showTooltip(event);
+    });
+
+    tooltipWrapper.addEventListener('mouseenter', function(event) {
+      clearTimeout(opacityTimeout);
+      clearTimeout(contentTimeout);
+    });
+  }
+
+  document.querySelectorAll('content a').forEach(setupListeners);
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+
+  <link rel="canonical" href="gramer.github.io/%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EA%B8%B0%EB%B0%98-%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C%EC%84%9C%EB%B9%84%EC%8A%A4-%EA%B5%AC%EC%B6%95" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="Yes24 시 구매 바로가기">
+
+  <meta property="og:site_name" content="Zeno's digital garden">
+
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+
+  <link rel="stylesheet" href="/styles.css">
+
+  
+  <meta property="og:description" content="Yes24 시 구매 바로가기"/>
+  
+
+  
+  <meta property="og:title" content="이벤트 기반 마이크로서비스 구축">
+  <meta property="og:type" content="article">
+  
+
+  
+  <meta property="article:published_time" content="2022-06-20T00:27:13+00:00">
+  <meta property="article:author" content="gramer.github.io/">
+  
+
+  <meta property="og:url" content="gramer.github.io/%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EA%B8%B0%EB%B0%98-%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C%EC%84%9C%EB%B9%84%EC%8A%A4-%EA%B5%AC%EC%B6%95" />
+
+  
+
+  <title>
+    
+      이벤트 기반 마이크로서비스 구축 &mdash; Zeno's digital garden
+    
+  </title>
+</head>
+
+  <body>
+    <nav><div>
+    <a class="internal-link" href="/"><b>Zeno's digital garden</b></a>
+</div>
+</nav>
+    <div class="wrapper">
+      <main><article>
+  <div>
+    <h1>이벤트 기반 마이크로서비스 구축</h1>
+    <time datetime="2022-06-20T00:26:21+00:00">
+      Last updated on June 20, 2022
+      
+    </time>
+  </div>
+
+  <div id="notes-entry-container">
+    <content>
+      <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#1장-왜-이벤트-기반-마이크로서비스인가">1장 왜 이벤트 기반 마이크로서비스인가?</a></li>
+<li class="toc-entry toc-h2"><a href="#2장-이벤트-기반-마이크로서비스">2장 이벤트 기반 마이크로서비스</a></li>
+<li class="toc-entry toc-h2"><a href="#3장-통신-및-데이터-규약">3장 통신 및 데이터 규약</a></li>
+<li class="toc-entry toc-h2"><a href="#4장-이벤트-기반-처리">4장 이벤트 기반 처리</a></li>
+<li class="toc-entry toc-h2"><a href="#6장-확정적-스트림-처리">6장 확정적 스트림 처리</a></li>
+<li class="toc-entry toc-h2"><a href="#7장-상태-저장-스트리밍">7장 상태 저장 스트리밍</a></li>
+<li class="toc-entry toc-h1"><a href="#references">References</a></li>
+</ul><p><a href="http://www.yes24.com/Product/Goods/99423020">Yes24 시 구매 바로가기</a></p>
+
+<h2 id="1장-왜-이벤트-기반-마이크로서비스인가">
+<a class="anchor" href="#1%EC%9E%A5-%EC%99%9C-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EA%B8%B0%EB%B0%98-%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C%EC%84%9C%EB%B9%84%EC%8A%A4%EC%9D%B8%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>1장 왜 이벤트 기반 마이크로서비스인가?</h2>
+
+<p>하이브리드 방식이 주가 될 것이다!</p>
+
+<p>동기식 마이크로서비스의 장점</p>
+
+<ul>
+  <li>AB Test</li>
+  <li>추적성</li>
+</ul>
+
+<p>동기식 마이크로서비스의 단점</p>
+
+<ul>
+  <li>API 버전 관리,</li>
+  <li>테스트</li>
+  <li>서비스 예외 처리, Circuit Breaker 등</li>
+</ul>
+
+<h2 id="2장-이벤트-기반-마이크로서비스">
+<a class="anchor" href="#2%EC%9E%A5-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EA%B8%B0%EB%B0%98-%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C%EC%84%9C%EB%B9%84%EC%8A%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>2장 이벤트 기반 마이크로서비스</h2>
+
+<p>이벤트 브로커 대 메시지 브로커</p>
+
+<ul>
+  <li>메시지 브로커 : 메시지 수신 후 처리가 되면 삭제</li>
+  <li>이벤트 브로커 : 독립적인 컨슈머가 자신의 오프셋을 통해서 필요한 이벤트를 마음껏 가져갈 수 있다.
+    <ul>
+      <li>single source of truth</li>
+    </ul>
+  </li>
+</ul>
+
+<p>DB 를 조회하는 게 아니라 이벤트를 조회한다? kafka stream sql?</p>
+
+<p>마이크로서비스 세금 납부</p>
+
+<h2 id="3장-통신-및-데이터-규약">
+<a class="anchor" href="#3%EC%9E%A5-%ED%86%B5%EC%8B%A0-%EB%B0%8F-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EA%B7%9C%EC%95%BD" aria-hidden="true"><span class="octicon octicon-link"></span></a>3장 통신 및 데이터 규약</h2>
+
+<ul>
+  <li>schema registry 를 이용</li>
+  <li>가급적이면 full compatibility 를 사용</li>
+  <li>스트림당 이벤트는 하나</li>
+  <li>enum 지양</li>
+  <li>이벤트 의미를 오버로드 하는 타입은 절대 추가 금지</li>
+  <li>single source of truth 가 2개 이상 되지 않도록 유의한다.</li>
+</ul>
+
+<h2 id="4장-이벤트-기반-처리">
+<a class="anchor" href="#4%EC%9E%A5-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EA%B8%B0%EB%B0%98-%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>4장 이벤트 기반 처리</h2>
+
+<ul>
+  <li>이벤트 스트림의 조인은 어떻게 구하지?</li>
+  <li>Broker 또는 Consumer Group Leader 가 Consumer 들이 들어 올 때마다 재할당을 진행</li>
+  <li>파티션 할당 전략
+    <ul>
+      <li>라운드로빈, 정적할당, 맞춤할당</li>
+    </ul>
+  </li>
+  <li>이벤트스트림 코파티션 (데이터 지역성을 위해.. 이런 개념이 있다는 것으로 넘어가자)
+    <ul>
+      <li>키와 파티셔너 알고리즘, 파티션수가 동일한 이벤트 스트림</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="6장-확정적-스트림-처리">
+<a class="anchor" href="#6%EC%9E%A5-%ED%99%95%EC%A0%95%EC%A0%81-%EC%8A%A4%ED%8A%B8%EB%A6%BC-%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>6장 확정적 스트림 처리</h2>
+
+<ul>
+  <li>이벤트 시간
+    <ul>
+      <li>로컬 이벤트 시간, 브로커 인입시간. 컨슈머 인입시간</li>
+      <li>카프카인 경우 CreateTime 이 브로커 인입시간이다.</li>
+      <li>로컬이벤트 시간을 믿을 수 없다면 브로커인입시간을 쓴다.</li>
+    </ul>
+  </li>
+  <li>워터마크
+    <ul>
+      <li>컨슈머마다 워터마크를 찍고 이것을 전파한다.</li>
+      <li>워터마크보다 작은 값을 가진 이벤트는 지각이벤트로 간주한다.</li>
+      <li>워터마크를 사용할 값들을 어떻게 정해야 할까?</li>
+    </ul>
+  </li>
+  <li>지각 이벤트 처리
+    <ul>
+      <li>지각 이벤트가 발생할 가능성은?</li>
+      <li>얼마나 기다려야 하나</li>
+      <li>누락시키면?</li>
+      <li>상태를 유지하면 얼마나 메모리와 디스크가 필요한가?</li>
+      <li>==Consumer 에서 일부 시간을 기다린다==</li>
+    </ul>
+  </li>
+  <li>워트마크와 스트림 시간에 대한 예제는 찾아봐야 겠다.</li>
+</ul>
+
+<h2 id="7장-상태-저장-스트리밍">
+<a class="anchor" href="#7%EC%9E%A5-%EC%83%81%ED%83%9C-%EC%A0%80%EC%9E%A5-%EC%8A%A4%ED%8A%B8%EB%A6%AC%EB%B0%8D" aria-hidden="true"><span class="octicon octicon-link"></span></a>7장 상태 저장 스트리밍</h2>
+
+<ul>
+  <li>내부 상태 저장소에 상태 구체화
+    <ul>
+      <li>전역 상태 구체화</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="references">
+<a class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h1>
+
+<ul>
+  <li><a href="https://medium.com/@gaemi/kafka-%EC%99%80-confluent-schema-registry-%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%9C-%EC%8A%A4%ED%82%A4%EB%A7%88-%EA%B4%80%EB%A6%AC-1-cdf8c99d2c5c">Kafka 와 Confluent Schema Registry 를 사용한 스키마 관리</a></li>
+  <li><a href="https://spring.io/blog/2019/10/15/simple-event-driven-microservices-with-spring-cloud-stream">Simple Event Driven Microservices with Spring Cloud Stream</a></li>
+</ul>
+
+    </content>
+
+    <side style="font-size: 0.9em">
+      <h3 style="margin-bottom: 1em">Notes mentioning this note</h3>
+      
+
+      <div style="font-size: 0.9em">
+        <p>
+          There are no notes linking to this note.
+        </p>
+      </div>
+      
+    </side>
+  </div>
+</article>
+
+<hr>
+
+<p>Here are all the notes in this garden, along with their links, visualized as a graph.</p>
+
+<style>
+  .links line {
+    stroke: #ccc;
+    opacity: 0.5;
+  }
+
+  .nodes circle {
+    cursor: pointer;
+    fill: #8b88e6;
+    transition: all 0.15s ease-out;
+  }
+
+  .text text {
+    cursor: pointer;
+    fill: #333;
+    text-shadow: -1px -1px 0 #fafafabb, 1px -1px 0 #fafafabb, -1px 1px 0 #fafafabb, 1px 1px 0 #fafafabb;
+  }
+
+  .nodes [active],
+  .text [active] {
+    cursor: pointer;
+    fill: black;
+  }
+
+  .inactive {
+    opacity: 0.1;
+    transition: all 0.15s ease-out;
+  }
+
+  #graph-wrapper {
+    background: #fcfcfc;
+    border-radius: 4px;
+    height: auto;
+  }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"
+  integrity="sha512-FHsFVKQ/T1KWJDGSbrUhTJyS1ph3eRrxI228ND0EGaEp6v4a/vGwPWd3Dtd/+9cI7ccofZvl/wulICEurHN1pg=="
+  crossorigin="anonymous"></script>
+
+<div id="graph-wrapper">
+  <script>
+    const MINIMAL_NODE_SIZE = 8;
+    const MAX_NODE_SIZE = 12;
+    const ACTIVE_RADIUS_FACTOR = 1.5;
+    const STROKE = 1;
+    const FONT_SIZE = 16;
+    const TICKS = 200;
+    const FONT_BASELINE = 40;
+    const MAX_LABEL_LENGTH = 50;
+
+    const graphData = {"edges":[{"source":"1105250","target":"0"},{"source":"1783189036595305315139779527442417148144190962786599794647","target":"36485673071"},{"source":"1173349929","target":"1173349929"},{"source":"0","target":"1105250"}],"nodes":[{"id":"0","path":"/%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A4%91%EC%8B%AC-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EC%84%A4%EA%B3%84","label":"데이터 중심 애플리케이션 설계"},{"id":"0","path":"/%EC%A0%9C%ED%85%94%EC%B9%B4%EC%8A%A4%ED%85%90","label":"제텔카스텐"},{"id":"0","path":"/%ED%98%84%EB%AA%85%ED%95%9C-%ED%88%AC%EC%9E%90%EC%9E%90","label":"현명한 투자자"},{"id":"1783189036595305315139779527442417148144190962786599794647","path":"/gremlin-applicatoin-attack","label":"Gremlin Application Layer Fault Injection"},{"id":"36485673071","path":"/gremlin","label":"Gremlin 관련"},{"id":"2356180470493017000564695","path":"/anomaly-detection","label":"Anomaly detection"},{"id":"132794565206938727014822709","path":"/google-spreadsheet","label":"Google spreadsheet"},{"id":"1173349929","path":"/jekyll","label":"Jekyll"},{"id":"1105250","path":"/note","label":"Note"},{"id":"8345289848942075317846035406687072346852","path":"/springboot-health-check","label":"About SpringBootHealth Check"}]}
+
+    let nodesData = graphData.nodes;
+    let linksData = graphData.edges;
+
+    const nodeSize = {};
+
+    const updateNodeSize = () => {
+      nodesData.forEach((el) => {
+        let weight =
+          3 *
+          Math.sqrt(
+            linksData.filter((l) => l.source === el.id || l.target === el.id)
+              .length + 1
+          );
+        if (weight < MINIMAL_NODE_SIZE) {
+          weight = MINIMAL_NODE_SIZE;
+        } else if (weight > MAX_NODE_SIZE) {
+          weight = MAX_NODE_SIZE;
+        }
+        nodeSize[el.id] = weight;
+      });
+    };
+
+    const onClick = (d) => {
+      window.location = d.path
+    };
+
+    const onMouseover = function (d) {
+      const relatedNodesSet = new Set();
+      linksData
+        .filter((n) => n.target.id == d.id || n.source.id == d.id)
+        .forEach((n) => {
+          relatedNodesSet.add(n.target.id);
+          relatedNodesSet.add(n.source.id);
+        });
+
+      node.attr("class", (node_d) => {
+        if (node_d.id !== d.id && !relatedNodesSet.has(node_d.id)) {
+          return "inactive";
+        }
+        return "";
+      });
+
+      link.attr("class", (link_d) => {
+        if (link_d.source.id !== d.id && link_d.target.id !== d.id) {
+          return "inactive";
+        }
+        return "";
+      });
+
+      link.attr("stroke-width", (link_d) => {
+        if (link_d.source.id === d.id || link_d.target.id === d.id) {
+          return STROKE * 4;
+        }
+        return STROKE;
+      });
+      text.attr("class", (text_d) => {
+        if (text_d.id !== d.id && !relatedNodesSet.has(text_d.id)) {
+          return "inactive";
+        }
+        return "";
+      });
+    };
+
+    const onMouseout = function (d) {
+      node.attr("class", "");
+      link.attr("class", "");
+      text.attr("class", "");
+      link.attr("stroke-width", STROKE);
+    };
+
+    const sameNodes = (previous, next) => {
+      if (next.length !== previous.length) {
+        return false;
+      }
+
+      const map = new Map();
+      for (const node of previous) {
+        map.set(node.id, node.label);
+      }
+
+      for (const node of next) {
+        const found = map.get(node.id);
+        if (!found || found !== node.title) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    const sameEdges = (previous, next) => {
+      if (next.length !== previous.length) {
+        return false;
+      }
+
+      const set = new Set();
+      for (const edge of previous) {
+        set.add(`${edge.source.id}-${edge.target.id}`);
+      }
+
+      for (const edge of next) {
+        if (!set.has(`${edge.source}-${edge.target}`)) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    const graphWrapper = document.getElementById('graph-wrapper')
+    const element = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    element.setAttribute("width", graphWrapper.getBoundingClientRect().width);
+    element.setAttribute("height", window.innerHeight * 0.8);
+    graphWrapper.appendChild(element);
+
+    const reportWindowSize = () => {
+      element.setAttribute("width", window.innerWidth);
+      element.setAttribute("height", window.innerHeight);
+    };
+
+    window.onresize = reportWindowSize;
+
+    const svg = d3.select("svg");
+    const width = Number(svg.attr("width"));
+    const height = Number(svg.attr("height"));
+    let zoomLevel = 1;
+
+    const simulation = d3
+      .forceSimulation(nodesData)
+      .force("forceX", d3.forceX().x(width / 2))
+      .force("forceY", d3.forceY().y(height / 2))
+      .force("charge", d3.forceManyBody())
+      .force(
+        "link",
+        d3
+          .forceLink(linksData)
+          .id((d) => d.id)
+          .distance(70)
+      )
+      .force("center", d3.forceCenter(width / 2, height / 2))
+      .force("collision", d3.forceCollide().radius(80))
+      .stop();
+
+    const g = svg.append("g");
+    let link = g.append("g").attr("class", "links").selectAll(".link");
+    let node = g.append("g").attr("class", "nodes").selectAll(".node");
+    let text = g.append("g").attr("class", "text").selectAll(".text");
+
+    const resize = () => {
+      if (d3.event) {
+        const scale = d3.event.transform;
+        zoomLevel = scale.k;
+        g.attr("transform", scale);
+      }
+
+      const zoomOrKeep = (value) => (zoomLevel >= 1 ? value / zoomLevel : value);
+
+      const font = Math.max(Math.round(zoomOrKeep(FONT_SIZE)), 1);
+
+      text.attr("font-size", (d) => font);
+      text.attr("y", (d) => d.y - zoomOrKeep(FONT_BASELINE) + 8);
+      link.attr("stroke-width", zoomOrKeep(STROKE));
+      node.attr("r", (d) => {
+        return zoomOrKeep(nodeSize[d.id]);
+      });
+      svg
+        .selectAll("circle")
+        .filter((_d, i, nodes) => d3.select(nodes[i]).attr("active"))
+        .attr("r", (d) => zoomOrKeep(ACTIVE_RADIUS_FACTOR * nodeSize[d.id]));
+    };
+
+    const ticked = () => {
+      node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+      text
+        .attr("x", (d) => d.x)
+        .attr("y", (d) => d.y - (FONT_BASELINE - nodeSize[d.id]) / zoomLevel);
+      link
+        .attr("x1", (d) => d.source.x)
+        .attr("y1", (d) => d.source.y)
+        .attr("x2", (d) => d.target.x)
+        .attr("y2", (d) => d.target.y);
+    };
+
+    const restart = () => {
+      updateNodeSize();
+      node = node.data(nodesData, (d) => d.id);
+      node.exit().remove();
+      node = node
+        .enter()
+        .append("circle")
+        .attr("r", (d) => {
+          return nodeSize[d.id];
+        })
+        .on("click", onClick)
+        .on("mouseover", onMouseover)
+        .on("mouseout", onMouseout)
+        .merge(node);
+
+      link = link.data(linksData, (d) => `${d.source.id}-${d.target.id}`);
+      link.exit().remove();
+      link = link.enter().append("line").attr("stroke-width", STROKE).merge(link);
+
+      text = text.data(nodesData, (d) => d.label);
+      text.exit().remove();
+      text = text
+        .enter()
+        .append("text")
+        .text((d) => shorten(d.label.replace(/_*/g, ""), MAX_LABEL_LENGTH))
+        .attr("font-size", `${FONT_SIZE}px`)
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "central")
+        .on("click", onClick)
+        .on("mouseover", onMouseover)
+        .on("mouseout", onMouseout)
+        .merge(text);
+
+      node.attr("active", (d) => isCurrentPath(d.path) ? true : null);
+      text.attr("active", (d) => isCurrentPath(d.path) ? true : null);
+
+      simulation.nodes(nodesData);
+      simulation.force("link").links(linksData);
+      simulation.alpha(1).restart();
+      simulation.stop();
+
+      for (let i = 0; i < TICKS; i++) {
+        simulation.tick();
+      }
+
+      ticked();
+    };
+
+    const zoomHandler = d3.zoom().scaleExtent([0.2, 3]).on("zoom", resize);
+
+    zoomHandler(svg);
+    restart();
+
+    function isCurrentPath(notePath) {
+      return window.location.pathname.includes(notePath)
+    }
+
+    function shorten(str, maxLen, separator = ' ') {
+      if (str.length <= maxLen) return str;
+      return str.substr(0, str.lastIndexOf(separator, maxLen)) + '...';
+    }
+  </script>
+</div>
+
+</main>
+      <footer>This is the footer. Include anything you'd like here, like a link to an <a class="internal-link" href="/about">About</a> page.
+</footer>
+    </div>
+
+    <!-- That file is not particularly elegant. This will need a refactor at some point. -->
+<style>
+  content a.internal-link {
+    border-color: #8b88e6;
+    background-color: #efefff;
+  }
+
+  #tooltip-wrapper {
+    background: white;
+    padding: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    position: absolute;
+    width: 400px;
+    height: 250px;
+    font-size: 0.8em;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    opacity: 0;
+    transition: opacity 100ms;
+  }
+
+  #tooltip-wrapper:after {
+		content: "";
+		position: absolute;
+		z-index: 1;
+		bottom: 0;
+		left: 0;
+		pointer-events: none;
+		background-image: linear-gradient(to bottom, rgba(255,255,255, 0), rgba(255,255,255, 1) 90%);
+		width: 100%;
+		height: 75px;
+  }
+</style>
+
+<div style="opacity: 0; display: none;" id='tooltip-wrapper'>
+  <div id='tooltip-content'>
+  </div>
+</div>
+
+<iframe style="display: none; height: 0; width: 0;" id='link-preview-iframe' src="">
+</iframe>
+
+<script>
+  var opacityTimeout;
+  var contentTimeout;
+  var transitionDurationMs = 100;
+
+  var iframe = document.getElementById('link-preview-iframe')
+  var tooltipWrapper = document.getElementById('tooltip-wrapper')
+  var tooltipContent = document.getElementById('tooltip-content')
+
+  function hideTooltip() {
+    opacityTimeout = setTimeout(function() {
+      tooltipWrapper.style.opacity = 0;
+      contentTimeout = setTimeout(function() {
+        tooltipContent.innerHTML = '';
+        tooltipWrapper.style.display = 'none';
+      }, transitionDurationMs + 1);
+    }, transitionDurationMs)
+  }
+
+  function showTooltip(event) {
+    var elem = event.target;
+    var elem_props = elem.getClientRects()[elem.getClientRects().length - 1];
+    var top = window.pageYOffset || document.documentElement.scrollTop
+
+    if (event.target.host === window.location.host) {
+      iframe.src = event.target.href
+      iframe.onload = function() {
+        tooltipContentHtml = ''
+        tooltipContentHtml += '<div style="font-weight: bold;">' + iframe.contentWindow.document.querySelector('h1').innerHTML + '</div>'
+        tooltipContentHtml += iframe.contentWindow.document.querySelector('content').innerHTML
+
+        tooltipContent.innerHTML = tooltipContentHtml
+
+        tooltipWrapper.style.display = 'block';
+        setTimeout(function() {
+          tooltipWrapper.style.opacity = 1;
+        }, 1)
+      }
+
+      tooltipWrapper.style.left = elem_props.left - (tooltipWrapper.offsetWidth / 2) + (elem_props.width / 2) + "px";
+      if ((window.innerHeight - elem_props.top) < (tooltipWrapper.offsetHeight)) {
+          tooltipWrapper.style.top = elem_props.top + top - tooltipWrapper.offsetHeight - 10 + "px";
+      } else if ((window.innerHeight - elem_props.top) > (tooltipWrapper.offsetHeight)) {
+          tooltipWrapper.style.top = elem_props.top + top + 35 + "px";
+      }
+
+      if ((elem_props.left + (elem_props.width / 2)) < (tooltipWrapper.offsetWidth / 2)) {
+          tooltipWrapper.style.left = "10px";
+      } else if ((document.body.clientWidth - elem_props.left - (elem_props.width / 2)) < (tooltipWrapper.offsetWidth / 2)) {
+          tooltipWrapper.style.left = document.body.clientWidth - tooltipWrapper.offsetWidth - 20 + "px";
+      }
+    }
+  }
+
+  function setupListeners(linkElement) {
+    linkElement.addEventListener('mouseleave', function(_event) {
+      hideTooltip();
+    });
+
+    tooltipWrapper.addEventListener('mouseleave', function(_event) {
+      hideTooltip();
+    });
+
+    linkElement.addEventListener('mouseenter', function(event) {
+      clearTimeout(opacityTimeout);
+      clearTimeout(contentTimeout);
+      showTooltip(event);
+    });
+
+    tooltipWrapper.addEventListener('mouseenter', function(event) {
+      clearTimeout(opacityTimeout);
+      clearTimeout(contentTimeout);
+    });
+  }
+
+  document.querySelectorAll('content a').forEach(setupListeners);
+</script>
+
+  </body>
+</html>

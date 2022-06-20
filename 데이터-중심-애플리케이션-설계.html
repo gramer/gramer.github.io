@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+
+  <link rel="canonical" href="gramer.github.io/%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A4%91%EC%8B%AC-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EC%84%A4%EA%B3%84" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="머리말">
+
+  <meta property="og:site_name" content="Zeno's digital garden">
+
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+
+  <link rel="stylesheet" href="/styles.css">
+
+  
+  <meta property="og:description" content="머리말"/>
+  
+
+  
+  <meta property="og:title" content="데이터 중심 애플리케이션 설계">
+  <meta property="og:type" content="article">
+  
+
+  
+  <meta property="article:published_time" content="2022-06-20T00:27:13+00:00">
+  <meta property="article:author" content="gramer.github.io/">
+  
+
+  <meta property="og:url" content="gramer.github.io/%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A4%91%EC%8B%AC-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EC%84%A4%EA%B3%84" />
+
+  
+
+  <title>
+    
+      데이터 중심 애플리케이션 설계 &mdash; Zeno's digital garden
+    
+  </title>
+</head>
+
+  <body>
+    <nav><div>
+    <a class="internal-link" href="/"><b>Zeno's digital garden</b></a>
+</div>
+</nav>
+    <div class="wrapper">
+      <main><article>
+  <div>
+    <h1>데이터 중심 애플리케이션 설계</h1>
+    <time datetime="2022-06-20T00:26:21+00:00">
+      Last updated on June 20, 2022
+      
+    </time>
+  </div>
+
+  <div id="notes-entry-container">
+    <content>
+      <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1"><a href="#머리말">머리말</a></li>
+<li class="toc-entry toc-h1"><a href="#part1-데이터시스템의-기초">Part1 데이터시스템의 기초</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#chapter01">Chapter01</a></li>
+<li class="toc-entry toc-h2"><a href="#chapter02-데이터-모델과-질의언어">Chapter02 데이터 모델과 질의언어</a></li>
+<li class="toc-entry toc-h2"><a href="#chapter03-저장소와-검색">Chapter03 저장소와 검색</a></li>
+<li class="toc-entry toc-h2"><a href="#chapter04-부호화와-발전">Chapter04 부호화와 발전</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#part2-분산-데이터">Part2 분산 데이터</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#chapter-05-복제">Chapter 05 복제</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#chapter06-파티셔닝">Chapter06 파티셔닝</a></li>
+<li class="toc-entry toc-h1"><a href="#chapter07-트랜잭션">Chapter07 트랜잭션</a></li>
+<li class="toc-entry toc-h1"><a href="#chapter08-분산시스템의-골칫거리">Chapter08 분산시스템의 골칫거리</a></li>
+<li class="toc-entry toc-h1"><a href="#chapter08-일관성과-합의">Chapter08 일관성과 합의</a></li>
+<li class="toc-entry toc-h1"><a href="#references">References</a></li>
+</ul><h1 id="머리말">
+<a class="anchor" href="#%EB%A8%B8%EB%A6%AC%EB%A7%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>머리말</h1>
+
+<hr>
+
+<p><a href="https://github.com/ept/ddia-references">ept/ddia-references</a></p>
+
+<h1 id="part1-데이터시스템의-기초">
+<a class="anchor" href="#part1-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%9D%98-%EA%B8%B0%EC%B4%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>Part1 데이터시스템의 기초</h1>
+
+<h2 id="chapter01">
+<a class="anchor" href="#chapter01" aria-hidden="true"><span class="octicon octicon-link"></span></a>Chapter01</h2>
+
+<hr>
+
+<p>신뢰성</p>
+
+<ul>
+  <li>결함이 발생해도 시스템은 정상 동작한다.</li>
+  <li>결함의 종류는 하드웨어, 소프트웨어 버그가 있다.</li>
+</ul>
+
+<p>확장성</p>
+
+<ul>
+  <li>부하가 증가해도 좋은 성능을 유지한다.</li>
+  <li>Scale out 관점으로 생각하자.</li>
+</ul>
+
+<p>유지보수성</p>
+
+<ul>
+  <li>시스템 엔지니어와 운영팀의 삶의 질을 개선</li>
+</ul>
+
+<p>백분위</p>
+
+<ul>
+  <li>아마존은 99.9 분위를 중요하게 여긴다. 응답 시간이 느린 이유는 계정에 데이터를 많이 가지고 있기 때문이다.</li>
+</ul>
+
+<p>부하대응접근방식</p>
+
+<p>유지보수성 : <strong>엔지니어의 삶을 개선하는 데 있다.</strong></p>
+
+<ul>
+  <li>운용성</li>
+  <li>단순성
+    <ul>
+      <li>우발적 복잡도, 추상화!</li>
+    </ul>
+  </li>
+  <li>발전성
+    <ul>
+      <li>유연성, 수정가능성, 적응성</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="chapter02-데이터-모델과-질의언어">
+<a class="anchor" href="#chapter02-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%AA%A8%EB%8D%B8%EA%B3%BC-%EC%A7%88%EC%9D%98%EC%96%B8%EC%96%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Chapter02 데이터 모델과 질의언어</h2>
+
+<hr>
+
+<p>다중저장소 지속성</p>
+
+<p>문서 모델</p>
+
+<ul>
+  <li>다대다 조인 같은 관계가 복잡한 구조에서는 사용 X</li>
+  <li>로그 같은,</li>
+  <li>Schema on write</li>
+  <li>Schema on read</li>
+  <li>문서의 쓰기를</li>
+</ul>
+
+<p>관계형 모델</p>
+
+<ul>
+  <li>Mysql 은 alter 문 시에 전체 테이블을 복사한다.</li>
+  <li>명백한 관계를 가진다.</li>
+</ul>
+
+<p>그래프 모델</p>
+
+<p>속성 기반, 다대다 관계가 많을 경우, 소셜네트워크</p>
+
+<p>vertex, edge, 꼬리정점, 머리정점, 유입, 유출</p>
+
+<ul>
+  <li>Neo4j</li>
+</ul>
+
+<p>트리플 저장소와 스피클</p>
+
+<ul>
+  <li>모든 정보를 주어, 서술어, 목적어 처럼 저장한다.</li>
+</ul>
+
+<h2 id="chapter03-저장소와-검색">
+<a class="anchor" href="#chapter03-%EC%A0%80%EC%9E%A5%EC%86%8C%EC%99%80-%EA%B2%80%EC%83%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>Chapter03 저장소와 검색</h2>
+
+<hr>
+
+<p>색인은 결국 쓰기 성능을 떨어 뜨린다.</p>
+
+<p>해시색인</p>
+
+<p>Bitcask 에서 사용하고 있다.</p>
+
+<p>키당 액세스가 많은 경우 유용 ex) 고양이 url 당 View Count</p>
+
+<p>파일에 계속 쓰다보면 크기가 커진다. 이를 해결하기 위해 segment</p>
+
+<p>append only log</p>
+
+<p>삭제는 mark 만 하고 merge and compaction 과정에서 삭제</p>
+
+<p>쓰기 쓰레드는 하나만,</p>
+
+<p>SS테이블과 LSM 트리</p>
+
+<p>SS테이블 (Sorted String Table)</p>
+
+<p>세그먼트 병합에서 메모리 소모가 적다. (첫번째 엘리먼트를 하나씩 뽑아내서 정렬하는 방식으로 이미 정렬이 되어 있기 때문에)</p>
+
+<p>모든 키를 가지고 있을 필요가 없다. (어느 Range 에 있는 지 쉽게 판단이 가능하다.)</p>
+
+<p>SS테이블을 유지하기 위해서 BTree 를 이용한다. SS 테이블이 임계값보다 커지면, 파일로 저장,</p>
+
+<p>검색은 메모리, 최근 파일로 저장된 SS테이블 세그먼트 순으로 찾는다.</p>
+
+<p>메모리에 가지고 있기 때문에 장애 시에 메모리에 최신 쓰기는 문제가 될 수 있다.</p>
+
+<p>SS테이블에서 LSM 트리 만들기</p>
+
+<p>LSM 트리(Log Structured Merge Tree)</p>
+
+<p>성능최적화</p>
+
+<p>Bloom filter (키가 존재하는 지 알려 준다.)</p>
+
+<p>compaction 전략 (카산드라는 둘 다 제공)</p>
+
+<p>크기 계층 : 새롭고 작은 SS테이블을 큰 테이블로 연이어 병합</p>
+
+<p>레벨 컴팩션 : 키 범위를 더 작은 SS테이블로 나누고 오래된 테이터는 개별 레벨로 이동, 디스크공간 덜 사용</p>
+
+<p>B Tree</p>
+
+<p>고정크기의 블록이나 페이지 (4k)</p>
+
+<p>왼쪽은 작은거, 크면 오른쪽</p>
+
+<p>Balancing Factor, 하위 페이지를 참조하는 계수</p>
+
+<p>LSM 트리의 장점</p>
+
+<p>BTree 는 쓰기전 로그, 트리 페이지 최소 2번 기록</p>
+
+<p>쓰기 증폭 문제.. SSD 는 블록 덮어쓰기에 대한 제약이 있다.</p>
+
+<p>압축률이 더 좋다</p>
+
+<p>하드웨어 레벨에서 임의 쓰기보다 순차 쓰기가 더 좋다.</p>
+
+<p>데이터를 밀집해 표현하면 가능한 I/O 대역폭 내에서 더 많은 읽기와 쓰기 요청이 가능하다.</p>
+
+<p>LSM 트리의 단점</p>
+
+<p>컴팩션 과정이 진행 중인 읽기와 쓰기 성능에 영향을 준다. 상위 백분위 (P90, P95)</p>
+
+<p>크기가 커짐에 따라 컴팩션을 위해 더 많은 디스크 대역폭이 필요</p>
+
+<p>유입 속도 &lt; 컴팩션 성능 이 되지 않으면 전체 성능 저하로 이어 질 수 있다.</p>
+
+<p>색인안에 값 저장하기 (Clustered index)</p>
+
+<p>Mysql 이 그렇게 동작한다.</p>
+
+<p>Non Clustered Index (색인에 참조만 저장)</p>
+
+<p>다중컬럼색인</p>
+
+<p>분석용 스키마</p>
+
+<p>dimensional modeling</p>
+
+<p>테이블의 컬럼이 100개 이상인데 사실상 조회 하는 것은 2~3개, 그렇지만 메모리에는 모두 함께 올라오기 때문에 비효율적이다.</p>
+
+<p>컬럼지향저장소</p>
+
+<p>컬럼 압축 : 비트맵 압축</p>
+
+<p>비트맵 색인…(이건 내용이 조금 더 이해가 필요)</p>
+
+<p>집계  : 데이터 큐브와 구체화 뷰</p>
+
+<p>materialized view, materialized aggregate</p>
+
+<p>NVM (non-volatile memory)</p>
+
+<p>Vectorized processing</p>
+
+<h2 id="chapter04-부호화와-발전">
+<a class="anchor" href="#chapter04-%EB%B6%80%ED%98%B8%ED%99%94%EC%99%80-%EB%B0%9C%EC%A0%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>Chapter04 부호화와 발전</h2>
+
+<hr>
+
+<p>부호화</p>
+
+<p>문자 부호화 (json, csv, xml)</p>
+
+<p>json, xml</p>
+
+<p>이진문자열을 지원하지 않아 Base64로 부호화 한다. 단, 데이터크기가 비효율적으로 증가</p>
+
+<p>이진 부호화</p>
+
+<p>메시지팩</p>
+
+<p>json 용 이진 부호화 형식</p>
+
+<p>스리프트</p>
+
+<p>스키마 정의가 필요</p>
+
+<p>바이너리프로토콜 : 필드 정보 축약</p>
+
+<p>컴팩트프로토콜 : 숫자를 가변바이트를 이용</p>
+
+<p>프로토콜 버퍼</p>
+
+<p>스키마 정의가 필요</p>
+
+<h1 id="part2-분산-데이터">
+<a class="anchor" href="#part2-%EB%B6%84%EC%82%B0-%EB%8D%B0%EC%9D%B4%ED%84%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>Part2 분산 데이터</h1>
+
+<h2 id="chapter-05-복제">
+<a class="anchor" href="#chapter-05-%EB%B3%B5%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>Chapter 05 복제</h2>
+
+<hr>
+
+<p>복제</p>
+
+<ul>
+  <li>Single Leader</li>
+  <li>Multi Leader</li>
+  <li>Leaderless</li>
+</ul>
+
+<p><strong>Leader based Replication</strong></p>
+
+<p>동기식 복제</p>
+
+<ul>
+  <li>장점 : Consistency</li>
+  <li>단점 : Follower 에 따른 지연 발생 또는 장애 융발</li>
+</ul>
+
+<p>반동기식</p>
+
+<ul>
+  <li>하나의 Follower 는 동기, 나머지는 비동기</li>
+  <li>동기 Follower 가 장애 시에 나머지 비동기 Follower 가 동기 Folllower 로 승격</li>
+</ul>
+
+<p>리더 장애 : 장애 복구</p>
+
+<ul>
+  <li>대다수 노드간의 timeout 기반으로 인지 하지만, 리더가 부하가 심한 상황이고 타임아웃이 짧은 경우 불필요한 장애복구가 일어 날 수 있다.</li>
+  <li>Split brain 이 발생한 경우는 하나를 종료, 관련해서 여러 매커니즘 있다.</li>
+</ul>
+
+<p>복제로그구현</p>
+
+<ul>
+  <li>구문기반
+    <ul>
+      <li>now(), rand() 같은 함수에 리스크 → 비결정함수로 이 때에는 값을 고정, 에지케이스가 많아서 다른 방식을 선호</li>
+    </ul>
+  </li>
+  <li>쓰기 전 로그 배송
+    <ul>
+      <li>포스트에스큐엘, 오라클에서 사용, WAL 은 저수준 정보를 포함하여, 데이터 엔진과 저장방식에 따른 버전 강결합</li>
+    </ul>
+  </li>
+  <li>논리적 로그 복제
+    <ul>
+      <li>mysql 에서 사용, 변경 데이터 캡쳐 방식으로 외부 시스템(data warehouse) 등에서 확장이 용이</li>
+      <li>버전 업그레이드 용이</li>
+    </ul>
+  </li>
+  <li>트리거 기반 (Oracle GoldenGate)
+    <ul>
+      <li>오버헤드가 높은 편</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>복제로그지연문제</strong></p>
+
+<p>쓰기 후 읽기 일관성</p>
+
+<ul>
+  <li>자신이 쓴 내용은 마스터에서 읽기</li>
+  <li>1분이내 갱신된 정보라면, 마스터에서 읽기</li>
+  <li>소셜 네트워크를 예로 든다면, 자신의 프로필은 마스터, 다른 사람의 프로필은 팔로워에서 읽는다.</li>
+</ul>
+
+<p>단조읽기 (monotonic read)</p>
+
+<ul>
+  <li>sticky session 과 유사</li>
+  <li>예로써는 새로고침이 여러번일 경우, 복제 지연이 발생한 노드에서 데이터가 업</li>
+  <li>사용자 정보 기반으로 적용해야 할 대상 서버를 지정</li>
+</ul>
+
+<p>일관된 순서로 읽기 (Consistent Prefix Read)</p>
+
+<ul>
+  <li>파티션닝 된 경우 나타날 수 있음.</li>
+</ul>
+
+<p><strong>다중 리더 복제 (멀티 마스터)</strong></p>
+
+<ul>
+  <li>리더만 쓰기를 허용한다. 근데, 리더가 하나라 장애가 난다면,</li>
+  <li>쓰기 충돌 다르기</li>
+  <li>충돌회피</li>
+  <li>최종쓰기승리</li>
+</ul>
+
+<p><strong>다중리더복제토폴로지</strong></p>
+
+<p>복제 시에 노드아이디 태깅</p>
+
+<p>All to all</p>
+
+<ul>
+  <li>복제 흐름의 속도 차에 따라</li>
+  <li>버전 벡터를 통해서 해결할 수 있다. (version vector)</li>
+</ul>
+
+<p>원형 토폴로지</p>
+
+<ul>
+  <li>Mysql 은 오직 원형토폴로로지만.</li>
+  <li>텅스텐 리플리케이터는 충돌 감지 시도 안함</li>
+</ul>
+
+<p>별모양 토폴로지</p>
+
+<p><strong>리더 없는 복제</strong></p>
+
+<p>다이나모 스타일</p>
+
+<p>클라이언트에서 직접 접근</p>
+
+<p>읽기 복구, 안티엔트로피 처리</p>
+
+<p>읽고 쓰기를 한 노드에서 한다면.. (user key based routing)</p>
+
+<p>읽기를 여러 노드에 병렬로 보내고 최신 버전의 값을 사용한다.</p>
+
+<p>읽기 복구와 안티엔트로피</p>
+
+<ul>
+  <li>읽기 복구 : 최신 버전을 사용하고 백그라운드로 최신버전의 값을 업데이트 하는 구조</li>
+</ul>
+
+<p>읽기 쓰기 정족수</p>
+
+<p>w = r = (n+1)/2</p>
+
+<p><strong>정족수 일관성의 한계</strong></p>
+
+<p>Sloppy quorum vs Strict quorum</p>
+
+<p>AWS 환경에서는 3 = 3 = (5+1) /2</p>
+
+<p>최종쓰기 승리 기준이면, 쓰기 유실이 발생할 수 있음.</p>
+
+<p>롤백이 되지 않는다.</p>
+
+<p>W, R로 오래된 값을 읽는 확률을 조정할 수 있지만, 절대적 보장 X</p>
+
+<p><strong>느슨한 정족수</strong></p>
+
+<ul>
+  <li>홈노드에…</li>
+  <li>카산드라는 비활성화</li>
+</ul>
+
+<p><strong>동시쓰기 감지</strong></p>
+
+<p><strong>최종쓰기승리</strong></p>
+
+<ul>
+  <li>카산드라는 LWW(latest writing win) 최종쓰기승리 사용</li>
+  <li>타임스탬프, UUID</li>
+</ul>
+
+<p>오라클 Active-Active with GoldenGate</p>
+
+<p>카산드라</p>
+
+<p>Availability</p>
+
+<ul>
+  <li>개별 노드의 응답지연도 허용</li>
+  <li>개별 노드의 장애허용</li>
+</ul>
+
+<p>복제지연에 따른 모니터링이 어렵다.</p>
+
+<p>OLAP 어떻게 하지?</p>
+
+<p>안티 엔트로피를 사용하고 있는가?</p>
+
+<h1 id="chapter06-파티셔닝">
+<a class="anchor" href="#chapter06-%ED%8C%8C%ED%8B%B0%EC%85%94%EB%8B%9D" aria-hidden="true"><span class="octicon octicon-link"></span></a>Chapter06 파티셔닝</h1>
+
+<hr>
+
+<p>Partition key 를 복합키로 구성을 할 때, 키의 첫번째 컬럼만 해싱에 사용하고, 두번째는 SSTable 데이터를 정렬하는 색인으로 사용</p>
+
+<p>그럴경우, 범위 스캔을 효율적으로 사용할 수 있다.</p>
+
+<ul>
+  <li>user_id, timestamp</li>
+  <li>monitoring data, keypath, timestamp</li>
+</ul>
+
+<p>Rebalancing</p>
+
+<ul>
+  <li>hash 는 노드의 수가 바뀔 때마다 연산의 결과가 달라지며, 이동에 대한 비용이 크다.</li>
+  <li>각 노드당 파티션 개수를 고정하는 방법</li>
+</ul>
+
+<p>동적파티셔닝</p>
+
+<ul>
+  <li>파티션 크기에 따라 동적으로 나누는 경우에는 초기에 한 노드에 몰리는 일이 발생할 수 있다. 이 때, 키의 구조를 파악해서 사전분할을 진행해야 한다. (pre-spliting)</li>
+</ul>
+
+<p>노드비례파티셔닝</p>
+
+<ul>
+  <li>노드가 추가 될 때 파티션의 크기는 작아진다. (rebalancing)</li>
+  <li>노드당 보통 256개</li>
+</ul>
+
+<h1 id="chapter07-트랜잭션">
+<a class="anchor" href="#chapter07-%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>Chapter07 트랜잭션</h1>
+
+<hr>
+
+<p>ACID 는 명확하지 않다. 거의 마케팅 용어 수준</p>
+
+<p>원자성 : atomicity</p>
+
+<p>일관성 : consistency, 어플리케이션의 특성</p>
+
+<p>격리성 : 동시에 쓰기가 들어 갔을 때 등, 격리 수준</p>
+
+<p>지속성 : durability</p>
+
+<p>All or nothing != Best effort : 데이터베이스에서는 가능한 모든 것을 할 것이며, 이미 한 일은 취소하지 않는다.</p>
+
+<p><strong>완화된 격리수준</strong></p>
+
+<p>커밋 후 읽기</p>
+
+<p>더티읽기 방지</p>
+
+<p>더티쓰기 방지</p>
+
+<p>구현방법</p>
+
+<ul>
+  <li>로우수준 락</li>
+</ul>
+
+<p>다중버전동시성제어</p>
+
+<p>read commited 일 지라도, 트랜잭션 중간에 다른 commited 된 데이터를 읽으면서 context 에 혼란을 가져 올 수 있다.</p>
+
+<ul>
+  <li>이에 대한 해결책으로 스냅샷 격리구현</li>
+  <li>transaction Id</li>
+</ul>
+
+<p>갱신 손실 방지</p>
+
+<ul>
+  <li>원자적 쓰기 연산 : <code class="language-plaintext highlighter-rouge">update order set count = count + 1 where orderId = 1</code>
+</li>
+  <li>ORM 사용 시에 select modify write 로직에 의해서 위와 같은 처리가 어려운 경우가 있다.</li>
+</ul>
+
+<p>명시적 lock</p>
+
+<ul>
+  <li>select a from b for update</li>
+</ul>
+
+<p>Sibiling 방식을 통해 나중에 머지,</p>
+
+<p>쓰기 스큐 (write skew)</p>
+
+<p>-</p>
+
+<h1 id="chapter08-분산시스템의-골칫거리">
+<a class="anchor" href="#chapter08-%EB%B6%84%EC%82%B0%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%9D%98-%EA%B3%A8%EC%B9%AB%EA%B1%B0%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>Chapter08 분산시스템의 골칫거리</h1>
+
+<hr>
+
+<p>Partial failure 는 비결정적이다. 따라서 예측하기 어렵다.
+타임아웃을 네트워크 상황을 주시하면서 매번 측정해서 변동시킨다</p>
+
+<ul>
+  <li>cassandra, akka 가 대표적</li>
+</ul>
+
+<p>시간이 흐른 것에 대해 측정할 때는  epoch 타입 보다는 단조타임 이 훨씬 신뢰성이 있다.</p>
+
+<p>노드간에 시계 체크도 필요하다.</p>
+
+<p>시간 기반의 순서보장은 어렵다. (NTP 서버 동기화 지연, 타임 트래프트 라고 한다.)</p>
+
+<p>상대값 기반의 별도의 데이터를 가지고 접근, 버전 벡터</p>
+
+<p>구글의 truetime api</p>
+
+<p>프로세스는 항상 중단 될 수 있다. (리더선출을 특정 데이터 기반의 lease 기반으로 동작할 때)</p>
+
+<ul>
+  <li>GC</li>
+  <li>IO</li>
+  <li>SWAP</li>
+  <li>steal</li>
+</ul>
+
+<p>fensing token:</p>
+
+<ul>
+  <li>잠금 서버로 부터 락을 획득하고, gc 로 등으로 인해 락이 만료 된 상태에서 쓰기를 방어하기 위함.</li>
+  <li>zookeeper 를 분산 락으로 사용할 경우, zxid, cversion 을 통해 방어 할 수 있다.</li>
+</ul>
+
+<p>비잔틴 결함 (비잔틴 장군문제)</p>
+
+<h1 id="chapter08-일관성과-합의">
+<a class="anchor" href="#chapter08-%EC%9D%BC%EA%B4%80%EC%84%B1%EA%B3%BC-%ED%95%A9%EC%9D%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>Chapter08 일관성과 합의</h1>
+
+<hr>
+
+<p>완벽한 선형성은 성능상의 영향을 준다.</p>
+
+<p>Cassandra 같은 Eventual Consistency 를 지향하는 시스템에서 쓰기 정족수, 읽기 정족수가 n=r 과 같다고 하더라도 선형성을 유지하기는 어렵다.</p>
+
+<p>선형성은 인과적 일관성을 내포한다.</p>
+
+<p>인과적 일관성을 timestamp  는 time skew 로 인해 실패할 수 도 있다.</p>
+
+<p>Lamport timestamp, 하지만 이것만으로 충분하지 않다. (계정생성 예제)</p>
+
+<p>전체순서브로드캐스트</p>
+
+<ul>
+  <li>상태기계복제, state machine replication</li>
+  <li>zxid를 통해 일련번호, 잠금</li>
+</ul>
+
+<h1 id="references">
+<a class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h1>
+
+<hr>
+
+<ul>
+  <li><a href="http://nosqldbs.io/">http://nosqldbs.io/</a></li>
+  <li><a href="https://db-engines.com/en/system/Cassandra%3BMySQL%3BOracle">https://db-engines.com/en/system/Cassandra%3BMySQL%3BOracle</a></li>
+  <li><a href="https://www.facebook.com/notes/facebook-engineering/cassandra-a-structured-storage-system-on-a-p2p-network/24413138919/">https://www.facebook.com/notes/facebook-engineering/cassandra-a-structured-storage-system-on-a-p2p-network/24413138919/</a></li>
+  <li><a href="https://docs.datastax.com/en/articles/cassandra/cassandrathenandnow.html">https://docs.datastax.com/en/articles/cassandra/cassandrathenandnow.html</a></li>
+  <li><a href="https://www.slideshare.net/AlexanderSolovyev1/cassandra-forecommercemoscowbigdatacassandrasept2013meetup-26227670">https://www.slideshare.net/AlexanderSolovyev1/cassandra-forecommercemoscowbigdatacassandrasept2013meetup-26227670</a></li>
+  <li><a href="https://medium.com/netflix-techblog/netflix-billing-migration-to-aws-451fba085a4">https://medium.com/netflix-techblog/netflix-billing-migration-to-aws-451fba085a4</a></li>
+  <li><a href="https://db-engines.com/en/system/Amazon+DynamoDB%3BCassandra">https://db-engines.com/en/system/Amazon+DynamoDB%3BCassandra</a></li>
+</ul>
+
+    </content>
+
+    <side style="font-size: 0.9em">
+      <h3 style="margin-bottom: 1em">Notes mentioning this note</h3>
+      
+
+      <div style="font-size: 0.9em">
+        <p>
+          There are no notes linking to this note.
+        </p>
+      </div>
+      
+    </side>
+  </div>
+</article>
+
+<hr>
+
+<p>Here are all the notes in this garden, along with their links, visualized as a graph.</p>
+
+<style>
+  .links line {
+    stroke: #ccc;
+    opacity: 0.5;
+  }
+
+  .nodes circle {
+    cursor: pointer;
+    fill: #8b88e6;
+    transition: all 0.15s ease-out;
+  }
+
+  .text text {
+    cursor: pointer;
+    fill: #333;
+    text-shadow: -1px -1px 0 #fafafabb, 1px -1px 0 #fafafabb, -1px 1px 0 #fafafabb, 1px 1px 0 #fafafabb;
+  }
+
+  .nodes [active],
+  .text [active] {
+    cursor: pointer;
+    fill: black;
+  }
+
+  .inactive {
+    opacity: 0.1;
+    transition: all 0.15s ease-out;
+  }
+
+  #graph-wrapper {
+    background: #fcfcfc;
+    border-radius: 4px;
+    height: auto;
+  }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"
+  integrity="sha512-FHsFVKQ/T1KWJDGSbrUhTJyS1ph3eRrxI228ND0EGaEp6v4a/vGwPWd3Dtd/+9cI7ccofZvl/wulICEurHN1pg=="
+  crossorigin="anonymous"></script>
+
+<div id="graph-wrapper">
+  <script>
+    const MINIMAL_NODE_SIZE = 8;
+    const MAX_NODE_SIZE = 12;
+    const ACTIVE_RADIUS_FACTOR = 1.5;
+    const STROKE = 1;
+    const FONT_SIZE = 16;
+    const TICKS = 200;
+    const FONT_BASELINE = 40;
+    const MAX_LABEL_LENGTH = 50;
+
+    const graphData = {"edges":[{"source":"1105250","target":"0"},{"source":"1783189036595305315139779527442417148144190962786599794647","target":"36485673071"},{"source":"1173349929","target":"1173349929"},{"source":"0","target":"1105250"}],"nodes":[{"id":"0","path":"/%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A4%91%EC%8B%AC-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EC%84%A4%EA%B3%84","label":"데이터 중심 애플리케이션 설계"},{"id":"0","path":"/%EC%A0%9C%ED%85%94%EC%B9%B4%EC%8A%A4%ED%85%90","label":"제텔카스텐"},{"id":"0","path":"/%ED%98%84%EB%AA%85%ED%95%9C-%ED%88%AC%EC%9E%90%EC%9E%90","label":"현명한 투자자"},{"id":"1783189036595305315139779527442417148144190962786599794647","path":"/gremlin-applicatoin-attack","label":"Gremlin Application Layer Fault Injection"},{"id":"36485673071","path":"/gremlin","label":"Gremlin 관련"},{"id":"2356180470493017000564695","path":"/anomaly-detection","label":"Anomaly detection"},{"id":"132794565206938727014822709","path":"/google-spreadsheet","label":"Google spreadsheet"},{"id":"1173349929","path":"/jekyll","label":"Jekyll"},{"id":"1105250","path":"/note","label":"Note"},{"id":"8345289848942075317846035406687072346852","path":"/springboot-health-check","label":"About SpringBootHealth Check"}]}
+
+    let nodesData = graphData.nodes;
+    let linksData = graphData.edges;
+
+    const nodeSize = {};
+
+    const updateNodeSize = () => {
+      nodesData.forEach((el) => {
+        let weight =
+          3 *
+          Math.sqrt(
+            linksData.filter((l) => l.source === el.id || l.target === el.id)
+              .length + 1
+          );
+        if (weight < MINIMAL_NODE_SIZE) {
+          weight = MINIMAL_NODE_SIZE;
+        } else if (weight > MAX_NODE_SIZE) {
+          weight = MAX_NODE_SIZE;
+        }
+        nodeSize[el.id] = weight;
+      });
+    };
+
+    const onClick = (d) => {
+      window.location = d.path
+    };
+
+    const onMouseover = function (d) {
+      const relatedNodesSet = new Set();
+      linksData
+        .filter((n) => n.target.id == d.id || n.source.id == d.id)
+        .forEach((n) => {
+          relatedNodesSet.add(n.target.id);
+          relatedNodesSet.add(n.source.id);
+        });
+
+      node.attr("class", (node_d) => {
+        if (node_d.id !== d.id && !relatedNodesSet.has(node_d.id)) {
+          return "inactive";
+        }
+        return "";
+      });
+
+      link.attr("class", (link_d) => {
+        if (link_d.source.id !== d.id && link_d.target.id !== d.id) {
+          return "inactive";
+        }
+        return "";
+      });
+
+      link.attr("stroke-width", (link_d) => {
+        if (link_d.source.id === d.id || link_d.target.id === d.id) {
+          return STROKE * 4;
+        }
+        return STROKE;
+      });
+      text.attr("class", (text_d) => {
+        if (text_d.id !== d.id && !relatedNodesSet.has(text_d.id)) {
+          return "inactive";
+        }
+        return "";
+      });
+    };
+
+    const onMouseout = function (d) {
+      node.attr("class", "");
+      link.attr("class", "");
+      text.attr("class", "");
+      link.attr("stroke-width", STROKE);
+    };
+
+    const sameNodes = (previous, next) => {
+      if (next.length !== previous.length) {
+        return false;
+      }
+
+      const map = new Map();
+      for (const node of previous) {
+        map.set(node.id, node.label);
+      }
+
+      for (const node of next) {
+        const found = map.get(node.id);
+        if (!found || found !== node.title) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    const sameEdges = (previous, next) => {
+      if (next.length !== previous.length) {
+        return false;
+      }
+
+      const set = new Set();
+      for (const edge of previous) {
+        set.add(`${edge.source.id}-${edge.target.id}`);
+      }
+
+      for (const edge of next) {
+        if (!set.has(`${edge.source}-${edge.target}`)) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    const graphWrapper = document.getElementById('graph-wrapper')
+    const element = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    element.setAttribute("width", graphWrapper.getBoundingClientRect().width);
+    element.setAttribute("height", window.innerHeight * 0.8);
+    graphWrapper.appendChild(element);
+
+    const reportWindowSize = () => {
+      element.setAttribute("width", window.innerWidth);
+      element.setAttribute("height", window.innerHeight);
+    };
+
+    window.onresize = reportWindowSize;
+
+    const svg = d3.select("svg");
+    const width = Number(svg.attr("width"));
+    const height = Number(svg.attr("height"));
+    let zoomLevel = 1;
+
+    const simulation = d3
+      .forceSimulation(nodesData)
+      .force("forceX", d3.forceX().x(width / 2))
+      .force("forceY", d3.forceY().y(height / 2))
+      .force("charge", d3.forceManyBody())
+      .force(
+        "link",
+        d3
+          .forceLink(linksData)
+          .id((d) => d.id)
+          .distance(70)
+      )
+      .force("center", d3.forceCenter(width / 2, height / 2))
+      .force("collision", d3.forceCollide().radius(80))
+      .stop();
+
+    const g = svg.append("g");
+    let link = g.append("g").attr("class", "links").selectAll(".link");
+    let node = g.append("g").attr("class", "nodes").selectAll(".node");
+    let text = g.append("g").attr("class", "text").selectAll(".text");
+
+    const resize = () => {
+      if (d3.event) {
+        const scale = d3.event.transform;
+        zoomLevel = scale.k;
+        g.attr("transform", scale);
+      }
+
+      const zoomOrKeep = (value) => (zoomLevel >= 1 ? value / zoomLevel : value);
+
+      const font = Math.max(Math.round(zoomOrKeep(FONT_SIZE)), 1);
+
+      text.attr("font-size", (d) => font);
+      text.attr("y", (d) => d.y - zoomOrKeep(FONT_BASELINE) + 8);
+      link.attr("stroke-width", zoomOrKeep(STROKE));
+      node.attr("r", (d) => {
+        return zoomOrKeep(nodeSize[d.id]);
+      });
+      svg
+        .selectAll("circle")
+        .filter((_d, i, nodes) => d3.select(nodes[i]).attr("active"))
+        .attr("r", (d) => zoomOrKeep(ACTIVE_RADIUS_FACTOR * nodeSize[d.id]));
+    };
+
+    const ticked = () => {
+      node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+      text
+        .attr("x", (d) => d.x)
+        .attr("y", (d) => d.y - (FONT_BASELINE - nodeSize[d.id]) / zoomLevel);
+      link
+        .attr("x1", (d) => d.source.x)
+        .attr("y1", (d) => d.source.y)
+        .attr("x2", (d) => d.target.x)
+        .attr("y2", (d) => d.target.y);
+    };
+
+    const restart = () => {
+      updateNodeSize();
+      node = node.data(nodesData, (d) => d.id);
+      node.exit().remove();
+      node = node
+        .enter()
+        .append("circle")
+        .attr("r", (d) => {
+          return nodeSize[d.id];
+        })
+        .on("click", onClick)
+        .on("mouseover", onMouseover)
+        .on("mouseout", onMouseout)
+        .merge(node);
+
+      link = link.data(linksData, (d) => `${d.source.id}-${d.target.id}`);
+      link.exit().remove();
+      link = link.enter().append("line").attr("stroke-width", STROKE).merge(link);
+
+      text = text.data(nodesData, (d) => d.label);
+      text.exit().remove();
+      text = text
+        .enter()
+        .append("text")
+        .text((d) => shorten(d.label.replace(/_*/g, ""), MAX_LABEL_LENGTH))
+        .attr("font-size", `${FONT_SIZE}px`)
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "central")
+        .on("click", onClick)
+        .on("mouseover", onMouseover)
+        .on("mouseout", onMouseout)
+        .merge(text);
+
+      node.attr("active", (d) => isCurrentPath(d.path) ? true : null);
+      text.attr("active", (d) => isCurrentPath(d.path) ? true : null);
+
+      simulation.nodes(nodesData);
+      simulation.force("link").links(linksData);
+      simulation.alpha(1).restart();
+      simulation.stop();
+
+      for (let i = 0; i < TICKS; i++) {
+        simulation.tick();
+      }
+
+      ticked();
+    };
+
+    const zoomHandler = d3.zoom().scaleExtent([0.2, 3]).on("zoom", resize);
+
+    zoomHandler(svg);
+    restart();
+
+    function isCurrentPath(notePath) {
+      return window.location.pathname.includes(notePath)
+    }
+
+    function shorten(str, maxLen, separator = ' ') {
+      if (str.length <= maxLen) return str;
+      return str.substr(0, str.lastIndexOf(separator, maxLen)) + '...';
+    }
+  </script>
+</div>
+
+</main>
+      <footer>This is the footer. Include anything you'd like here, like a link to an <a class="internal-link" href="/about">About</a> page.
+</footer>
+    </div>
+
+    <!-- That file is not particularly elegant. This will need a refactor at some point. -->
+<style>
+  content a.internal-link {
+    border-color: #8b88e6;
+    background-color: #efefff;
+  }
+
+  #tooltip-wrapper {
+    background: white;
+    padding: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    position: absolute;
+    width: 400px;
+    height: 250px;
+    font-size: 0.8em;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    opacity: 0;
+    transition: opacity 100ms;
+  }
+
+  #tooltip-wrapper:after {
+		content: "";
+		position: absolute;
+		z-index: 1;
+		bottom: 0;
+		left: 0;
+		pointer-events: none;
+		background-image: linear-gradient(to bottom, rgba(255,255,255, 0), rgba(255,255,255, 1) 90%);
+		width: 100%;
+		height: 75px;
+  }
+</style>
+
+<div style="opacity: 0; display: none;" id='tooltip-wrapper'>
+  <div id='tooltip-content'>
+  </div>
+</div>
+
+<iframe style="display: none; height: 0; width: 0;" id='link-preview-iframe' src="">
+</iframe>
+
+<script>
+  var opacityTimeout;
+  var contentTimeout;
+  var transitionDurationMs = 100;
+
+  var iframe = document.getElementById('link-preview-iframe')
+  var tooltipWrapper = document.getElementById('tooltip-wrapper')
+  var tooltipContent = document.getElementById('tooltip-content')
+
+  function hideTooltip() {
+    opacityTimeout = setTimeout(function() {
+      tooltipWrapper.style.opacity = 0;
+      contentTimeout = setTimeout(function() {
+        tooltipContent.innerHTML = '';
+        tooltipWrapper.style.display = 'none';
+      }, transitionDurationMs + 1);
+    }, transitionDurationMs)
+  }
+
+  function showTooltip(event) {
+    var elem = event.target;
+    var elem_props = elem.getClientRects()[elem.getClientRects().length - 1];
+    var top = window.pageYOffset || document.documentElement.scrollTop
+
+    if (event.target.host === window.location.host) {
+      iframe.src = event.target.href
+      iframe.onload = function() {
+        tooltipContentHtml = ''
+        tooltipContentHtml += '<div style="font-weight: bold;">' + iframe.contentWindow.document.querySelector('h1').innerHTML + '</div>'
+        tooltipContentHtml += iframe.contentWindow.document.querySelector('content').innerHTML
+
+        tooltipContent.innerHTML = tooltipContentHtml
+
+        tooltipWrapper.style.display = 'block';
+        setTimeout(function() {
+          tooltipWrapper.style.opacity = 1;
+        }, 1)
+      }
+
+      tooltipWrapper.style.left = elem_props.left - (tooltipWrapper.offsetWidth / 2) + (elem_props.width / 2) + "px";
+      if ((window.innerHeight - elem_props.top) < (tooltipWrapper.offsetHeight)) {
+          tooltipWrapper.style.top = elem_props.top + top - tooltipWrapper.offsetHeight - 10 + "px";
+      } else if ((window.innerHeight - elem_props.top) > (tooltipWrapper.offsetHeight)) {
+          tooltipWrapper.style.top = elem_props.top + top + 35 + "px";
+      }
+
+      if ((elem_props.left + (elem_props.width / 2)) < (tooltipWrapper.offsetWidth / 2)) {
+          tooltipWrapper.style.left = "10px";
+      } else if ((document.body.clientWidth - elem_props.left - (elem_props.width / 2)) < (tooltipWrapper.offsetWidth / 2)) {
+          tooltipWrapper.style.left = document.body.clientWidth - tooltipWrapper.offsetWidth - 20 + "px";
+      }
+    }
+  }
+
+  function setupListeners(linkElement) {
+    linkElement.addEventListener('mouseleave', function(_event) {
+      hideTooltip();
+    });
+
+    tooltipWrapper.addEventListener('mouseleave', function(_event) {
+      hideTooltip();
+    });
+
+    linkElement.addEventListener('mouseenter', function(event) {
+      clearTimeout(opacityTimeout);
+      clearTimeout(contentTimeout);
+      showTooltip(event);
+    });
+
+    tooltipWrapper.addEventListener('mouseenter', function(event) {
+      clearTimeout(opacityTimeout);
+      clearTimeout(contentTimeout);
+    });
+  }
+
+  document.querySelectorAll('content a').forEach(setupListeners);
+</script>
+
+  </body>
+</html>

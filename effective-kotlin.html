@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+
+  <link rel="canonical" href="gramer.github.io/effective-kotlin" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="1부 좋은 코드">
+
+  <meta property="og:site_name" content="Zeno's digital garden">
+
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+
+  <link rel="stylesheet" href="/styles.css">
+
+  
+  <meta property="og:description" content="1부 좋은 코드"/>
+  
+
+  
+  <meta property="og:title" content="Effective kotlin">
+  <meta property="og:type" content="article">
+  
+
+  
+  <meta property="article:published_time" content="2022-06-20T00:27:13+00:00">
+  <meta property="article:author" content="gramer.github.io/">
+  
+
+  <meta property="og:url" content="gramer.github.io/effective-kotlin" />
+
+  
+
+  <title>
+    
+      Effective kotlin &mdash; Zeno's digital garden
+    
+  </title>
+</head>
+
+  <body>
+    <nav><div>
+    <a class="internal-link" href="/"><b>Zeno's digital garden</b></a>
+</div>
+</nav>
+    <div class="wrapper">
+      <main><article>
+  <div>
+    <h1>Effective kotlin</h1>
+    <time datetime="2022-06-20T00:26:21+00:00">
+      Last updated on June 20, 2022
+      
+    </time>
+  </div>
+
+  <div id="notes-entry-container">
+    <content>
+      <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#1부-좋은-코드">1부 좋은 코드</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#1장-안정성">1장 안정성</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#가변성을-제한하라">가변성을 제한하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#변수의-스코프를-최소화-하라">변수의 스코프를 최소화 하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#최대한-플랫폼-타입을-사용하지-말라">최대한 플랫폼 타입을 사용하지 말라</a></li>
+<li class="toc-entry toc-h4"><a href="#inferred-타입으로-리턴하지-말라">inferred 타입으로 리턴하지 말라</a></li>
+<li class="toc-entry toc-h4"><a href="#예외를-활용해-코드에-제한을-걸어라">예외를 활용해 코드에 제한을 걸어라.</a></li>
+<li class="toc-entry toc-h4"><a href="#결과-부족이-발생할-경우-null-과-failure-를-활용하라">결과 부족이 발생할 경우 null 과 Failure 를 활용하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#null-을-안전하게-처리하기">null 을 안전하게 처리하기</a></li>
+<li class="toc-entry toc-h4"><a href="#use-method-를-통해서-리소스를-안전하게-종료하자">use method 를 통해서 리소스를 안전하게 종료하자.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#2장-가독성">2장 가독성</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#가독성을-목표로-설계하라">가독성을 목표로 설계하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#연산자-오버로드를-할-때는-의미에-맞게-사용하라">연산자 오버로드를 할 때는 의미에 맞게 사용하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#unit-을-리턴하지-말자">Unit? 을 리턴하지 말자.</a></li>
+<li class="toc-entry toc-h4"><a href="#변수타입이-명확하지-않을-경우-확실하게-지정하라">변수타입이 명확하지 않을 경우 확실하게 지정하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#리시버를-명시적으로-참조하라">리시버를 명시적으로 참조하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#이름-있는-아규먼트를-사용하라">이름 있는 아규먼트를 사용하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#코딩-컨벤션을-지켜라">코딩 컨벤션을 지켜라</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#3장-재사용성">3장 재사용성</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#knowledge-를-반복하여-사용하지-말라">knowledge 를 반복하여 사용하지 말라.</a></li>
+<li class="toc-entry toc-h4"><a href="#일반적인-알고리즘을-반복해서-구현하지-말라">일반적인 알고리즘을 반복해서 구현하지 말라.</a></li>
+<li class="toc-entry toc-h4"><a href="#일반적인-프로퍼티-패턴은-프로퍼티-위임으로-만들어라">일반적인 프로퍼티 패턴은 프로퍼티 위임으로 만들어라.</a></li>
+<li class="toc-entry toc-h4"><a href="#제네릭-타입과-variance-한정자를-활용하라">제네릭 타입과 variance 한정자를 활용하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#공통-모듈을-추출해서-여러-플랫폼에서-재사용하라">공통 모듈을 추출해서 여러 플랫폼에서 재사용하라.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#4장-추상화">4장 추상화</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#함수-내부의-추상화-레벨을-통일하라">함수 내부의 추상화 레벨을 통일하라</a></li>
+<li class="toc-entry toc-h4"><a href="#변화로부터-코드를-보호하려면-추상화를-사용하라">변화로부터 코드를 보호하려면 추상화를 사용하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#api-안정성을-확인하라">API 안정성을 확인하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#외부-api-를-랩wrap-해서-사용하라">외부 API 를 랩(Wrap) 해서 사용하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#요소의-가시성을-최소화-하라">요소의 가시성을 최소화 하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#문서의-규약을-정의하라">문서의 규약을 정의하라</a></li>
+<li class="toc-entry toc-h4"><a href="#추상화-규약을-지켜라">추상화 규약을 지켜라</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#5장-객체-생성">5장 객체 생성</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#생성자-대신-팩토리-함수를-사용하라">생성자 대신 팩토리 함수를 사용하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#기본-생성자에-이름-있는-옵션-아규먼트를-사용하라">기본 생성자에 이름 있는 옵션 아규먼트를 사용하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#복잡한-객체를-생성하기-위한-dsl-을-정의하라">복잡한 객체를 생성하기 위한 DSL 을 정의하라.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#6장-클래스-설계">6장 클래스 설계</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#상속보다는-컴포지션을-사용하라">상속보다는 컴포지션을 사용하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#데이터-집합-표현에-data-한정자를-사용하라">데이터 집합 표현에 data 한정자를 사용하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#연산-또는-액션을-전달할-때는-인터페이스-대신-함수-타입을-사용하라">연산 또는 액션을 전달할 때는 인터페이스 대신 함수 타입을 사용하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#태그--클래스-보다는-클래스-계층을-사용하라">태그  클래스 보다는 클래스 계층을 사용하라</a></li>
+<li class="toc-entry toc-h4"><a href="#equals-의-규약을-지켜라">equals 의 규약을 지켜라.</a></li>
+<li class="toc-entry toc-h4"><a href="#hashcode-의-규약의-지켜라">hashcode 의 규약의 지켜라.</a></li>
+<li class="toc-entry toc-h4"><a href="#compareto-의-규약을-지켜라">compareTo 의 규약을 지켜라</a></li>
+<li class="toc-entry toc-h4"><a href="#api-의-필수적이지-않는-부분을-확장함수로-추출하라">API 의 필수적이지 않는 부분을 확장함수로 추출하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#멤버-확장-함수의-사용을-피하라">멤버 확장 함수의 사용을 피하라.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#7장-비용-줄이기">7장 비용 줄이기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#뷸필요한-객체-생성을-피하라">뷸필요한 객체 생성을 피하라</a></li>
+<li class="toc-entry toc-h4"><a href="#함수-타입-파라미터를-갖는-함수에-inline--한정자를-붙여라">함수 타입 파라미터를 갖는 함수에 inline  한정자를 붙여라</a></li>
+<li class="toc-entry toc-h4"><a href="#인라인-클래스의-사용을-고려하라">인라인 클래스의 사용을 고려하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#더-이상-사용하지-않는-객체의-레퍼런스를-제거하라">더 이상 사용하지 않는 객체의 레퍼런스를 제거하라.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#8장-효율적인-컬렉션-처리">8장 효율적인 컬렉션 처리</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#하나-이상의-처리-단계를-가지는-경우에는-시퀀스를-사용하라">하나 이상의 처리 단계를 가지는 경우에는 시퀀스를 사용하라</a></li>
+<li class="toc-entry toc-h4"><a href="#컬렉션-처리-단계-수를-제한하라">컬렉션 처리 단계 수를 제한하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#성능이-중요한-부분에는-기본-자료형을-사용하라">성능이 중요한 부분에는 기본 자료형을 사용하라.</a></li>
+<li class="toc-entry toc-h4"><a href="#mutable-컬렉션-사용을-고려하라">mutable 컬렉션 사용을 고려하라.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h2 id="1부-좋은-코드">
+<a class="anchor" href="#1%EB%B6%80-%EC%A2%8B%EC%9D%80-%EC%BD%94%EB%93%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>1부 좋은 코드</h2>
+
+<h3 id="1장-안정성">
+<a class="anchor" href="#1%EC%9E%A5-%EC%95%88%EC%A0%95%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>1장 안정성</h3>
+
+<h4 id="가변성을-제한하라">
+<a class="anchor" href="#%EA%B0%80%EB%B3%80%EC%84%B1%EC%9D%84-%EC%A0%9C%ED%95%9C%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>가변성을 제한하라.</h4>
+
+<ul>
+  <li>var 보다는 val</li>
+  <li>mutable 보다는 immutable</li>
+  <li>컬렉션에 상태를 저장한다면 immutable</li>
+  <li>변이 지점을 설계하고 불필요한 변이지점을 만들지 말자.
+    <ul>
+      <li>가변성은 동시성제어부터, 추적의 어려움 등을 통해 side effect 를 유발할 수 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="변수의-스코프를-최소화-하라">
+<a class="anchor" href="#%EB%B3%80%EC%88%98%EC%9D%98-%EC%8A%A4%EC%BD%94%ED%94%84%EB%A5%BC-%EC%B5%9C%EC%86%8C%ED%99%94-%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>변수의 스코프를 최소화 하라.</h4>
+
+<ul>
+  <li>초기화를 함께 진행하고 여러 값을 설정할 때에는 구조분해를 통해서 할 수 있다.</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">val</span> <span class="p">(</span><span class="py">description</span><span class="p">,</span> <span class="py">color</span><span class="p">)</span> <span class="p">=</span> <span class="k">when</span> <span class="p">{</span>
+	<span class="n">degrees</span> <span class="p">&lt;</span> <span class="mi">5</span> <span class="p">-&gt;</span> <span class="s">"color"</span> <span class="n">to</span> <span class="nc">Color</span><span class="p">.</span><span class="nc">BLUE</span>
+    <span class="n">degrees</span> <span class="p">&lt;</span> <span class="mi">23</span> <span class="p">-&gt;</span> <span class="s">"mild"</span> <span class="n">to</span> <span class="nc">Color</span><span class="p">.</span><span class="nc">YELLOW</span>
+    <span class="k">else</span> <span class="p">-&gt;</span> <span class="s">"hot"</span> <span class="n">to</span> <span class="nc">Color</span><span class="p">.</span><span class="nc">RED</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<h4 id="최대한-플랫폼-타입을-사용하지-말라">
+<a class="anchor" href="#%EC%B5%9C%EB%8C%80%ED%95%9C-%ED%94%8C%EB%9E%AB%ED%8F%BC-%ED%83%80%EC%9E%85%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EC%A7%80-%EB%A7%90%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>최대한 플랫폼 타입을 사용하지 말라</h4>
+
+<ul>
+  <li>자바 코드와 코틀린 코드를 함께 사용할 경우, @NotNull @Nullable 을 추가하자.</li>
+  <li>다른 프로그래밍 언어에서 와서 nullable 여부를 판단할 수 없는 타입을 플랫폼 타입</li>
+  <li>이런 경우 타입 추론을 자제하자.</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// java</span>
+
+<span class="k">public</span> <span class="kd">class</span> <span class="nc">JavaClass</span> <span class="p">{</span>
+    <span class="k">public</span> <span class="nc">String</span> <span class="nf">getValue</span><span class="p">()</span> <span class="p">{</span>
+	    <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// kotlin</span>
+<span class="k">fun</span> <span class="nf">statedType</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kd">val</span> <span class="py">value</span><span class="p">:</span><span class="nc">String</span> <span class="p">=</span> <span class="nc">JavaClass</span><span class="p">().</span><span class="n">value</span> <span class="c1">// NPE</span>
+<span class="p">}</span>
+
+<span class="k">fun</span> <span class="nf">platformType</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kd">val</span> <span class="py">value</span><span class="p">:</span><span class="nc">String</span> <span class="p">=</span> <span class="nc">JavaClass</span><span class="p">().</span><span class="n">value</span> <span class="c1">// NPE</span>
+
+	<span class="nf">print</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="n">length</span><span class="p">)</span> <span class="c1">// NPE</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<h4 id="inferred-타입으로-리턴하지-말라">
+<a class="anchor" href="#inferred-%ED%83%80%EC%9E%85%EC%9C%BC%EB%A1%9C-%EB%A6%AC%ED%84%B4%ED%95%98%EC%A7%80-%EB%A7%90%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>inferred 타입으로 리턴하지 말라</h4>
+
+<ul>
+  <li>특히 외부 API 를 제공할 때에는 타입을 명시화 하자. (예측 못한결과가 나올 수 있다.)</li>
+</ul>
+
+<h4 id="예외를-활용해-코드에-제한을-걸어라">
+<a class="anchor" href="#%EC%98%88%EC%99%B8%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%B4-%EC%BD%94%EB%93%9C%EC%97%90-%EC%A0%9C%ED%95%9C%EC%9D%84-%EA%B1%B8%EC%96%B4%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>예외를 활용해 코드에 제한을 걸어라.</h4>
+
+<ul>
+  <li>required 는 IllegalArgumentException 를 던진다.</li>
+  <li>check 는 IllegalStatueException 을 던진다.</li>
+  <li>assert 는 -ea JVM 옵션을 활성해야 확인할 수 있다.</li>
+  <li>smart cast 를 이용할 수 있다.</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// before</span>
+<span class="n">repo</span><span class="p">.</span><span class="nf">findById</span><span class="p">(</span><span class="n">id</span><span class="o">!!</span><span class="p">)</span>
+
+<span class="c1">// after</span>
+<span class="nf">requireNotNull</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="n">repo</span><span class="p">.</span><span class="nf">findById</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>함수 중지 케이스</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">val</span> <span class="py">email</span> <span class="p">=</span> <span class="n">persion</span><span class="p">.</span><span class="n">email</span> <span class="o">?:</span> <span class="k">return</span>
+
+<span class="kd">val</span> <span class="py">email</span><span class="p">:</span><span class="nc">String</span> <span class="p">=</span> <span class="n">person</span><span class="p">.</span><span class="n">email</span> <span class="o">?:</span> <span class="nf">run</span> <span class="p">{</span>
+   <span class="nf">log</span><span class="p">(</span><span class="s">"Email not sent, no email address"</span><span class="p">)</span>
+   <span class="k">return</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<h4 id="결과-부족이-발생할-경우-null-과-failure-를-활용하라">
+<a class="anchor" href="#%EA%B2%B0%EA%B3%BC-%EB%B6%80%EC%A1%B1%EC%9D%B4-%EB%B0%9C%EC%83%9D%ED%95%A0-%EA%B2%BD%EC%9A%B0-null-%EA%B3%BC-failure-%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>결과 부족이 발생할 경우 null 과 Failure 를 활용하라.</h4>
+
+<ul>
+  <li>추가적인 내용을 전달한다면, sealed class 인 Result 를 활용하고, 아닌 경우에는 null 을 활용하라.</li>
+  <li>nullable 보다는 명시적으로 <code class="language-plaintext highlighter-rouge">getOrNull</code> 을 사용하라.  (==type 에서 이미 표시하는 데 이게 더 나은 방식인지는 의문==)</li>
+</ul>
+
+<h4 id="null-을-안전하게-처리하기">
+<a class="anchor" href="#null-%EC%9D%84-%EC%95%88%EC%A0%84%ED%95%98%EA%B2%8C-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>null 을 안전하게 처리하기</h4>
+
+<ul>
+  <li>!! 보다는 명시적인 check, 또는 require 가 더 많은 정보를 전달한다.</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>[detekt</td>
+          <td>kotlin 정적 검사 도구](https://github.com/detekt/detekt)  (어떤 팀은 !! 자체를 rule 로 관리해서 build 시에 실패를 할 수 있다.)</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>라이프사이클에 따라 초기화가 진행될 시에는 lateinit 을 사용하고 nullable 은 지양하자</li>
+  <li>기본형 Int, Double 에서는 <code class="language-plaintext highlighter-rouge">by Delegates.nonNull()</code> 를 사용하자.</li>
+</ul>
+
+<h4 id="use-method-를-통해서-리소스를-안전하게-종료하자">
+<a class="anchor" href="#use-method-%EB%A5%BC-%ED%86%B5%ED%95%B4%EC%84%9C-%EB%A6%AC%EC%86%8C%EC%8A%A4%EB%A5%BC-%EC%95%88%EC%A0%84%ED%95%98%EA%B2%8C-%EC%A2%85%EB%A3%8C%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>use method 를 통해서 리소스를 안전하게 종료하자.</h4>
+
+<h3 id="2장-가독성">
+<a class="anchor" href="#2%EC%9E%A5-%EA%B0%80%EB%8F%85%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>2장 가독성</h3>
+
+<h4 id="가독성을-목표로-설계하라">
+<a class="anchor" href="#%EA%B0%80%EB%8F%85%EC%84%B1%EC%9D%84-%EB%AA%A9%ED%91%9C%EB%A1%9C-%EC%84%A4%EA%B3%84%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>가독성을 목표로 설계하라.</h4>
+
+<ul>
+  <li>코드를 작성하는 데는 1분 걸리지만, 이를 읽는 데는 10분이 걸린다.</li>
+</ul>
+
+<p>초보자도 이해할 수 있는 A가 더 가독성이 좋은 코드이다.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// A</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">person</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">person</span><span class="p">.</span><span class="n">isAduit</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">view</span><span class="p">.</span><span class="nf">showPerson</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+	<span class="n">view</span><span class="p">.</span><span class="nf">showError</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="c1">// B</span>
+<span class="n">person</span><span class="o">?.</span><span class="nf">takeIf</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">isAduit</span> <span class="p">}</span>
+	<span class="o">?.</span><span class="nf">let</span><span class="p">(</span><span class="n">view</span><span class="o">::</span><span class="n">showPerson</span><span class="p">)</span> 
+	<span class="o">?:</span> <span class="n">view</span><span class="p">.</span><span class="nf">showError</span><span class="p">()</span>
+</code></pre></div></div>
+
+<ul>
+  <li>let 을 연산을 아규먼트 처리한 후에 이동시킬 때</li>
+  <li>데코레이터를 사용해서 객체를 랩할 때</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kd">var</span> <span class="py">obj</span> <span class="p">=</span> <span class="nc">FileInputStream</span><span class="p">(</span><span class="s">"/file.gz"</span><span class="p">)</span>
+	<span class="p">.</span><span class="nf">let</span><span class="p">(</span><span class="o">::</span><span class="nc">BufferedInputStream</span><span class="p">)</span>
+	<span class="p">.</span><span class="nf">let</span><span class="p">(</span><span class="o">::</span><span class="nc">ZipInputStream</span><span class="p">)</span>
+	<span class="p">.</span><span class="nf">let</span><span class="p">(</span><span class="o">::</span><span class="nc">OBjectInputStream</span><span class="p">)</span>
+	<span class="p">.</span><span class="nf">readObject</span><span class="p">()</span> <span class="k">as</span> <span class="nc">SomeObject</span>
+
+</code></pre></div></div>
+
+<h4 id="연산자-오버로드를-할-때는-의미에-맞게-사용하라">
+<a class="anchor" href="#%EC%97%B0%EC%82%B0%EC%9E%90-%EC%98%A4%EB%B2%84%EB%A1%9C%EB%93%9C%EB%A5%BC-%ED%95%A0-%EB%95%8C%EB%8A%94-%EC%9D%98%EB%AF%B8%EC%97%90-%EB%A7%9E%EA%B2%8C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>연산자 오버로드를 할 때는 의미에 맞게 사용하라.</h4>
+
+<ul>
+  <li>연산자 오버로딩은 맥락에 맞게 사용하자.</li>
+  <li>연산자 오버로딩 이전에 이항 연산자를 먼저 고려하자.</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">infix</span> <span class="k">fun</span> <span class="nc">Int</span><span class="p">.</span><span class="nf">timeRepeated</span><span class="p">(</span><span class="n">operation</span><span class="p">:</span> <span class="p">()</span> <span class="p">-&gt;</span> <span class="nc">Unit</span><span class="p">)</span> <span class="p">=</span> <span class="p">{</span>
+    <span class="nf">repeat</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">{</span> <span class="nf">operation</span><span class="p">()</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="mi">3</span><span class="p">.</span><span class="nf">timeRepeated</span> <span class="p">{</span> <span class="nf">print</span><span class="p">(</span><span class="s">"hello"</span><span class="p">)}</span>
+
+<span class="c1">// 위의 내용은 기존 stdlib 에 있으니 아래와 같은 형태가 더 적절</span>
+
+<span class="nf">repeat</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span> <span class="nf">println</span><span class="p">(</span><span class="s">"hello"</span><span class="p">)}</span>
+
+</code></pre></div></div>
+
+<h4 id="unit-을-리턴하지-말자">
+<a class="anchor" href="#unit-%EC%9D%84-%EB%A6%AC%ED%84%B4%ED%95%98%EC%A7%80-%EB%A7%90%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>Unit? 을 리턴하지 말자.</h4>
+
+<ul>
+  <li>Boolean 을 리턴하자. nullable 를 통해 분기보다는 명시적인 것을 사용</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1">// getData() 가 null 이 아니고, view.showData(it) 리턴값이 null 이면 view.showError() 도 함께 호출한다.</span>
+
+<span class="nf">getData</span><span class="p">()</span><span class="o">?.</span><span class="nf">let</span> <span class="p">{</span> <span class="n">veiw</span><span class="p">.</span><span class="nf">showData</span><span class="p">(</span><span class="n">it</span><span class="p">)</span> <span class="p">}</span> <span class="o">?:</span> <span class="n">view</span><span class="p">.</span><span class="nf">showError</span><span class="p">()</span>
+
+</code></pre></div></div>
+
+<h4 id="변수타입이-명확하지-않을-경우-확실하게-지정하라">
+<a class="anchor" href="#%EB%B3%80%EC%88%98%ED%83%80%EC%9E%85%EC%9D%B4-%EB%AA%85%ED%99%95%ED%95%98%EC%A7%80-%EC%95%8A%EC%9D%84-%EA%B2%BD%EC%9A%B0-%ED%99%95%EC%8B%A4%ED%95%98%EA%B2%8C-%EC%A7%80%EC%A0%95%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>변수타입이 명확하지 않을 경우 확실하게 지정하라.</h4>
+
+<p>github 에서 관련 소스를 볼 수 도 있으니, 명시적으로 타입을 선언하자.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kd">val</span> <span class="py">a</span> <span class="p">=</span> <span class="s">"test"</span> <span class="c1">// ok, 누구든지 추론이 가능하다.</span>
+<span class="kd">val</span> <span class="py">data</span> <span class="p">=</span> <span class="nf">someData</span><span class="p">()</span> <span class="c1">// not ok, 명시적이지 않다.</span>
+
+</code></pre></div></div>
+
+<h4 id="리시버를-명시적으로-참조하라">
+<a class="anchor" href="#%EB%A6%AC%EC%8B%9C%EB%B2%84%EB%A5%BC-%EB%AA%85%EC%8B%9C%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%B0%B8%EC%A1%B0%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>리시버를 명시적으로 참조하라.</h4>
+
+<ul>
+  <li>nullable 이면 let 이나 also 를 사용하자  this?.someThing() 보다는 it?.someThing()</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kd">class</span> <span class="nc">Node</span><span class="p">(</span><span class="kd">val</span> <span class="py">name</span><span class="p">:</span><span class="nc">String</span><span class="p">)</span> <span class="p">{</span>
+
+
+	<span class="k">fun</span> <span class="nf">makeChild</span><span class="p">(</span><span class="n">childName</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span> <span class="p">=</span> 
+		<span class="nf">create</span><span class="p">(</span><span class="s">"$name.$childName"</span><span class="p">).</span><span class="nf">apply</span> <span class="p">{</span>
+			<span class="nf">print</span><span class="p">(</span><span class="s">"Created ${this?.name} in ${this@Node.name}"</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="k">fun</span> <span class="nf">create</span><span class="p">(</span><span class="n">name</span><span class="p">:</span><span class="nc">String</span><span class="p">):</span> <span class="nc">Node</span><span class="p">?</span> <span class="p">=</span> <span class="nc">Node</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>@DslMarker 를 통해 암묵적으로 외부 리시버를 사용하는 금지시킬 수 있다. (이것은 관련 작업이 있다면 공부해보자)</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  									#### 프로퍼티는 동작이 아니라 상태를 나타내야 한다.
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>프로퍼티 get() 에는 알고리즘을 넣지 말자. 기대하는 동작이 다르다.</p>
+    <ul>
+      <li>복잡도가 0(1) 보다 높으면 X, 예측이 가능하고 이를 기반으로 캐싱을 검토할 수 있게 한다.</li>
+      <li>멱등성이 깨지는 경우</li>
+      <li>단순 동작 이상을 기대하지 않는다.</li>
+      <li>get() 에서는 상태 변경이 일어나는 걸 기대하지 않는다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="이름-있는-아규먼트를-사용하라">
+<a class="anchor" href="#%EC%9D%B4%EB%A6%84-%EC%9E%88%EB%8A%94-%EC%95%84%EA%B7%9C%EB%A8%BC%ED%8A%B8%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>이름 있는 아규먼트를 사용하라.</h4>
+
+<ul>
+  <li>가급적이면 모든 파라미터에 이름있는 아규먼트를 사용하자.</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kd">val</span> <span class="py">text</span> <span class="p">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="p">).</span><span class="nf">joinToString</span><span class="p">(</span><span class="n">separator</span> <span class="p">=</span> <span class="s">"|"</span><span class="p">)</span>
+
+<span class="c1">// 또는</span>
+<span class="kd">val</span> <span class="py">separaotr</span> <span class="p">=</span> <span class="s">"|"</span>
+<span class="kd">val</span> <span class="py">text</span> <span class="p">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">100</span><span class="p">).</span><span class="nf">joinToString</span><span class="p">(</span><span class="n">separator</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>함수 타입 파라미터는 가장 마지막에 붙인다.</li>
+</ul>
+
+<h4 id="코딩-컨벤션을-지켜라">
+<a class="anchor" href="#%EC%BD%94%EB%94%A9-%EC%BB%A8%EB%B2%A4%EC%85%98%EC%9D%84-%EC%A7%80%EC%BC%9C%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>코딩 컨벤션을 지켜라</h4>
+
+<ul>
+  <li><a href="https://github.com/pinterest/ktlint">pinterrest/ktlint</a></li>
+</ul>
+
+<h3 id="3장-재사용성">
+<a class="anchor" href="#3%EC%9E%A5-%EC%9E%AC%EC%82%AC%EC%9A%A9%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>3장 재사용성</h3>
+
+<h4 id="knowledge-를-반복하여-사용하지-말라">
+<a class="anchor" href="#knowledge-%EB%A5%BC-%EB%B0%98%EB%B3%B5%ED%95%98%EC%97%AC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%A7%80-%EB%A7%90%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>knowledge 를 반복하여 사용하지 말라.</h4>
+
+<ul>
+  <li>함께 변경될 가능성이 있는가? 따로 변경될 가능성이 높은가?</li>
+  <li>단일책임원칙</li>
+  <li>private 함수는 두 가지 이상의 역할을 하지 않는다.</li>
+</ul>
+
+<h4 id="일반적인-알고리즘을-반복해서-구현하지-말라">
+<a class="anchor" href="#%EC%9D%BC%EB%B0%98%EC%A0%81%EC%9D%B8-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98%EC%9D%84-%EB%B0%98%EB%B3%B5%ED%95%B4%EC%84%9C-%EA%B5%AC%ED%98%84%ED%95%98%EC%A7%80-%EB%A7%90%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>일반적인 알고리즘을 반복해서 구현하지 말라.</h4>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">fun</span> <span class="nf">saveCallResult</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="nc">SourceResponse</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kd">val</span> <span class="py">sourceEntries</span> <span class="p">=</span> <span class="n">item</span><span class="p">.</span><span class="n">sources</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">::</span><span class="n">sourceToEntity</span><span class="p">)</span>
+	<span class="n">db</span><span class="p">.</span><span class="nf">insertSources</span><span class="p">(</span><span class="n">sourceEntries</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="k">fun</span> <span class="nf">sourceToEntity</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nc">Source</span><span class="p">)</span> <span class="p">=</span> <span class="nc">SourceEntity</span><span class="p">().</span><span class="nf">apply</span> <span class="p">{</span>
+	<span class="n">id</span> <span class="p">=</span> <span class="n">source</span><span class="p">.</span><span class="n">id</span>
+	<span class="n">category</span> <span class="p">=</span> <span class="n">source</span><span class="p">.</span><span class="n">category</span>
+	<span class="n">country</span> <span class="p">=</span> <span class="n">source</span><span class="p">.</span><span class="n">country</span>
+	<span class="n">description</span> <span class="p">=</span> <span class="n">source</span><span class="p">.</span><span class="n">description</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<h4 id="일반적인-프로퍼티-패턴은-프로퍼티-위임으로-만들어라">
+<a class="anchor" href="#%EC%9D%BC%EB%B0%98%EC%A0%81%EC%9D%B8-%ED%94%84%EB%A1%9C%ED%8D%BC%ED%8B%B0-%ED%8C%A8%ED%84%B4%EC%9D%80-%ED%94%84%EB%A1%9C%ED%8D%BC%ED%8B%B0-%EC%9C%84%EC%9E%84%EC%9C%BC%EB%A1%9C-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>일반적인 프로퍼티 패턴은 프로퍼티 위임으로 만들어라.</h4>
+
+<ul>
+  <li>범용적으로 사용하는 델리게이터
+    <ul>
+      <li>lazy</li>
+      <li>Delegates.obserable</li>
+      <li>Delegates.vetoable</li>
+      <li>Delegates.notNull</li>
+      <li>map</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="제네릭-타입과-variance-한정자를-활용하라">
+<a class="anchor" href="#%EC%A0%9C%EB%84%A4%EB%A6%AD-%ED%83%80%EC%9E%85%EA%B3%BC-variance-%ED%95%9C%EC%A0%95%EC%9E%90%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>제네릭 타입과 variance 한정자를 활용하라.</h4>
+
+<ul>
+  <li>TBD</li>
+</ul>
+
+<h4 id="공통-모듈을-추출해서-여러-플랫폼에서-재사용하라">
+<a class="anchor" href="#%EA%B3%B5%ED%86%B5-%EB%AA%A8%EB%93%88%EC%9D%84-%EC%B6%94%EC%B6%9C%ED%95%B4%EC%84%9C-%EC%97%AC%EB%9F%AC-%ED%94%8C%EB%9E%AB%ED%8F%BC%EC%97%90%EC%84%9C-%EC%9E%AC%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>공통 모듈을 추출해서 여러 플랫폼에서 재사용하라.</h4>
+
+<ul>
+  <li>코틀린 백엔드 프레임워크 ktor 도 점점 많이 사용할 수 있다.</li>
+  <li>프론트 엔드를 코틀린으로 만들 수 있다. 코틀린/js</li>
+  <li>코틀린 네이티브를 통해서  LLVM 사용하여 네이티브 코드로 컴파일 가능하다.</li>
+</ul>
+
+<h3 id="4장-추상화">
+<a class="anchor" href="#4%EC%9E%A5-%EC%B6%94%EC%83%81%ED%99%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>4장 추상화</h3>
+
+<h4 id="함수-내부의-추상화-레벨을-통일하라">
+<a class="anchor" href="#%ED%95%A8%EC%88%98-%EB%82%B4%EB%B6%80%EC%9D%98-%EC%B6%94%EC%83%81%ED%99%94-%EB%A0%88%EB%B2%A8%EC%9D%84-%ED%86%B5%EC%9D%BC%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>함수 내부의 추상화 레벨을 통일하라</h4>
+
+<ul>
+  <li>SLA: Single Level Abstraction : 함수의 추상화 레벨이 동일해야 한다.</li>
+  <li>함수는 최소한의 책임만 가져야 한다.</li>
+  <li>문제 중심으로 프로그래밍을 한다.</li>
+</ul>
+
+<h4 id="변화로부터-코드를-보호하려면-추상화를-사용하라">
+<a class="anchor" href="#%EB%B3%80%ED%99%94%EB%A1%9C%EB%B6%80%ED%84%B0-%EC%BD%94%EB%93%9C%EB%A5%BC-%EB%B3%B4%ED%98%B8%ED%95%98%EB%A0%A4%EB%A9%B4-%EC%B6%94%EC%83%81%ED%99%94%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>변화로부터 코드를 보호하려면 추상화를 사용하라.</h4>
+
+<ul>
+  <li>listOf는 코틀린/jvm, 코틀린/js, 코틀린/네이티브에 따라 다른 구현을 리턴한다.</li>
+  <li>상수로 추출한다.</li>
+  <li>동작을 함수로 래핑한다.</li>
+  <li>함수를 클래스로 래핑한다.</li>
+  <li>인터페이스 뒤에 클래스를 숨긴다. ex) MessageDisplay, ToastMessageDisplay</li>
+  <li>보편적인 객체를 특수한 객체로 래핑한다.</li>
+</ul>
+
+<p><strong>추상화의 단점:</strong></p>
+
+<ul>
+  <li>추상화는 예제 없이는 이해가 어렵기 때문에 단위테스트 또는 문서를 꼭 만들자.</li>
+  <li>FizzBuzz Enterprise Edition, 간단한 프로그램을 과도한 추상화로 인해 복잡도가 증가하는 예제</li>
+</ul>
+
+<h4 id="api-안정성을-확인하라">
+<a class="anchor" href="#api-%EC%95%88%EC%A0%95%EC%84%B1%EC%9D%84-%ED%99%95%EC%9D%B8%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>API 안정성을 확인하라.</h4>
+
+<ul>
+  <li>major 버전이 0 일때는 언제든지 변경할 여지가 있다.</li>
+  <li>해당 버전이 안정적이지 않다면 Experimental 메타 어노테이션을 붙이자.</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="nd">@Experimental</span><span class="p">(</span><span class="n">level</span> <span class="p">=</span> <span class="nc">Experimental</span><span class="p">.</span><span class="nc">Level</span><span class="p">.</span><span class="nc">WARNING</span><span class="p">)</span>
+<span class="k">annotation</span> <span class="kd">class</span> <span class="nc">ExperimentalNewAPI</span>
+
+<span class="nd">@ExperimentalNewAPI</span>
+<span class="k">suspend</span> <span class="k">fun</span> <span class="nf">getUsers</span><span class="p">():</span> <span class="nc">List</span><span class="p">&lt;</span><span class="nc">User</span><span class="p">&gt;</span> <span class="p">{</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>안정적인 API 를 Deprecated 한다면 ReplaceWith 를 함께 사용하자. (IDE 에서 인식한다.)</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="nd">@Deprecated</span><span class="p">(</span><span class="s">"Use suspending getUsers instead"</span><span class="p">,</span> <span class="nc">ReplaceWith</span><span class="p">(</span><span class="s">"getUsers()"</span><span class="p">))</span>
+<span class="k">fun</span> <span class="nf">getUsers</span><span class="p">(</span><span class="n">callback</span><span class="p">:</span> <span class="p">(</span><span class="nc">List</span><span class="p">&lt;</span><span class="nc">User</span><span class="p">&gt;)</span> <span class="p">-&gt;</span> <span class="nc">Unit</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h4 id="외부-api-를-랩wrap-해서-사용하라">
+<a class="anchor" href="#%EC%99%B8%EB%B6%80-api-%EB%A5%BC-%EB%9E%A9wrap-%ED%95%B4%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>외부 API 를 랩(Wrap) 해서 사용하라.</h4>
+
+<ul>
+  <li>문제의 소지가 있다면 wrap 해서 사용하자.</li>
+  <li>라이브러리가 안정적인지는 버전과 얼마나 사용하는 지이다.</li>
+</ul>
+
+<h4 id="요소의-가시성을-최소화-하라">
+<a class="anchor" href="#%EC%9A%94%EC%86%8C%EC%9D%98-%EA%B0%80%EC%8B%9C%EC%84%B1%EC%9D%84-%EC%B5%9C%EC%86%8C%ED%99%94-%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>요소의 가시성을 최소화 하라.</h4>
+
+<ul>
+  <li>가시성이 제한될 수록 문제를 쉽게 추적할 수 있다.</li>
+  <li>동시성을 처리할 때도 상태변경은 문제가 될 수 있다.  많은 것들을 제한할 수록 병렬 프로그래밍에 대해 안전해 진다.</li>
+  <li>패키지와 모듈은 의미가 다르다. internal 은 같은 모듈내에 가시성을 제공</li>
+</ul>
+
+<h4 id="문서의-규약을-정의하라">
+<a class="anchor" href="#%EB%AC%B8%EC%84%9C%EC%9D%98-%EA%B7%9C%EC%95%BD%EC%9D%84-%EC%A0%95%EC%9D%98%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>문서의 규약을 정의하라</h4>
+
+<ul>
+  <li>클린코드 관점으로 작성한다.</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// bad case</span>
+
+<span class="k">fun</span> <span class="nf">update</span><span class="p">()</span> <span class="p">{</span>
+
+	<span class="c1">// 사용자를 업데이트 합니다. </span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">user</span> <span class="k">in</span> <span class="n">users</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">user</span><span class="p">.</span><span class="nf">update</span><span class="p">()</span>
+	<span class="p">}</span>
+
+	<span class="c1">// 책을 업데이트 합니다. </span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">book</span> <span class="k">in</span> <span class="n">books</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nf">updateBook</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 좋은 예제, 추상화 레벨도 통일됨</span>
+
+<span class="k">fun</span> <span class="nf">update</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nf">updateUsers</span><span class="p">()</span>
+	<span class="nf">updateBooks</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>kdoc
+    <ul>
+      <li>첫번째 줄은 summary</li>
+      <li>두번째 줄은 상세 설명</li>
+      <li>이어지는 줄은 모두 태그</li>
+    </ul>
+  </li>
+  <li>코틀린 공식 문서 생성 도구는 Dokka</li>
+  <li>짧으면서 명확하지 않는 부분을 자세하게 설명하는 문서가 좋은 문서</li>
+</ul>
+
+<h4 id="추상화-규약을-지켜라">
+<a class="anchor" href="#%EC%B6%94%EC%83%81%ED%99%94-%EA%B7%9C%EC%95%BD%EC%9D%84-%EC%A7%80%EC%BC%9C%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>추상화 규약을 지켜라</h4>
+
+<h3 id="5장-객체-생성">
+<a class="anchor" href="#5%EC%9E%A5-%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>5장 객체 생성</h3>
+
+<h4 id="생성자-대신-팩토리-함수를-사용하라">
+<a class="anchor" href="#%EC%83%9D%EC%84%B1%EC%9E%90-%EB%8C%80%EC%8B%A0-%ED%8C%A9%ED%86%A0%EB%A6%AC-%ED%95%A8%EC%88%98%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>생성자 대신 팩토리 함수를 사용하라.</h4>
+
+<ul>
+  <li>팩토리 메소드가 직관적이며, 구현을 숨길 수 있다.</li>
+  <li>캐싱, 내부적으로 싱글턴을 유지할 수 있다.</li>
+  <li>가시성을 제어할 수 있다.</li>
+  <li>복잡한 객체를 생성할 수 있다.</li>
+  <li>코틀린에서는 기본 생성자와는 대체제(자바인 경우)가 아니라 경쟁적인 관계이다.</li>
+</ul>
+
+<p><strong>코틀린에서 팩토리: Companion 객체 팩토리 함수</strong></p>
+
+<ul>
+  <li>A.from : 하나의 파라미터인 경우, 같은 타입을 리턴 ex) Date.from</li>
+  <li>A.of : 여러 파라미터를 조합해서 만드는 경우 ex) EnumSet.of(JACK, QUEEN)</li>
+  <li>A.valueOf: value 를 통해, 의미를 좀더 부여 ex) BigInteger.valueOf</li>
+  <li>A.getInstance: 싱글턴</li>
+  <li>A.createInstance or A.newInstance : 새로운 인스턴스</li>
+  <li>A.getType: 다른 타입을 생성, 싱글턴 ex) Files.getFileStore(path)</li>
+  <li>A.newType: 다른 타입을 새롭게 생성 ex) Files.newBufferedReader(path)</li>
+  <li>companion의 특징
+    <ul>
+      <li>상속, 인터페이스 구현이 가능하다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>코틀린에서 팩토리: 확장 팩토리 함수</strong></p>
+
+<ul>
+  <li>Companion 객체가 존재할 때 확장함수를 사용가능하다.</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">interface</span> <span class="nc">Tool</span> <span class="p">{</span>
+	<span class="k">companion</span> <span class="k">object</span> <span class="p">{</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">fun</span> <span class="nc">Tool</span><span class="p">.</span><span class="nc">Companion</span><span class="p">.</span><span class="nf">createBigTool</span><span class="p">():</span> <span class="nc">BigTool</span> <span class="p">{</span>
+
+<span class="p">}</span>
+
+<span class="nc">Tool</span><span class="p">.</span><span class="n">createBigTool</span>
+</code></pre></div></div>
+
+<p><strong>코틀린에서 팩토리: 톱레벨 팩토리 함수</strong></p>
+
+<ul>
+  <li>ex) listOf</li>
+</ul>
+
+<p><strong>코틀린에서 팩토리:  가짜 생성자 (fake constructor)</strong></p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="p">{</span> <span class="s">"User$it"</span><span class="p">}</span>
+
+<span class="k">public</span> <span class="k">inline</span> <span class="k">fun</span> <span class="p">&lt;</span><span class="nc">T</span><span class="p">&gt;</span> <span class="nf">List</span><span class="p">(</span>
+	<span class="n">size</span><span class="p">:</span><span class="nc">Int</span><span class="p">,</span>
+	<span class="n">init</span><span class="p">:</span> <span class="p">(</span><span class="n">index</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nc">T</span>
+<span class="p">):</span> <span class="nc">List</span><span class="p">&lt;</span><span class="nc">T</span><span class="p">&gt;</span> <span class="p">=</span> <span class="nc">MutableList</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">init</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>인터페이스를 위한 생성자를 만들고 싶을 때</li>
+  <li>reified 타입 아규먼트를 갖게 하고 싶을 때,</li>
+</ul>
+
+<h4 id="기본-생성자에-이름-있는-옵션-아규먼트를-사용하라">
+<a class="anchor" href="#%EA%B8%B0%EB%B3%B8-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90-%EC%9D%B4%EB%A6%84-%EC%9E%88%EB%8A%94-%EC%98%B5%EC%85%98-%EC%95%84%EA%B7%9C%EB%A8%BC%ED%8A%B8%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>기본 생성자에 이름 있는 옵션 아규먼트를 사용하라.</h4>
+
+<ul>
+  <li>점증적 생성자 패턴은 자바에서는 유용하지만, kotlin 에서는 default argument 를 통해서 해결한다.</li>
+  <li>코드를 github 에 올렸을 때에도 가독성 있을 수 있도록 작성하자.</li>
+  <li>빌더패턴을 이용하기 보다는 코틀린 DSL빌더를 사용하자.</li>
+  <li>코틀린은 빌더를 거의 사용하지 않는다.
+    <ul>
+      <li>다른 언어로 작성된 라이브러리를 그대로 옮길 때</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="복잡한-객체를-생성하기-위한-dsl-을-정의하라">
+<a class="anchor" href="#%EB%B3%B5%EC%9E%A1%ED%95%9C-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0-%EC%9C%84%ED%95%9C-dsl-%EC%9D%84-%EC%A0%95%EC%9D%98%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>복잡한 객체를 생성하기 위한 DSL 을 정의하라.</h4>
+
+<ul>
+  <li>복잡한 자료구조를 생성할 때</li>
+  <li>계층적인 구조를 생성할 때</li>
+  <li>거대한 양의 데이터를 생성할 때</li>
+  <li>간단한 자료구조를 만들 때 사용하는 것은 닭 잡는 곳에 소 잡는 칼을 쓰는 것.</li>
+</ul>
+
+<h3 id="6장-클래스-설계">
+<a class="anchor" href="#6%EC%9E%A5-%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%84%A4%EA%B3%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>6장 클래스 설계</h3>
+
+<h4 id="상속보다는-컴포지션을-사용하라">
+<a class="anchor" href="#%EC%83%81%EC%86%8D%EB%B3%B4%EB%8B%A4%EB%8A%94-%EC%BB%B4%ED%8F%AC%EC%A7%80%EC%85%98%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>상속보다는 컴포지션을 사용하라.</h4>
+
+<ul>
+  <li>상속은 슈퍼클래스의 모든 것을 가져온다. 따라서 기본적으로는 위임으로 처리하자.</li>
+  <li>일부분만 재사용하기에는 상속은 적합하지 않는다.</li>
+  <li>컴포지션이 좀 더 안전하다. 관찰되는 동작에서만 의존하기 때문</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kd">class</span> <span class="nc">Progress</span> <span class="p">{</span>
+	<span class="k">fun</span> <span class="nf">showProgress</span><span class="p">()</span> <span class="p">{}</span>
+	<span class="k">fun</span> <span class="nf">hideProgress</span><span class="p">()</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">ProfileLoader</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kd">val</span> <span class="py">progress</span> <span class="p">=</span> <span class="nc">Progress</span><span class="p">()</span>
+
+	<span class="k">fun</span> <span class="nf">load</span><span class="p">()</span> <span class="p">{</span>
+		<span class="n">progress</span><span class="p">.</span><span class="nf">showProgress</span><span class="p">()</span>
+		<span class="c1">// logic</span>
+		<span class="n">progress</span><span class="p">.</span><span class="nf">hideProgress</span><span class="p">()</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>리스코프 치환 법칙을 위반하는 사례가 발생할 수 있다.</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kd">class</span> <span class="nc">Labrador</span><span class="p">:</span> <span class="nc">Dog</span><span class="p">()</span>
+
+<span class="kd">class</span> <span class="nc">RobotDog</span><span class="p">:</span> <span class="nc">Dog</span><span class="p">()</span> <span class="p">{</span>
+	<span class="k">override</span> <span class="k">fun</span> <span class="nf">sniff</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">throw</span> <span class="nc">Error</span><span class="p">(</span><span class="s">"Operation not supported"</span><span class="p">)</span> <span class="c1">// 인터페이스 분리 원칙에 위배</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>위임패턴</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">CounterSet</span><span class="p">&lt;</span><span class="nc">T</span><span class="p">&gt;(</span>
+	<span class="k">private</span> <span class="kd">val</span> <span class="py">innerSet</span><span class="p">:</span> <span class="nc">MutableSet</span><span class="p">&lt;</span><span class="nc">T</span><span class="p">&gt;</span> <span class="p">=</span> <span class="nf">mutableSetOf</span><span class="p">()</span>
+<span class="p">):</span> <span class="nc">MutableSet</span><span class="p">&lt;</span><span class="nc">T</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">innerSet</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>open class 에서는 open 클래스만 오버라이드 할 수 있다.</li>
+  <li>상속을 사용 시에는 상위 클래스의 테스트를 하위클래스에서 모두 통과 할 수 있어야 한다.</li>
+  <li>상속을 위해 설계 되지 않는 메소드는 final 로 정의하자.</li>
+</ul>
+
+<h4 id="데이터-집합-표현에-data-한정자를-사용하라">
+<a class="anchor" href="#%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A7%91%ED%95%A9-%ED%91%9C%ED%98%84%EC%97%90-data-%ED%95%9C%EC%A0%95%EC%9E%90%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>데이터 집합 표현에 data 한정자를 사용하라.</h4>
+
+<ul>
+  <li>data class 해체 시에는 생성자에 정의한 property 이름과 동일하게 사용하자.</li>
+  <li>튜플(Pair) 보다는 데이터 클래스를 사용하는 게 더 명확하다.</li>
+</ul>
+
+<h4 id="연산-또는-액션을-전달할-때는-인터페이스-대신-함수-타입을-사용하라">
+<a class="anchor" href="#%EC%97%B0%EC%82%B0-%EB%98%90%EB%8A%94-%EC%95%A1%EC%85%98%EC%9D%84-%EC%A0%84%EB%8B%AC%ED%95%A0-%EB%95%8C%EB%8A%94-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4-%EB%8C%80%EC%8B%A0-%ED%95%A8%EC%88%98-%ED%83%80%EC%9E%85%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>연산 또는 액션을 전달할 때는 인터페이스 대신 함수 타입을 사용하라.</h4>
+
+<ul>
+  <li>함수 레퍼런스를 전달할 수 있다.</li>
+  <li>선언된 함수 타입을 구현한 객체로도 전달 가능</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">fun</span> <span class="nf">setOnClickListener</span><span class="p">(</span><span class="n">listener</span><span class="p">:</span> <span class="p">(</span><span class="n">view</span><span class="p">:</span><span class="nc">View</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nc">Unit</span><span class="p">)</span> <span class="p">{</span>
+
+<span class="p">}</span>
+
+
+<span class="c1">// or </span>
+<span class="kd">class</span> <span class="nc">ClickListener</span><span class="p">:</span> <span class="p">(</span><span class="nc">View</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nc">Unit</span> <span class="p">{</span>
+	<span class="k">override</span> <span class="k">fun</span> <span class="nf">invoke</span><span class="p">(</span><span class="n">view</span><span class="p">:</span> <span class="nc">View</span><span class="p">)</span> <span class="p">{</span>
+		<span class="c1">// do something</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">fun</span> <span class="nf">doSomething</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nf">setOnClickListener</span><span class="p">(</span><span class="nc">ClickListener</span><span class="p">())</span>
+	<span class="nf">setOnClieckListener</span><span class="p">(</span><span class="o">::</span><span class="n">println</span><span class="p">)</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>언제 SAM(Single Abstract Method) 을 사용할까?
+    <ul>
+      <li>자바에서 사용해야 하는 경우에는 SAM 을 사용한다. (함수 타입은 IDE 에서 지원받을 수 없다.)</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="태그--클래스-보다는-클래스-계층을-사용하라">
+<a class="anchor" href="#%ED%83%9C%EA%B7%B8--%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%B3%B4%EB%8B%A4%EB%8A%94-%ED%81%B4%EB%9E%98%EC%8A%A4-%EA%B3%84%EC%B8%B5%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>태그  클래스 보다는 클래스 계층을 사용하라</h4>
+
+<ul>
+  <li>상수를 모아 둔 클래스를 태그 클래스
+    <ul>
+      <li>프로퍼티가 일관적으로 사용하지 않는 케이스가 발생한다.</li>
+      <li>여러 목적으로 사용할 소지가 있다.</li>
+      <li>==sealed class 를 사용하자. (외부에서 서브클래스를 만드는 행위를 제한할 수 있다. 즉 타입이 추가되지 않을 것이라는 보장)==</li>
+    </ul>
+  </li>
+  <li>상태 클래스
+    <ul>
+      <li>각 상태에 따라서 행위를 규정한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="equals-의-규약을-지켜라">
+<a class="anchor" href="#equals-%EC%9D%98-%EA%B7%9C%EC%95%BD%EC%9D%84-%EC%A7%80%EC%BC%9C%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>equals 의 규약을 지켜라.</h4>
+
+<ul>
+  <li>구조적 동등성: <code class="language-plaintext highlighter-rouge">==, !=</code>
+</li>
+  <li>레퍼런스적 동등성: <code class="language-plaintext highlighter-rouge">===, !==</code>  를 통해 같은 객체를 가리키는 지</li>
+  <li>data class 에서 생성자에 포함되지 않는 프로퍼티는:
+    <ul>
+      <li>equals 에 포함되지 않는다.</li>
+      <li>copy 에 포함되지 않는다.</li>
+    </ul>
+  </li>
+  <li>equals 의 규약
+    <ul>
+      <li>반사적: x 가 null 이 아니면 x.equals(x) 는 참</li>
+      <li>대칭적: x, y 가 null 이 아니면 x.equals(y) == y.equals(x)
+        <ul>
+          <li>다른 타입을 검사하는 경우 실수가 생길 수 있다.</li>
+        </ul>
+      </li>
+      <li>연속적: x, y 가 equals 이고, y, z 가 equals 이면 x.equals(y) 도 같은 결과
+        <ul>
+          <li>ex) DateTime 과 Date 를 비교하는 경우</li>
+        </ul>
+      </li>
+      <li>일관적: 여러번 동작해도</li>
+      <li>x.equals(null) 은 항상 false 를 리턴해야 한다.</li>
+      <li>URL 의 equals 는 잘못된 설계
+        <ul>
+          <li>네트워크 상태에 따라서 실패가 야기된다.</li>
+          <li>equals 의 실행이 느려질 수 있다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="hashcode-의-규약의-지켜라">
+<a class="anchor" href="#hashcode-%EC%9D%98-%EA%B7%9C%EC%95%BD%EC%9D%98-%EC%A7%80%EC%BC%9C%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>hashcode 의 규약의 지켜라.</h4>
+
+<ul>
+  <li>여러번 호출해도 동일 값</li>
+  <li>equals 가 true 이면 hashcode 도 동일값</li>
+  <li>최대한 값을 넓게 퍼트려야 hashtable의 성능이 괜찮아 진다.
+    <ul>
+      <li>hashcode 를 먼저 호출 후에 equals 를 호출한다.</li>
+    </ul>
+  </li>
+  <li>equals 와 동일한 프로퍼티로 hashcode 를 구현해야 한다.</li>
+</ul>
+
+<h4 id="compareto-의-규약을-지켜라">
+<a class="anchor" href="#compareto-%EC%9D%98-%EA%B7%9C%EC%95%BD%EC%9D%84-%EC%A7%80%EC%BC%9C%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>compareTo 의 규약을 지켜라</h4>
+
+<ul>
+  <li>비대칭적인 동작: a&gt;=b, b&gt;=a 라면 a == b</li>
+  <li>연속적 동작: a&gt;=b, b&gt;=c 이면 a&gt;=c</li>
+  <li>코넥스적 동작: a&gt;=b, b&gt;=a 이면 적어도 둘 중 하나는 true</li>
+  <li>자주 사용하는  여러 프로퍼티의 순서를 정해야 한다면</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kd">class</span> <span class="nc">User</span><span class="p">(</span><span class="kd">val</span> <span class="py">name</span><span class="p">:</span><span class="nc">String</span><span class="p">,</span> <span class="kd">val</span> <span class="py">surname</span><span class="p">:</span><span class="nc">String</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">companion</span> <span class="k">object</span> <span class="p">{</span>
+		<span class="kd">val</span> <span class="py">DISPLAY_ORDER</span> <span class="p">=</span> <span class="nf">compareBy</span><span class="p">(</span><span class="nc">User</span><span class="o">::</span><span class="n">usrname</span><span class="p">,</span> <span class="nc">User</span><span class="o">::</span><span class="n">name</span><span class="p">)</span>
+	<span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="kd">val</span> <span class="py">sorted</span> <span class="p">=</span> <span class="n">names</span><span class="p">.</span><span class="nf">sortedWith</span><span class="p">(</span><span class="nc">User</span><span class="p">.</span><span class="nc">DISPLAY_ORDER</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>compareTo 구현할 때
+    <ul>
+      <li>compareValues 를 이용 : 단순 비교 시</li>
+      <li>compareValuesBy 를 이용: 좀 더 복잡한 경우</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="api-의-필수적이지-않는-부분을-확장함수로-추출하라">
+<a class="anchor" href="#api-%EC%9D%98-%ED%95%84%EC%88%98%EC%A0%81%EC%9D%B4%EC%A7%80-%EC%95%8A%EB%8A%94-%EB%B6%80%EB%B6%84%EC%9D%84-%ED%99%95%EC%9E%A5%ED%95%A8%EC%88%98%EB%A1%9C-%EC%B6%94%EC%B6%9C%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>API 의 필수적이지 않는 부분을 확장함수로 추출하라.</h4>
+
+<ul>
+  <li>확장 함수는 오버라이드가 불가능하다.</li>
+  <li>확장 함수는 어노테이션 프로세서가 처리하지 않는다.</li>
+</ul>
+
+<h4 id="멤버-확장-함수의-사용을-피하라">
+<a class="anchor" href="#%EB%A9%A4%EB%B2%84-%ED%99%95%EC%9E%A5-%ED%95%A8%EC%88%98%EC%9D%98-%EC%82%AC%EC%9A%A9%EC%9D%84-%ED%94%BC%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>멤버 확장 함수의 사용을 피하라.</h4>
+
+<ul>
+  <li>확장함수를 클래스 내부에 사용하지 말라.  (가시성을 제한하지 못한다.)</li>
+  <li>맴버 확장함수는 레퍼런스를 지원하지 않는다. ex) str::isPhoneNumber</li>
+  <li>확장 함수는 혼란을 야기할 여지가 있어 가시성 한정자를 사용하는 것을 고려하자.</li>
+</ul>
+
+<h3 id="7장-비용-줄이기">
+<a class="anchor" href="#7%EC%9E%A5-%EB%B9%84%EC%9A%A9-%EC%A4%84%EC%9D%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>7장 비용 줄이기</h3>
+
+<h4 id="뷸필요한-객체-생성을-피하라">
+<a class="anchor" href="#%EB%B7%B8%ED%95%84%EC%9A%94%ED%95%9C-%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1%EC%9D%84-%ED%94%BC%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>뷸필요한 객체 생성을 피하라</h4>
+
+<ul>
+  <li>Int? 를 사용하면 Integer 로 컴파일 된다.  Int 는 - int</li>
+  <li>64bit 에서는 8 byte 의 배수만큼 공간을 차지</li>
+  <li>12 byte 헤더가 있어 최소 16 byte 를 차지한다.</li>
+  <li>64bit -Xmx 32G 부터는 8 Byte 레퍼런스 공간, 이전까지는 레퍼런스는 4 Byte</li>
+  <li>
+<a href="https://www.baeldung.com/java-memory-layout">Java Object Layout</a> 를 통해 class 의 메모리 layout 를 손쉽게 알 수 있다.
+    <ul>
+      <li>memory optimization 시에 재미 있게 사용할 수 있을 듯.</li>
+    </ul>
+  </li>
+  <li>Empty 클래스(특정 상태를 나타내는)를 생성하지 말고 재활용하자.</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">sealed</span> <span class="kd">class</span> <span class="nc">LinkedList</span><span class="p">&lt;</span><span class="k">out</span> <span class="nc">T</span><span class="p">&gt;</span>
+
+<span class="kd">object</span> <span class="nc">Empty</span> <span class="p">:</span> <span class="nc">LinkedList</span><span class="p">&lt;</span><span class="nc">Nothing</span><span class="p">&gt;</span>
+
+<span class="kd">class</span> <span class="nc">Node</span><span class="p">&lt;</span><span class="k">out</span> <span class="nc">T</span><span class="p">&gt;(</span>
+	<span class="kd">val</span> <span class="py">head</span> <span class="nc">T</span><span class="p">,</span>
+	<span class="n">va</span> <span class="n">tail</span> <span class="p">:</span> <span class="nc">LinkedList</span><span class="p">&lt;</span><span class="nc">T</span><span class="p">&gt;</span>
+<span class="p">)</span> <span class="p">:</span> <span class="nc">LinkedList</span><span class="p">&lt;</span><span class="nc">T</span><span class="p">&gt;</span>
+
+<span class="kd">val</span> <span class="py">list</span><span class="p">:</span> <span class="nc">LinkedList</span><span class="p">&lt;</span><span class="nc">Int</span><span class="p">&gt;</span> <span class="p">=</span> <span class="nc">Node</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nc">Node</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nc">Node</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="nc">Empty</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<ul>
+  <li>캐시 활용</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">private</span> <span class="kd">val</span> <span class="py">FIB_CACHE</span> <span class="p">=</span> <span class="nf">mutableMapOf</span><span class="p">(</span><span class="nc">Int</span><span class="p">,</span> <span class="nc">BigInteger</span><span class="p">)()</span> 
+
+<span class="k">fun</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nc">Int</span><span class="p">):</span> <span class="nc">BigInteger</span> <span class="p">=</span> <span class="nc">FIB_CACHE</span><span class="p">.</span><span class="nf">getOrPut</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="p">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="nc">BigInteger</span><span class="p">.</span><span class="nc">ONE</span> <span class="k">else</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n-1</span><span class="p">)</span> <span class="p">+</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n-2</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>캐시를 통해 처리할 때 메모리가 부담이 된다면</li>
+  <li>SoftReference 를 사용하자. (gc 에서 대상일 수도 아닐 수도 있다.)  <a href="https://github.com/Mauker1/CacheMap/blob/master/CacheMap.kt">예제 바로 가기</a>
+</li>
+  <li>무거운 객체 연산은 밖으로 빼자.
+    <ul>
+      <li>가장 많이 실수하는 부분이 Rex 연산을 매번 생성하는 행위 등</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">private</span> <span class="kd">val</span> <span class="py">IS_VALID_EMAIL_ADDRESS</span> <span class="k">by</span> <span class="nf">lazy</span> <span class="p">{</span>
+   <span class="s">"\\A..example"</span><span class="p">.</span><span class="nf">toRegex</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>성능이 중요하다면 가급적이면 기본 타입을 통해 연산하라.</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">fun</span> <span class="p">&lt;</span><span class="nc">T</span><span class="p">:</span> <span class="nc">Compareable</span><span class="p">&lt;</span><span class="nc">T</span><span class="p">&gt;&gt;</span> <span class="nf">Interable</span><span class="p">&lt;</span><span class="nc">T</span><span class="p">&gt;.</span><span class="nf">max</span><span class="p">():</span> <span class="nc">T</span><span class="p">?</span> <span class="p">{</span>
+	<span class="kd">val</span> <span class="py">iterator</span> <span class="p">=</span> <span class="nf">iterator</span><span class="p">()</span>
+	<span class="k">if</span> <span class="p">(!</span><span class="n">iterator</span><span class="p">.</span><span class="nf">hasNext</span><span class="p">())</span> <span class="k">return</span> <span class="k">null</span><span class="p">.</span> <span class="c1">// 빠른 리턴, 엘비스 연산자를 지양하고 이렇게 처리</span>
+	<span class="kd">val</span> <span class="py">max</span> <span class="p">=</span> <span class="n">iterator</span><span class="p">.</span><span class="nf">next</span><span class="p">()</span>
+	<span class="k">while</span><span class="p">(</span><span class="n">iterator</span><span class="p">.</span><span class="n">hasNext</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kd">val</span> <span class="py">e</span> <span class="p">=</span> <span class="n">iterator</span><span class="p">.</span><span class="nf">next</span><span class="p">()</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">max</span> <span class="p">&lt;</span> <span class="n">e</span><span class="p">)</span> <span class="n">max</span> <span class="p">=</span> <span class="n">e</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">max</span>
+	
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<h4 id="함수-타입-파라미터를-갖는-함수에-inline--한정자를-붙여라">
+<a class="anchor" href="#%ED%95%A8%EC%88%98-%ED%83%80%EC%9E%85-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A5%BC-%EA%B0%96%EB%8A%94-%ED%95%A8%EC%88%98%EC%97%90-inline--%ED%95%9C%EC%A0%95%EC%9E%90%EB%A5%BC-%EB%B6%99%EC%97%AC%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>함수 타입 파라미터를 갖는 함수에 inline  한정자를 붙여라</h4>
+
+<ul>
+  <li>reified 한정자를 붙여서 사용할 수 있다.</li>
+  <li>훨씬 빠르다.</li>
+  <li>비지역 리턴을 사용할 수 있다.</li>
+  <li>간단한 함수에는 inline 이 붙어 있다.
+    <ul>
+      <li>함수를 호출하는 비용</li>
+      <li>argument 를 래핑해서 사용해야 하는 비용</li>
+    </ul>
+  </li>
+  <li>단점
+    <ul>
+      <li>재귀에서 사용하지 못한다.</li>
+      <li>코드의 크기가 늘어날 수 있다.</li>
+    </ul>
+  </li>
+  <li>intellij 가 알아서 아래의 상황을 추천해준다.
+    <ul>
+      <li>crossinline: 비지역적 리턴 불가</li>
+      <li>noinline : 인라인 불가</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="인라인-클래스의-사용을-고려하라">
+<a class="anchor" href="#%EC%9D%B8%EB%9D%BC%EC%9D%B8-%ED%81%B4%EB%9E%98%EC%8A%A4%EC%9D%98-%EC%82%AC%EC%9A%A9%EC%9D%84-%EA%B3%A0%EB%A0%A4%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>인라인 클래스의 사용을 고려하라.</h4>
+
+<ul>
+  <li>compile 시점에 대체되어 오버헤드가 없다.</li>
+  <li>inline class 의 함수는 static 으로 컴파일 된다.</li>
+  <li>타입을 강제할 때, 타입을 통해 가독성을 높일 때</li>
+  <li>interface 를 구현하는 inline class 는 소용이 없다.</li>
+  <li>typealias 는 반복적으로 사용해아 하는 함수타입일 때 유용하다.</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">inline</span> <span class="kd">class</span> <span class="nc">Minutes</span><span class="p">(</span><span class="kd">val</span> <span class="py">minutes</span><span class="p">:</span> <span class="nc">Int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">fun</span> <span class="nf">toMillis</span><span class="p">():</span> <span class="nc">Millis</span> <span class="p">=</span> <span class="nc">Millis</span><span class="p">(</span><span class="n">minutes</span> <span class="p">*</span> <span class="mi">60</span> <span class="p">*</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">inline</span> <span class="kd">class</span> <span class="nc">Millis</span><span class="p">(</span><span class="kd">val</span> <span class="py">milliseconds</span><span class="p">)</span> <span class="p">{</span>
+
+<span class="p">}</span>
+
+<span class="kd">interface</span> <span class="nc">User</span> <span class="p">{</span>
+	<span class="k">fun</span> <span class="nf">decideAboutTime</span><span class="p">():</span> <span class="nc">Minutes</span>
+<span class="p">}</span>
+
+<span class="kd">val</span> <span class="py">Int</span><span class="p">.</span><span class="n">min</span> <span class="k">get</span><span class="p">()</span> <span class="p">=</span> <span class="nc">Minutes</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
+
+<span class="k">typealias</span> <span class="nc">ClickLinstener</span> <span class="p">=</span> <span class="p">(</span><span class="n">view</span><span class="p">:</span> <span class="nc">View</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span><span class="nc">Event</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nc">Unit</span>
+
+<span class="kd">class</span> <span class="nc">View</span> <span class="p">{</span>
+	<span class="k">fun</span> <span class="nf">addClickListener</span><span class="p">(</span><span class="n">listener</span><span class="p">:</span> <span class="nc">ClickListener</span><span class="p">)</span> <span class="p">{}</span>
+	<span class="k">fun</span> <span class="nf">removeClickListener</span><span class="p">(</span><span class="n">listener</span><span class="p">:</span> <span class="nc">ClickListener</span><span class="p">)</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="c1">// typealias 는 안전하지 않다. </span>
+<span class="k">typealias</span> <span class="nc">Seconds</span> <span class="p">=</span> <span class="nc">Int</span>
+<span class="k">typealias</span> <span class="nc">Millis</span> <span class="p">=</span> <span class="nc">Int</span>
+
+<span class="kd">val</span> <span class="py">seconds</span><span class="p">:</span> <span class="nc">Seconds</span> <span class="p">=</span> <span class="mi">10</span>
+<span class="kd">val</span> <span class="py">millis</span><span class="p">:</span> <span class="nc">Millis</span> <span class="p">=</span> <span class="n">seconds</span> <span class="c1">// 컴파일 오류가 나지 않는다. </span>
+
+</code></pre></div></div>
+
+<h4 id="더-이상-사용하지-않는-객체의-레퍼런스를-제거하라">
+<a class="anchor" href="#%EB%8D%94-%EC%9D%B4%EC%83%81-%EC%82%AC%EC%9A%A9%ED%95%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EA%B0%9D%EC%B2%B4%EC%9D%98-%EB%A0%88%ED%8D%BC%EB%9F%B0%EC%8A%A4%EB%A5%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>더 이상 사용하지 않는 객체의 레퍼런스를 제거하라.</h4>
+
+<ul>
+  <li>lazy 시에 initializer 함수 타입을 사용 후에 null로 사용한다.</li>
+  <li>SoftReference 를 사용한다.</li>
+  <li>WeakReference 를 사용한다.</li>
+  <li>힙 프로파일러를 사용하자.</li>
+  <li>톱레벨 프로퍼티나 companion object 에는 용량이 큰 변수를 사용하지 않는다.</li>
+</ul>
+
+<h3 id="8장-효율적인-컬렉션-처리">
+<a class="anchor" href="#8%EC%9E%A5-%ED%9A%A8%EC%9C%A8%EC%A0%81%EC%9D%B8-%EC%BB%AC%EB%A0%89%EC%85%98-%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>8장 효율적인 컬렉션 처리</h3>
+
+<h4 id="하나-이상의-처리-단계를-가지는-경우에는-시퀀스를-사용하라">
+<a class="anchor" href="#%ED%95%98%EB%82%98-%EC%9D%B4%EC%83%81%EC%9D%98-%EC%B2%98%EB%A6%AC-%EB%8B%A8%EA%B3%84%EB%A5%BC-%EA%B0%80%EC%A7%80%EB%8A%94-%EA%B2%BD%EC%9A%B0%EC%97%90%EB%8A%94-%EC%8B%9C%ED%80%80%EC%8A%A4%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>하나 이상의 처리 단계를 가지는 경우에는 시퀀스를 사용하라</h4>
+
+<ul>
+  <li>자연스러운 처리순서를 유지한다.</li>
+  <li>최소한의 연산</li>
+  <li>무한 시퀀스 형태로 사용할 수 있다.</li>
+  <li>각각의 단계에서 컬렉션을 만들어 내지 않는다.</li>
+  <li>iterator 는 eager order, sequence 는 lazy order</li>
+</ul>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">val</span> <span class="py">fibonacci</span> <span class="p">=</span> <span class="nf">sequence</span> <span class="p">{</span>
+	<span class="k">yield</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="kd">var</span> <span class="py">current</span> <span class="p">=</span> <span class="mi">1</span>
+	<span class="kd">var</span> <span class="py">prev</span> <span class="p">=</span> <span class="mi">1</span>
+	<span class="k">while</span><span class="p">(</span><span class="k">true</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">yield</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
+		<span class="kd">val</span> <span class="py">temp</span> <span class="p">=</span> <span class="n">prev</span>
+		<span class="n">prev</span> <span class="p">=</span> <span class="n">current</span>
+		<span class="n">current</span> <span class="p">+=</span> <span class="n">temp</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">fibonacci</span><span class="p">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">10</span><span class="p">).</span><span class="nf">toList</span><span class="p">()</span>
+</code></pre></div></div>
+
+<ul>
+  <li>무한 시퀀스는 무한루프에 빠지는 경우가 많으니, take 와 first 정도의 용도로만 사용하자.</li>
+  <li>무한시퀀스에서는 sorted 를 조심히 사용해야 한다.</li>
+  <li>자바 스트림과의 차이점
+    <ul>
+      <li>자바스트림은 병렬 처리가 가능하다.</li>
+      <li>코틀린이 확장함수가 많아 사용하기 편하다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="컬렉션-처리-단계-수를-제한하라">
+<a class="anchor" href="#%EC%BB%AC%EB%A0%89%EC%85%98-%EC%B2%98%EB%A6%AC-%EB%8B%A8%EA%B3%84-%EC%88%98%EB%A5%BC-%EC%A0%9C%ED%95%9C%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>컬렉션 처리 단계 수를 제한하라.</h4>
+
+<p>list 는 기본적으로 중간연산마다 객체를 새롭게 생성하기 때문에 단계를 줄이는 것이 효율적이다.
+가급적이면 sequence 를 사용하자.</p>
+
+<ul>
+  <li>filterNotNull,</li>
+  <li>mapNotNull,</li>
+  <li>filter { a &amp;&amp; b},</li>
+  <li>filterIsInstance</li>
+</ul>
+
+<h4 id="성능이-중요한-부분에는-기본-자료형을-사용하라">
+<a class="anchor" href="#%EC%84%B1%EB%8A%A5%EC%9D%B4-%EC%A4%91%EC%9A%94%ED%95%9C-%EB%B6%80%EB%B6%84%EC%97%90%EB%8A%94-%EA%B8%B0%EB%B3%B8-%EC%9E%90%EB%A3%8C%ED%98%95%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>성능이 중요한 부분에는 기본 자료형을 사용하라.</h4>
+
+<ul>
+  <li>1,000,000 인 정수 일때 약 5배 차이가 난다.
+    <ul>
+      <li>header 12바이트, lenth 4byte 로 16바이트 추가</li>
+      <li>IntArray 는 4,000,016 바이트</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">List&lt;Int&gt;</code> 는 2,0,006,944 바이트
+```kotlin</li>
+    </ul>
+  </li>
+</ul>
+
+<p>import jdk.nashorn.internal.ir.debug.ObjectSizeCalculator</p>
+
+<p>fun main() {
+    val ints = List(1_000_000) { it }
+    val array: Array<int> = ints.toTypedArray()
+    val intArray: IntArray = ints.toIntArray()
+    println(getObjectSize(ints))     // 20 000 040
+    println(getObjectSize(array))    // 20 000 016
+    println(getObjectSize(intArray)) //  4 000 016</int></p>
+
+<p>```</p>
+
+<h4 id="mutable-컬렉션-사용을-고려하라">
+<a class="anchor" href="#mutable-%EC%BB%AC%EB%A0%89%EC%85%98-%EC%82%AC%EC%9A%A9%EC%9D%84-%EA%B3%A0%EB%A0%A4%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>mutable 컬렉션 사용을 고려하라.</h4>
+
+<ul>
+  <li>immutable 은 모든 연산에서 새로운 객체를 생성한다.</li>
+  <li>지역변수는 mutable 을 고려하자.</li>
+</ul>
+
+    </content>
+
+    <side style="font-size: 0.9em">
+      <h3 style="margin-bottom: 1em">Notes mentioning this note</h3>
+      
+
+      <div style="font-size: 0.9em">
+        <p>
+          There are no notes linking to this note.
+        </p>
+      </div>
+      
+    </side>
+  </div>
+</article>
+
+<hr>
+
+<p>Here are all the notes in this garden, along with their links, visualized as a graph.</p>
+
+<style>
+  .links line {
+    stroke: #ccc;
+    opacity: 0.5;
+  }
+
+  .nodes circle {
+    cursor: pointer;
+    fill: #8b88e6;
+    transition: all 0.15s ease-out;
+  }
+
+  .text text {
+    cursor: pointer;
+    fill: #333;
+    text-shadow: -1px -1px 0 #fafafabb, 1px -1px 0 #fafafabb, -1px 1px 0 #fafafabb, 1px 1px 0 #fafafabb;
+  }
+
+  .nodes [active],
+  .text [active] {
+    cursor: pointer;
+    fill: black;
+  }
+
+  .inactive {
+    opacity: 0.1;
+    transition: all 0.15s ease-out;
+  }
+
+  #graph-wrapper {
+    background: #fcfcfc;
+    border-radius: 4px;
+    height: auto;
+  }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"
+  integrity="sha512-FHsFVKQ/T1KWJDGSbrUhTJyS1ph3eRrxI228ND0EGaEp6v4a/vGwPWd3Dtd/+9cI7ccofZvl/wulICEurHN1pg=="
+  crossorigin="anonymous"></script>
+
+<div id="graph-wrapper">
+  <script>
+    const MINIMAL_NODE_SIZE = 8;
+    const MAX_NODE_SIZE = 12;
+    const ACTIVE_RADIUS_FACTOR = 1.5;
+    const STROKE = 1;
+    const FONT_SIZE = 16;
+    const TICKS = 200;
+    const FONT_BASELINE = 40;
+    const MAX_LABEL_LENGTH = 50;
+
+    const graphData = {"edges":[{"source":"1105250","target":"0"},{"source":"1783189036595305315139779527442417148144190962786599794647","target":"36485673071"},{"source":"1173349929","target":"1173349929"},{"source":"0","target":"1105250"}],"nodes":[{"id":"0","path":"/%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A4%91%EC%8B%AC-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EC%84%A4%EA%B3%84","label":"데이터 중심 애플리케이션 설계"},{"id":"0","path":"/%EC%A0%9C%ED%85%94%EC%B9%B4%EC%8A%A4%ED%85%90","label":"제텔카스텐"},{"id":"0","path":"/%ED%98%84%EB%AA%85%ED%95%9C-%ED%88%AC%EC%9E%90%EC%9E%90","label":"현명한 투자자"},{"id":"1783189036595305315139779527442417148144190962786599794647","path":"/gremlin-applicatoin-attack","label":"Gremlin Application Layer Fault Injection"},{"id":"36485673071","path":"/gremlin","label":"Gremlin 관련"},{"id":"2356180470493017000564695","path":"/anomaly-detection","label":"Anomaly detection"},{"id":"132794565206938727014822709","path":"/google-spreadsheet","label":"Google spreadsheet"},{"id":"1173349929","path":"/jekyll","label":"Jekyll"},{"id":"1105250","path":"/note","label":"Note"},{"id":"8345289848942075317846035406687072346852","path":"/springboot-health-check","label":"About SpringBootHealth Check"}]}
+
+    let nodesData = graphData.nodes;
+    let linksData = graphData.edges;
+
+    const nodeSize = {};
+
+    const updateNodeSize = () => {
+      nodesData.forEach((el) => {
+        let weight =
+          3 *
+          Math.sqrt(
+            linksData.filter((l) => l.source === el.id || l.target === el.id)
+              .length + 1
+          );
+        if (weight < MINIMAL_NODE_SIZE) {
+          weight = MINIMAL_NODE_SIZE;
+        } else if (weight > MAX_NODE_SIZE) {
+          weight = MAX_NODE_SIZE;
+        }
+        nodeSize[el.id] = weight;
+      });
+    };
+
+    const onClick = (d) => {
+      window.location = d.path
+    };
+
+    const onMouseover = function (d) {
+      const relatedNodesSet = new Set();
+      linksData
+        .filter((n) => n.target.id == d.id || n.source.id == d.id)
+        .forEach((n) => {
+          relatedNodesSet.add(n.target.id);
+          relatedNodesSet.add(n.source.id);
+        });
+
+      node.attr("class", (node_d) => {
+        if (node_d.id !== d.id && !relatedNodesSet.has(node_d.id)) {
+          return "inactive";
+        }
+        return "";
+      });
+
+      link.attr("class", (link_d) => {
+        if (link_d.source.id !== d.id && link_d.target.id !== d.id) {
+          return "inactive";
+        }
+        return "";
+      });
+
+      link.attr("stroke-width", (link_d) => {
+        if (link_d.source.id === d.id || link_d.target.id === d.id) {
+          return STROKE * 4;
+        }
+        return STROKE;
+      });
+      text.attr("class", (text_d) => {
+        if (text_d.id !== d.id && !relatedNodesSet.has(text_d.id)) {
+          return "inactive";
+        }
+        return "";
+      });
+    };
+
+    const onMouseout = function (d) {
+      node.attr("class", "");
+      link.attr("class", "");
+      text.attr("class", "");
+      link.attr("stroke-width", STROKE);
+    };
+
+    const sameNodes = (previous, next) => {
+      if (next.length !== previous.length) {
+        return false;
+      }
+
+      const map = new Map();
+      for (const node of previous) {
+        map.set(node.id, node.label);
+      }
+
+      for (const node of next) {
+        const found = map.get(node.id);
+        if (!found || found !== node.title) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    const sameEdges = (previous, next) => {
+      if (next.length !== previous.length) {
+        return false;
+      }
+
+      const set = new Set();
+      for (const edge of previous) {
+        set.add(`${edge.source.id}-${edge.target.id}`);
+      }
+
+      for (const edge of next) {
+        if (!set.has(`${edge.source}-${edge.target}`)) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    const graphWrapper = document.getElementById('graph-wrapper')
+    const element = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    element.setAttribute("width", graphWrapper.getBoundingClientRect().width);
+    element.setAttribute("height", window.innerHeight * 0.8);
+    graphWrapper.appendChild(element);
+
+    const reportWindowSize = () => {
+      element.setAttribute("width", window.innerWidth);
+      element.setAttribute("height", window.innerHeight);
+    };
+
+    window.onresize = reportWindowSize;
+
+    const svg = d3.select("svg");
+    const width = Number(svg.attr("width"));
+    const height = Number(svg.attr("height"));
+    let zoomLevel = 1;
+
+    const simulation = d3
+      .forceSimulation(nodesData)
+      .force("forceX", d3.forceX().x(width / 2))
+      .force("forceY", d3.forceY().y(height / 2))
+      .force("charge", d3.forceManyBody())
+      .force(
+        "link",
+        d3
+          .forceLink(linksData)
+          .id((d) => d.id)
+          .distance(70)
+      )
+      .force("center", d3.forceCenter(width / 2, height / 2))
+      .force("collision", d3.forceCollide().radius(80))
+      .stop();
+
+    const g = svg.append("g");
+    let link = g.append("g").attr("class", "links").selectAll(".link");
+    let node = g.append("g").attr("class", "nodes").selectAll(".node");
+    let text = g.append("g").attr("class", "text").selectAll(".text");
+
+    const resize = () => {
+      if (d3.event) {
+        const scale = d3.event.transform;
+        zoomLevel = scale.k;
+        g.attr("transform", scale);
+      }
+
+      const zoomOrKeep = (value) => (zoomLevel >= 1 ? value / zoomLevel : value);
+
+      const font = Math.max(Math.round(zoomOrKeep(FONT_SIZE)), 1);
+
+      text.attr("font-size", (d) => font);
+      text.attr("y", (d) => d.y - zoomOrKeep(FONT_BASELINE) + 8);
+      link.attr("stroke-width", zoomOrKeep(STROKE));
+      node.attr("r", (d) => {
+        return zoomOrKeep(nodeSize[d.id]);
+      });
+      svg
+        .selectAll("circle")
+        .filter((_d, i, nodes) => d3.select(nodes[i]).attr("active"))
+        .attr("r", (d) => zoomOrKeep(ACTIVE_RADIUS_FACTOR * nodeSize[d.id]));
+    };
+
+    const ticked = () => {
+      node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+      text
+        .attr("x", (d) => d.x)
+        .attr("y", (d) => d.y - (FONT_BASELINE - nodeSize[d.id]) / zoomLevel);
+      link
+        .attr("x1", (d) => d.source.x)
+        .attr("y1", (d) => d.source.y)
+        .attr("x2", (d) => d.target.x)
+        .attr("y2", (d) => d.target.y);
+    };
+
+    const restart = () => {
+      updateNodeSize();
+      node = node.data(nodesData, (d) => d.id);
+      node.exit().remove();
+      node = node
+        .enter()
+        .append("circle")
+        .attr("r", (d) => {
+          return nodeSize[d.id];
+        })
+        .on("click", onClick)
+        .on("mouseover", onMouseover)
+        .on("mouseout", onMouseout)
+        .merge(node);
+
+      link = link.data(linksData, (d) => `${d.source.id}-${d.target.id}`);
+      link.exit().remove();
+      link = link.enter().append("line").attr("stroke-width", STROKE).merge(link);
+
+      text = text.data(nodesData, (d) => d.label);
+      text.exit().remove();
+      text = text
+        .enter()
+        .append("text")
+        .text((d) => shorten(d.label.replace(/_*/g, ""), MAX_LABEL_LENGTH))
+        .attr("font-size", `${FONT_SIZE}px`)
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "central")
+        .on("click", onClick)
+        .on("mouseover", onMouseover)
+        .on("mouseout", onMouseout)
+        .merge(text);
+
+      node.attr("active", (d) => isCurrentPath(d.path) ? true : null);
+      text.attr("active", (d) => isCurrentPath(d.path) ? true : null);
+
+      simulation.nodes(nodesData);
+      simulation.force("link").links(linksData);
+      simulation.alpha(1).restart();
+      simulation.stop();
+
+      for (let i = 0; i < TICKS; i++) {
+        simulation.tick();
+      }
+
+      ticked();
+    };
+
+    const zoomHandler = d3.zoom().scaleExtent([0.2, 3]).on("zoom", resize);
+
+    zoomHandler(svg);
+    restart();
+
+    function isCurrentPath(notePath) {
+      return window.location.pathname.includes(notePath)
+    }
+
+    function shorten(str, maxLen, separator = ' ') {
+      if (str.length <= maxLen) return str;
+      return str.substr(0, str.lastIndexOf(separator, maxLen)) + '...';
+    }
+  </script>
+</div>
+
+</main>
+      <footer>This is the footer. Include anything you'd like here, like a link to an <a class="internal-link" href="/about">About</a> page.
+</footer>
+    </div>
+
+    <!-- That file is not particularly elegant. This will need a refactor at some point. -->
+<style>
+  content a.internal-link {
+    border-color: #8b88e6;
+    background-color: #efefff;
+  }
+
+  #tooltip-wrapper {
+    background: white;
+    padding: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    position: absolute;
+    width: 400px;
+    height: 250px;
+    font-size: 0.8em;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    opacity: 0;
+    transition: opacity 100ms;
+  }
+
+  #tooltip-wrapper:after {
+		content: "";
+		position: absolute;
+		z-index: 1;
+		bottom: 0;
+		left: 0;
+		pointer-events: none;
+		background-image: linear-gradient(to bottom, rgba(255,255,255, 0), rgba(255,255,255, 1) 90%);
+		width: 100%;
+		height: 75px;
+  }
+</style>
+
+<div style="opacity: 0; display: none;" id='tooltip-wrapper'>
+  <div id='tooltip-content'>
+  </div>
+</div>
+
+<iframe style="display: none; height: 0; width: 0;" id='link-preview-iframe' src="">
+</iframe>
+
+<script>
+  var opacityTimeout;
+  var contentTimeout;
+  var transitionDurationMs = 100;
+
+  var iframe = document.getElementById('link-preview-iframe')
+  var tooltipWrapper = document.getElementById('tooltip-wrapper')
+  var tooltipContent = document.getElementById('tooltip-content')
+
+  function hideTooltip() {
+    opacityTimeout = setTimeout(function() {
+      tooltipWrapper.style.opacity = 0;
+      contentTimeout = setTimeout(function() {
+        tooltipContent.innerHTML = '';
+        tooltipWrapper.style.display = 'none';
+      }, transitionDurationMs + 1);
+    }, transitionDurationMs)
+  }
+
+  function showTooltip(event) {
+    var elem = event.target;
+    var elem_props = elem.getClientRects()[elem.getClientRects().length - 1];
+    var top = window.pageYOffset || document.documentElement.scrollTop
+
+    if (event.target.host === window.location.host) {
+      iframe.src = event.target.href
+      iframe.onload = function() {
+        tooltipContentHtml = ''
+        tooltipContentHtml += '<div style="font-weight: bold;">' + iframe.contentWindow.document.querySelector('h1').innerHTML + '</div>'
+        tooltipContentHtml += iframe.contentWindow.document.querySelector('content').innerHTML
+
+        tooltipContent.innerHTML = tooltipContentHtml
+
+        tooltipWrapper.style.display = 'block';
+        setTimeout(function() {
+          tooltipWrapper.style.opacity = 1;
+        }, 1)
+      }
+
+      tooltipWrapper.style.left = elem_props.left - (tooltipWrapper.offsetWidth / 2) + (elem_props.width / 2) + "px";
+      if ((window.innerHeight - elem_props.top) < (tooltipWrapper.offsetHeight)) {
+          tooltipWrapper.style.top = elem_props.top + top - tooltipWrapper.offsetHeight - 10 + "px";
+      } else if ((window.innerHeight - elem_props.top) > (tooltipWrapper.offsetHeight)) {
+          tooltipWrapper.style.top = elem_props.top + top + 35 + "px";
+      }
+
+      if ((elem_props.left + (elem_props.width / 2)) < (tooltipWrapper.offsetWidth / 2)) {
+          tooltipWrapper.style.left = "10px";
+      } else if ((document.body.clientWidth - elem_props.left - (elem_props.width / 2)) < (tooltipWrapper.offsetWidth / 2)) {
+          tooltipWrapper.style.left = document.body.clientWidth - tooltipWrapper.offsetWidth - 20 + "px";
+      }
+    }
+  }
+
+  function setupListeners(linkElement) {
+    linkElement.addEventListener('mouseleave', function(_event) {
+      hideTooltip();
+    });
+
+    tooltipWrapper.addEventListener('mouseleave', function(_event) {
+      hideTooltip();
+    });
+
+    linkElement.addEventListener('mouseenter', function(event) {
+      clearTimeout(opacityTimeout);
+      clearTimeout(contentTimeout);
+      showTooltip(event);
+    });
+
+    tooltipWrapper.addEventListener('mouseenter', function(event) {
+      clearTimeout(opacityTimeout);
+      clearTimeout(contentTimeout);
+    });
+  }
+
+  document.querySelectorAll('content a').forEach(setupListeners);
+</script>
+
+  </body>
+</html>

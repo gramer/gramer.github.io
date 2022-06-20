@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+
+  <link rel="canonical" href="gramer.github.io/2021-line-deverloper-day-1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="Line Deverloper Day 2021 바로가기">
+
+  <meta property="og:site_name" content="Zeno's digital garden">
+
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+
+  <link rel="stylesheet" href="/styles.css">
+
+  
+  <meta property="og:description" content="Line Deverloper Day 2021 바로가기"/>
+  
+
+  
+  <meta property="og:title" content="2021 Line Developer Day">
+  <meta property="og:type" content="article">
+  
+
+  
+  <meta property="article:published_time" content="2022-06-20T00:27:13+00:00">
+  <meta property="article:author" content="gramer.github.io/">
+  
+
+  <meta property="og:url" content="gramer.github.io/2021-line-deverloper-day-1" />
+
+  
+
+  <title>
+    
+      2021 Line Developer Day &mdash; Zeno's digital garden
+    
+  </title>
+</head>
+
+  <body>
+    <nav><div>
+    <a class="internal-link" href="/"><b>Zeno's digital garden</b></a>
+</div>
+</nav>
+    <div class="wrapper">
+      <main><article>
+  <div>
+    <h1>2021 Line Developer Day</h1>
+    <time datetime="2022-06-20T00:26:21+00:00">
+      Last updated on June 20, 2022
+      
+    </time>
+  </div>
+
+  <div id="notes-entry-container">
+    <content>
+      <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1"><a href="#idea">Idea</a></li>
+<li class="toc-entry toc-h1"><a href="#opening-keynote">Opening Keynote</a></li>
+<li class="toc-entry toc-h1"><a href="#사용자-속성-추정-시스템을-개편하면서-발생한-다양한-이슈와-해결-사례-소개">사용자 속성 추정 시스템을 개편하면서 발생한 다양한 이슈와 해결 사례 소개</a></li>
+<li class="toc-entry toc-h1"><a href="#lupus--mlops-가속화를-위한-모니터링-시스템">Lupus – MLOps 가속화를 위한 모니터링 시스템</a></li>
+<li class="toc-entry toc-h1"><a href="#lint-http2와-tls를-통한-네트워크-현대화">LINT: HTTP/2와 TLS를 통한 네트워크 현대화</a></li>
+<li class="toc-entry toc-h1"><a href="#ksetl로-kafka-스트림-etl-시스템을-빠르게-구성하기">KSETL로 Kafka 스트림 ETL 시스템을 빠르게 구성하기</a></li>
+<li class="toc-entry toc-h1"><a href="#line-플랫폼-서버의-장애-대응-프로세스와-문화">LINE 플랫폼 서버의 장애 대응 프로세스와 문화</a></li>
+<li class="toc-entry toc-h1"><a href="#tcp로-인한-대규모-kafka-클러스터-요청-지연-문제-해결-사례">TCP로 인한 대규모 Kafka 클러스터 요청 지연 문제 해결 사례</a></li>
+<li class="toc-entry toc-h1"><a href="#pipe-더-나은-개발자-경험을-위한-cicd--runtime">PIPE: 더 나은 개발자 경험을 위한 CI/CD + Runtime</a></li>
+<li class="toc-entry toc-h1"><a href="#zero-downtime-kubernetes-cluster-upgrade-solution">Zero-Downtime Kubernetes Cluster Upgrade Solution</a></li>
+<li class="toc-entry toc-h1"><a href="#line-pay-모니터링-시스템-구축과-ml을-이용한-비정상-로그-탐지">LINE Pay 모니터링 시스템 구축과 ML을 이용한 비정상 로그 탐지</a></li>
+<li class="toc-entry toc-h1"><a href="#멀티-테넌트-k8s-클러스터로-구축하는-신뢰할-수-있는-로그-수집-인프라">멀티 테넌트 k8s 클러스터로 구축하는 신뢰할 수 있는 로그 수집 인프라</a></li>
+</ul><p><a href="https://linedevday.linecorp.com/2021/ko/live/track1">Line Deverloper Day 2021 바로가기</a></p>
+
+<p><strong>Table of Contents</strong></p>
+
+<ul>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>[[#Idea</td>
+          <td>Idea]]</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>[[#Opening Keynote</td>
+          <td>Opening Keynote]]</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>[[#사용자 속성 추정 시스템을 개편하면서 발생한 다양한 이슈와 해결 사례 소개</td>
+          <td>사용자 속성 추정 시스템을 개편하면서 발생한 다양한 이슈와 해결 사례 소개]]</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>[[#Lupus – MLOps 가속화를 위한 모니터링 시스템</td>
+          <td>Lupus – MLOps 가속화를 위한 모니터링 시스템]]</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>[[#LINT: HTTP/2와 TLS를 통한 네트워크 현대화</td>
+          <td>LINT: HTTP/2와 TLS를 통한 네트워크 현대화]]</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>[[#KSETL로 Kafka 스트림 ETL 시스템을 빠르게 구성하기</td>
+          <td>KSETL로 Kafka 스트림 ETL 시스템을 빠르게 구성하기]]</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>[[#LINE 플랫폼 서버의 장애 대응 프로세스와 문화</td>
+          <td>LINE 플랫폼 서버의 장애 대응 프로세스와 문화]]</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>[[#TCP로 인한 대규모 Kafka 클러스터 요청 지연 문제 해결 사례</td>
+          <td>TCP로 인한 대규모 Kafka 클러스터 요청 지연 문제 해결 사례]]</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>[[#PIPE: 더 나은 개발자 경험을 위한 CI/CD + Runtime</td>
+          <td>PIPE: 더 나은 개발자 경험을 위한 CI/CD + Runtime]]</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>[[#Zero-Downtime Kubernetes Cluster Upgrade Solution</td>
+          <td>Zero-Downtime Kubernetes Cluster Upgrade Solution]]</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>[[#LINE Pay 모니터링 시스템 구축과 ML을 이용한 비정상 로그 탐지</td>
+          <td>LINE Pay 모니터링 시스템 구축과 ML을 이용한 비정상 로그 탐지]]</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>[[#멀티 테넌트 k8s 클러스터로 구축하는 신뢰할 수 있는 로그 수집 인프라</td>
+          <td>멀티 테넌트 k8s 클러스터로 구축하는 신뢰할 수 있는 로그 수집 인프라]]</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+
+<h1 id="idea">
+<a class="anchor" href="#idea" aria-hidden="true"><span class="octicon octicon-link"></span></a>Idea</h1>
+
+<ul>
+  <li>Grafana alert 을 사용하는 것에 있어 alert manager 를 통해 alert system 의 fail 를 처리할까?</li>
+  <li>node-problem-detecter</li>
+  <li>nodex exporter 를 통해서 syn flooding 을 확인 가능</li>
+  <li>장애 프로세스에서 메일을 통한 공유</li>
+  <li>간단한 ML 을 적용해보자.</li>
+</ul>
+
+<h1 id="opening-keynote">
+<a class="anchor" href="#opening-keynote" aria-hidden="true"><span class="octicon octicon-link"></span></a>Opening Keynote</h1>
+
+<ul>
+  <li>400k Req/Sec</li>
+  <li>Link 72 Billion</li>
+  <li>Channel 2.48 Million</li>
+</ul>
+
+<p>tata
+성우를 쓴다.</p>
+
+<ul>
+  <li>하이퍼 클로바
+    <ul>
+      <li>700 petaflops</li>
+      <li>일본어 한국어 모델 구축중</li>
+      <li>34B -&gt; 89B -&gt; 204B 모델 구축 진행중</li>
+      <li>요약, 문서생성, 대화</li>
+      <li>STT -&gt; 하이파클로바 –&gt; TTS</li>
+      <li>이미지, 음성신호 멀티 모델</li>
+    </ul>
+  </li>
+  <li>블록체인
+    <ul>
+      <li>NFT market 기반 월렛</li>
+      <li>대규모 에너지 소비 (GPU) - 합의에 따른</li>
+      <li>트랜잭션 비용</li>
+      <li>비잔틴 장군? 합의 알고리즘</li>
+      <li>스마트 계약, 이더리움 브릿지</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="사용자-속성-추정-시스템을-개편하면서-발생한-다양한-이슈와-해결-사례-소개">
+<a class="anchor" href="#%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%86%8D%EC%84%B1-%EC%B6%94%EC%A0%95-%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%9D%84-%EA%B0%9C%ED%8E%B8%ED%95%98%EB%A9%B4%EC%84%9C-%EB%B0%9C%EC%83%9D%ED%95%9C-%EB%8B%A4%EC%96%91%ED%95%9C-%EC%9D%B4%EC%8A%88%EC%99%80-%ED%95%B4%EA%B2%B0-%EC%82%AC%EB%A1%80-%EC%86%8C%EA%B0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>사용자 속성 추정 시스템을 개편하면서 발생한 다양한 이슈와 해결 사례 소개</h1>
+
+<p><a href="https://linedevday.linecorp.com/2021/ko/live/track4">바로가기</a></p>
+
+<p>용어 괜찮네 - System revamping</p>
+
+<h1 id="lupus--mlops-가속화를-위한-모니터링-시스템">
+<a class="anchor" href="#lupus--mlops-%EA%B0%80%EC%86%8D%ED%99%94%EB%A5%BC-%EC%9C%84%ED%95%9C-%EB%AA%A8%EB%8B%88%ED%84%B0%EB%A7%81-%EC%8B%9C%EC%8A%A4%ED%85%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lupus – MLOps 가속화를 위한 모니터링 시스템</h1>
+
+<p>MLOps 란?
+![[What_mlops.png]]</p>
+
+<h1 id="lint-http2와-tls를-통한-네트워크-현대화">
+<a class="anchor" href="#lint-http2%EC%99%80-tls%EB%A5%BC-%ED%86%B5%ED%95%9C-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-%ED%98%84%EB%8C%80%ED%99%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>LINT: HTTP/2와 TLS를 통한 네트워크 현대화</h1>
+
+<ul>
+  <li><a href="https://speakerdeck.com/line_devday2021/2-and-tls">발표자료 바로가기</a></li>
+  <li>Legy Protocol, Legy Encryption Applied
+    <ul>
+      <li>SPDY Outdated</li>
+      <li>단점 : 자체 프로토콜, 디버깅이 어려웠다.</li>
+    </ul>
+  </li>
+  <li>Line Improvement for Next Ten years
+    <ul>
+      <li>Migration http/2
+        <ul>
+          <li>header compaction</li>
+          <li>Client 기반 네트워크를 추상화 : SPDY, HTTP/2 모두 지원, 필요에 따라 fallback</li>
+          <li>http/2 를 설정을 통해 비활성화 할 수 있어야 한다.</li>
+          <li>feature on/off</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>![[Network_abstraction_client_config.png]]
+![[TLS_1.2.png]]
+![[TLS_1.3.png]]</p>
+
+<ul>
+  <li>TLS1.3, RTT 를 줄이기 위해 노력</li>
+  <li>session id, session ticket</li>
+  <li>TLS 1.3, TLS 1.2 Resumption</li>
+  <li><a href="https://blog.cloudflare.com/tls-session-resumption-full-speed-and-secure/">관련 아티클</a></li>
+</ul>
+
+<h1 id="ksetl로-kafka-스트림-etl-시스템을-빠르게-구성하기">
+<a class="anchor" href="#ksetl%EB%A1%9C-kafka-%EC%8A%A4%ED%8A%B8%EB%A6%BC-etl-%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%9D%84-%EB%B9%A0%EB%A5%B4%EA%B2%8C-%EA%B5%AC%EC%84%B1%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>KSETL로 Kafka 스트림 ETL 시스템을 빠르게 구성하기</h1>
+
+<p>kafka stream 을 이용하여 복잡한 프로그래밍을 통한 join 등의 작업을 sql 를 이용하여 손쉽게 이용할 수 있도록 직접 개발
+FlinkSQL</p>
+
+<h1 id="line-플랫폼-서버의-장애-대응-프로세스와-문화">
+<a class="anchor" href="#line-%ED%94%8C%EB%9E%AB%ED%8F%BC-%EC%84%9C%EB%B2%84%EC%9D%98-%EC%9E%A5%EC%95%A0-%EB%8C%80%EC%9D%91-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4%EC%99%80-%EB%AC%B8%ED%99%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>LINE 플랫폼 서버의 장애 대응 프로세스와 문화</h1>
+
+<ul>
+  <li><a href="https://speakerdeck.com/line_devday2021/outage-handling-process-and-culture-of-the-line-platform-server">발표자료 바로가기</a></li>
+  <li>outage, 장애, 장애를 통한 개선의 기회</li>
+  <li>![[Outage_Handling_Process.png]]</li>
+  <li>![[Outage_Handling_Process_Level.png]]</li>
+  <li>개발리더가 장애대응의 총책임, 대응을 컨트롤 한다, 리더가 전파를 담당한다.</li>
+  <li>장애 시에 당일 장애 내용 공유, ==메일링==</li>
+  <li>![[Outage_Handling_Process_Report.png]]</li>
+  <li>![[Outage_prevention.png]]</li>
+  <li>Oncall Duty</li>
+  <li>Managing Outage related action items</li>
+  <li>OKR 를 통해 관리한다.</li>
+</ul>
+
+<p>![[Outage_summary_example.png]]
+![[Outage_timetable.png]]
+![[Outage_action_items.png]]</p>
+
+<h1 id="tcp로-인한-대규모-kafka-클러스터-요청-지연-문제-해결-사례">
+<a class="anchor" href="#tcp%EB%A1%9C-%EC%9D%B8%ED%95%9C-%EB%8C%80%EA%B7%9C%EB%AA%A8-kafka-%ED%81%B4%EB%9F%AC%EC%8A%A4%ED%84%B0-%EC%9A%94%EC%B2%AD-%EC%A7%80%EC%97%B0-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0-%EC%82%AC%EB%A1%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>TCP로 인한 대규모 Kafka 클러스터 요청 지연 문제 해결 사례</h1>
+
+<ul>
+  <li><a href="https://speakerdeck.com/line_devday2021/investigating-request-delay-in-a-large-scale-kafka-cluster-caused-by-tcp">발표자료 바로가기</a></li>
+  <li>2019 라인데브데이 사례가 있다.</li>
+  <li>롤링 업데이트 시에 프로듀서에서 문제가 발생했다. timeout
+    <ul>
+      <li>서버와 producer 의 latency 가 달랐다.</li>
+      <li>왜 latency 의 gab이 발생했나?</li>
+      <li>![[Kafka_latency.png]]</li>
+      <li>Producer IO Thread Stuck</li>
+      <li>node_exporter 에 TCP_SYN_Cookies</li>
+      <li>![[TCP_syn_cookies.png]]</li>
+      <li>![[TCP_syn_cookies_flodding.png]]</li>
+      <li>![[TCP_syn_cookies_.png]]</li>
+      <li>18000 건의 트래픽이 몰려 flooding 과 같은 상황</li>
+      <li>![[TCP_window.png]]</li>
+      <li>![[TCP_sync_cookies_wsize_limit.png]]</li>
+      <li>window scaling</li>
+      <li>![[TCP_sync_cookies_wcaling__.png]]</li>
+      <li>![[TCP_sync_cookies_wscaling_.png]]</li>
+      <li>![[TCP_sync_cookies_wscaling.png]]</li>
+      <li>![[TCP_sync_cookies_drawback.png]]</li>
+      <li>![[TCP_syn_cookies_timestamp.png]]</li>
+      <li>syn cookie 에서 window scaling 이, tcp_syncookies = 2</li>
+      <li>![[TCP_syn_tcpdump_.png]]</li>
+      <li>![[TCP_syn_tcpdump.png]]</li>
+      <li>왜 window size 가 즐어 들었나?</li>
+      <li>ss -i 를 통해 확인, tcp_select_window, 어떻게 하면 kernel 호출을 hook 할 수 있ㅇ르까?</li>
+      <li>![[TCP_kernel_hook.png]]</li>
+      <li>![[TCP_scaling_factor.png]]</li>
+      <li>![[TCP_sync_kernel_bug.png]]</li>
+      <li>linux kernel’s bug (5.10)</li>
+      <li>![[TCP_syn_cookies_okay.png]]</li>
+      <li>![[TCP_syn_cookies_overall_flow_.png]]</li>
+      <li>![[TCP_syn_cookies_overall_flow.png]]</li>
+      <li>![[TCP_syn_cookies_solution.png]]</li>
+      <li>![[TCP_syn_cookies_conclusion.png]]</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="pipe-더-나은-개발자-경험을-위한-cicd--runtime">
+<a class="anchor" href="#pipe-%EB%8D%94-%EB%82%98%EC%9D%80-%EA%B0%9C%EB%B0%9C%EC%9E%90-%EA%B2%BD%ED%97%98%EC%9D%84-%EC%9C%84%ED%95%9C-cicd--runtime" aria-hidden="true"><span class="octicon octicon-link"></span></a>PIPE: 더 나은 개발자 경험을 위한 CI/CD + Runtime</h1>
+
+<ul>
+  <li>발표자 이승</li>
+  <li>Tekton Pipeline</li>
+  <li>namespace as a service (tenancy model), <a href="https://kyverno.io/docs/introduction/">k8s policy engine</a>
+</li>
+  <li>tekton, k8s native CI/CD framework</li>
+  <li>tekton hub, pipeline 을 관리한다.</li>
+  <li>![[Line_pipeline.png]]</li>
+  <li>Core Cluster
+    <ul>
+      <li>OIDC  인증?</li>
+    </ul>
+  </li>
+  <li>Runtime Cluster * N</li>
+  <li>kubeadm,  1.21 버전 이후에는 이전 버전은 에러가 난다.</li>
+  <li>Runs on Physical Machines
+    <ul>
+      <li>Deployment tool: kubeadm Kubernetes version: v1.21.1</li>
+      <li>CNI: Calico with Typha IPAM plugin (대규모 네트워크에 적용)</li>
+      <li>CRI: containerd</li>
+      <li>CSI: OpenEBS, VSFS (Verda Shared File System)</li>
+      <li>Node roles: control-plane, build, gateway (private / public), none(user workloads)</li>
+    </ul>
+  </li>
+  <li>![[Line_k8s_component.png]]</li>
+  <li>![[Line_k8s_auth_.png]]</li>
+  <li>![[Line_k8s_auth.png]]</li>
+  <li>Monitoring
+    <ul>
+      <li><a href="https://github.com/kubernetes/node-problem-detector">node-problem-detector</a></li>
+    </ul>
+  </li>
+  <li>Node role</li>
+  <li>Roadmap
+    <ul>
+      <li>verda, multiple az</li>
+      <li>functions</li>
+      <li>![[Line_k8s_virtual_k8s_platform.png]]</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="zero-downtime-kubernetes-cluster-upgrade-solution">
+<a class="anchor" href="#zero-downtime-kubernetes-cluster-upgrade-solution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Zero-Downtime Kubernetes Cluster Upgrade Solution</h1>
+
+<p>![[Line_k8s_architecture.png]]</p>
+
+<ul>
+  <li>Scale: 570 Clusters 8700 Nodes</li>
+  <li>10 Operators</li>
+  <li>Upgrade Solution
+    <ul>
+      <li>Zero downtime, Safely, Flexibility</li>
+    </ul>
+  </li>
+  <li>Safety
+    <ul>
+      <li>Rollback, 호환성(1.21.x 에서 하위 호환을 어떻게?)</li>
+    </ul>
+  </li>
+  <li>Rancher
+    <ul>
+      <li>Safety
+        <ul>
+          <li>health checking</li>
+          <li>no node ready state checking / version skew checking / api compatibility checking</li>
+          <li>manual rollback</li>
+        </ul>
+      </li>
+      <li>Flexibility
+        <ul>
+          <li>Control Plane, Worker 갯수를 지정하여 업그레이드 가능</li>
+        </ul>
+      </li>
+      <li>Zero Downtime</li>
+    </ul>
+  </li>
+  <li>kubeadm
+    <ul>
+      <li>배치 업그레이드를 지원하지 않는다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>![[Line_k8s_rancher_kubeadm_compare.png]]</p>
+
+<ul>
+  <li>Tech Direction : Rancher 의 plugin 기능을 추가 개발
+    <ul>
+      <li>kubeadm 기능을 참조</li>
+      <li>rollback etcd 복원</li>
+      <li>worker node 는 label 을 선택해서 업그레이드를 진행</li>
+    </ul>
+  </li>
+</ul>
+
+<p>![[Line_k8s_update_phase.png]]</p>
+
+<h1 id="line-pay-모니터링-시스템-구축과-ml을-이용한-비정상-로그-탐지">
+<a class="anchor" href="#line-pay-%EB%AA%A8%EB%8B%88%ED%84%B0%EB%A7%81-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EA%B5%AC%EC%B6%95%EA%B3%BC-ml%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EB%B9%84%EC%A0%95%EC%83%81-%EB%A1%9C%EA%B7%B8-%ED%83%90%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>LINE Pay 모니터링 시스템 구축과 ML을 이용한 비정상 로그 탐지</h1>
+
+<ul>
+  <li><a href="https://speakerdeck.com/line_devday2021/building-line-pay-monitoring-system-and-anomaly-log-detection-system-using-ml">발표자료 바로가기</a></li>
+  <li><a href="https://www.youtube.com/watch?v=ynB3i3bonFo">영상자료 바로가기</a></li>
+  <li>기존 문제
+    <ul>
+      <li>다양한 시스템, 각자 시스템에서 알람을 발생</li>
+      <li>한 서버가 다른 서버의 메트릭보다 높을 때, 현재 임계치로만 알람</li>
+      <li>라인페이 외부의 문제일 때 메트릭이 급격한 감소</li>
+    </ul>
+  </li>
+  <li>자체 모니터링 시스템 구축</li>
+</ul>
+
+<p>![[Line_new_monitoring_system.png]]</p>
+
+<ul>
+  <li>Collecting Metrics
+    <ul>
+      <li>시스템, 어플리케이션 Exporter</li>
+      <li>Log appender -&gt; Log Collector</li>
+    </ul>
+  </li>
+  <li>Processing
+    <ul>
+      <li>Flink 에서 스트림 처리</li>
+      <li>이상탐지</li>
+    </ul>
+  </li>
+  <li>Visualization
+    <ul>
+      <li>Grafana, Alert manager</li>
+    </ul>
+  </li>
+  <li>알람
+    <ul>
+      <li>이상탐지 관련  평균과 표준편차를 통해 한 대의 서버 문제 찾음</li>
+    </ul>
+  </li>
+  <li>서비스 별 메트릭 패턴 분석
+    <ul>
+      <li>관리자, 사용자 트래픽에 따라, 배치 용도</li>
+    </ul>
+  </li>
+  <li>API 의 모수가 경우,  평균과 표준편차에 이상탐지 어렵</li>
+  <li>ML
+    <ul>
+      <li>로그를 통한 예측
+        <ul>
+          <li>특정 API 의 증가는 장애의 시작</li>
+          <li>특정 로그의 증가는 장애의 시작</li>
+          <li>비지도학습, 재학습에, 성능, Root Cause 를 빠르게, 단순한 방법</li>
+          <li>가우시안 분포등,
+            <ul>
+              <li>로그의 비율 (5, 10)</li>
+              <li>API 별로 가우시안 분포가 나타남,</li>
+              <li>API Count 증가율에 따라</li>
+              <li>Minorities
+                <ul>
+                  <li>패널티를 준다.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>LSTM (Long Short-Term Memory)
+            <ul>
+              <li>![[Line_log_m.png]]</li>
+            </ul>
+          </li>
+          <li>Deep log 논문 참고</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>![[Line_new_monitoring_ml_architecture.png]]</p>
+
+<h1 id="멀티-테넌트-k8s-클러스터로-구축하는-신뢰할-수-있는-로그-수집-인프라">
+<a class="anchor" href="#%EB%A9%80%ED%8B%B0-%ED%85%8C%EB%84%8C%ED%8A%B8-k8s-%ED%81%B4%EB%9F%AC%EC%8A%A4%ED%84%B0%EB%A1%9C-%EA%B5%AC%EC%B6%95%ED%95%98%EB%8A%94-%EC%8B%A0%EB%A2%B0%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8A%94-%EB%A1%9C%EA%B7%B8-%EC%88%98%EC%A7%91-%EC%9D%B8%ED%94%84%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>멀티 테넌트 k8s 클러스터로 구축하는 신뢰할 수 있는 로그 수집 인프라</h1>
+
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=jXN0AhOt_8A">발표 영상 바로가기</a></li>
+  <li><a href="https://speakerdeck.com/line_devday2021/reliable-log-aggregation-system-in-multi-tenant-kubernetes-cluster">발표 자료 바로가기</a></li>
+  <li>SRE 팀의 두 가지 유닛 : Platform wide SRE, Infra Management</li>
+  <li>Log aggregation in Verda
+    <ul>
+      <li>어플리케이션 로그, 감사로그</li>
+      <li>Problem: Pod 안에서 log-rotated, fluentd -&gt; es 로 송신
+        <ul>
+          <li>Too many sidecar, hard to schedule</li>
+          <li>quality depends on each team</li>
+        </ul>
+      </li>
+      <li>Solution:
+        <ul>
+          <li>managed fluentd cluster</li>
+          <li>pod 은 stdout, forwarder (deamonset, fluentd)</li>
+        </ul>
+      </li>
+      <li>Fluentd Config Operator</li>
+      <li>VictoriaMetrics 를 통해 저장</li>
+      <li>kafka 를 통해서 통한 확장을 고민 중 forwarder -&gt; kafka -&gt; aggregator -&gt; elasticsearch</li>
+    </ul>
+  </li>
+</ul>
+
+    </content>
+
+    <side style="font-size: 0.9em">
+      <h3 style="margin-bottom: 1em">Notes mentioning this note</h3>
+      
+
+      <div style="font-size: 0.9em">
+        <p>
+          There are no notes linking to this note.
+        </p>
+      </div>
+      
+    </side>
+  </div>
+</article>
+
+<hr>
+
+<p>Here are all the notes in this garden, along with their links, visualized as a graph.</p>
+
+<style>
+  .links line {
+    stroke: #ccc;
+    opacity: 0.5;
+  }
+
+  .nodes circle {
+    cursor: pointer;
+    fill: #8b88e6;
+    transition: all 0.15s ease-out;
+  }
+
+  .text text {
+    cursor: pointer;
+    fill: #333;
+    text-shadow: -1px -1px 0 #fafafabb, 1px -1px 0 #fafafabb, -1px 1px 0 #fafafabb, 1px 1px 0 #fafafabb;
+  }
+
+  .nodes [active],
+  .text [active] {
+    cursor: pointer;
+    fill: black;
+  }
+
+  .inactive {
+    opacity: 0.1;
+    transition: all 0.15s ease-out;
+  }
+
+  #graph-wrapper {
+    background: #fcfcfc;
+    border-radius: 4px;
+    height: auto;
+  }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"
+  integrity="sha512-FHsFVKQ/T1KWJDGSbrUhTJyS1ph3eRrxI228ND0EGaEp6v4a/vGwPWd3Dtd/+9cI7ccofZvl/wulICEurHN1pg=="
+  crossorigin="anonymous"></script>
+
+<div id="graph-wrapper">
+  <script>
+    const MINIMAL_NODE_SIZE = 8;
+    const MAX_NODE_SIZE = 12;
+    const ACTIVE_RADIUS_FACTOR = 1.5;
+    const STROKE = 1;
+    const FONT_SIZE = 16;
+    const TICKS = 200;
+    const FONT_BASELINE = 40;
+    const MAX_LABEL_LENGTH = 50;
+
+    const graphData = {"edges":[{"source":"1105250","target":"0"},{"source":"1783189036595305315139779527442417148144190962786599794647","target":"36485673071"},{"source":"1173349929","target":"1173349929"},{"source":"0","target":"1105250"}],"nodes":[{"id":"0","path":"/%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A4%91%EC%8B%AC-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EC%84%A4%EA%B3%84","label":"데이터 중심 애플리케이션 설계"},{"id":"0","path":"/%EC%A0%9C%ED%85%94%EC%B9%B4%EC%8A%A4%ED%85%90","label":"제텔카스텐"},{"id":"0","path":"/%ED%98%84%EB%AA%85%ED%95%9C-%ED%88%AC%EC%9E%90%EC%9E%90","label":"현명한 투자자"},{"id":"1783189036595305315139779527442417148144190962786599794647","path":"/gremlin-applicatoin-attack","label":"Gremlin Application Layer Fault Injection"},{"id":"36485673071","path":"/gremlin","label":"Gremlin 관련"},{"id":"2356180470493017000564695","path":"/anomaly-detection","label":"Anomaly detection"},{"id":"132794565206938727014822709","path":"/google-spreadsheet","label":"Google spreadsheet"},{"id":"1173349929","path":"/jekyll","label":"Jekyll"},{"id":"1105250","path":"/note","label":"Note"},{"id":"8345289848942075317846035406687072346852","path":"/springboot-health-check","label":"About SpringBootHealth Check"}]}
+
+    let nodesData = graphData.nodes;
+    let linksData = graphData.edges;
+
+    const nodeSize = {};
+
+    const updateNodeSize = () => {
+      nodesData.forEach((el) => {
+        let weight =
+          3 *
+          Math.sqrt(
+            linksData.filter((l) => l.source === el.id || l.target === el.id)
+              .length + 1
+          );
+        if (weight < MINIMAL_NODE_SIZE) {
+          weight = MINIMAL_NODE_SIZE;
+        } else if (weight > MAX_NODE_SIZE) {
+          weight = MAX_NODE_SIZE;
+        }
+        nodeSize[el.id] = weight;
+      });
+    };
+
+    const onClick = (d) => {
+      window.location = d.path
+    };
+
+    const onMouseover = function (d) {
+      const relatedNodesSet = new Set();
+      linksData
+        .filter((n) => n.target.id == d.id || n.source.id == d.id)
+        .forEach((n) => {
+          relatedNodesSet.add(n.target.id);
+          relatedNodesSet.add(n.source.id);
+        });
+
+      node.attr("class", (node_d) => {
+        if (node_d.id !== d.id && !relatedNodesSet.has(node_d.id)) {
+          return "inactive";
+        }
+        return "";
+      });
+
+      link.attr("class", (link_d) => {
+        if (link_d.source.id !== d.id && link_d.target.id !== d.id) {
+          return "inactive";
+        }
+        return "";
+      });
+
+      link.attr("stroke-width", (link_d) => {
+        if (link_d.source.id === d.id || link_d.target.id === d.id) {
+          return STROKE * 4;
+        }
+        return STROKE;
+      });
+      text.attr("class", (text_d) => {
+        if (text_d.id !== d.id && !relatedNodesSet.has(text_d.id)) {
+          return "inactive";
+        }
+        return "";
+      });
+    };
+
+    const onMouseout = function (d) {
+      node.attr("class", "");
+      link.attr("class", "");
+      text.attr("class", "");
+      link.attr("stroke-width", STROKE);
+    };
+
+    const sameNodes = (previous, next) => {
+      if (next.length !== previous.length) {
+        return false;
+      }
+
+      const map = new Map();
+      for (const node of previous) {
+        map.set(node.id, node.label);
+      }
+
+      for (const node of next) {
+        const found = map.get(node.id);
+        if (!found || found !== node.title) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    const sameEdges = (previous, next) => {
+      if (next.length !== previous.length) {
+        return false;
+      }
+
+      const set = new Set();
+      for (const edge of previous) {
+        set.add(`${edge.source.id}-${edge.target.id}`);
+      }
+
+      for (const edge of next) {
+        if (!set.has(`${edge.source}-${edge.target}`)) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    const graphWrapper = document.getElementById('graph-wrapper')
+    const element = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    element.setAttribute("width", graphWrapper.getBoundingClientRect().width);
+    element.setAttribute("height", window.innerHeight * 0.8);
+    graphWrapper.appendChild(element);
+
+    const reportWindowSize = () => {
+      element.setAttribute("width", window.innerWidth);
+      element.setAttribute("height", window.innerHeight);
+    };
+
+    window.onresize = reportWindowSize;
+
+    const svg = d3.select("svg");
+    const width = Number(svg.attr("width"));
+    const height = Number(svg.attr("height"));
+    let zoomLevel = 1;
+
+    const simulation = d3
+      .forceSimulation(nodesData)
+      .force("forceX", d3.forceX().x(width / 2))
+      .force("forceY", d3.forceY().y(height / 2))
+      .force("charge", d3.forceManyBody())
+      .force(
+        "link",
+        d3
+          .forceLink(linksData)
+          .id((d) => d.id)
+          .distance(70)
+      )
+      .force("center", d3.forceCenter(width / 2, height / 2))
+      .force("collision", d3.forceCollide().radius(80))
+      .stop();
+
+    const g = svg.append("g");
+    let link = g.append("g").attr("class", "links").selectAll(".link");
+    let node = g.append("g").attr("class", "nodes").selectAll(".node");
+    let text = g.append("g").attr("class", "text").selectAll(".text");
+
+    const resize = () => {
+      if (d3.event) {
+        const scale = d3.event.transform;
+        zoomLevel = scale.k;
+        g.attr("transform", scale);
+      }
+
+      const zoomOrKeep = (value) => (zoomLevel >= 1 ? value / zoomLevel : value);
+
+      const font = Math.max(Math.round(zoomOrKeep(FONT_SIZE)), 1);
+
+      text.attr("font-size", (d) => font);
+      text.attr("y", (d) => d.y - zoomOrKeep(FONT_BASELINE) + 8);
+      link.attr("stroke-width", zoomOrKeep(STROKE));
+      node.attr("r", (d) => {
+        return zoomOrKeep(nodeSize[d.id]);
+      });
+      svg
+        .selectAll("circle")
+        .filter((_d, i, nodes) => d3.select(nodes[i]).attr("active"))
+        .attr("r", (d) => zoomOrKeep(ACTIVE_RADIUS_FACTOR * nodeSize[d.id]));
+    };
+
+    const ticked = () => {
+      node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+      text
+        .attr("x", (d) => d.x)
+        .attr("y", (d) => d.y - (FONT_BASELINE - nodeSize[d.id]) / zoomLevel);
+      link
+        .attr("x1", (d) => d.source.x)
+        .attr("y1", (d) => d.source.y)
+        .attr("x2", (d) => d.target.x)
+        .attr("y2", (d) => d.target.y);
+    };
+
+    const restart = () => {
+      updateNodeSize();
+      node = node.data(nodesData, (d) => d.id);
+      node.exit().remove();
+      node = node
+        .enter()
+        .append("circle")
+        .attr("r", (d) => {
+          return nodeSize[d.id];
+        })
+        .on("click", onClick)
+        .on("mouseover", onMouseover)
+        .on("mouseout", onMouseout)
+        .merge(node);
+
+      link = link.data(linksData, (d) => `${d.source.id}-${d.target.id}`);
+      link.exit().remove();
+      link = link.enter().append("line").attr("stroke-width", STROKE).merge(link);
+
+      text = text.data(nodesData, (d) => d.label);
+      text.exit().remove();
+      text = text
+        .enter()
+        .append("text")
+        .text((d) => shorten(d.label.replace(/_*/g, ""), MAX_LABEL_LENGTH))
+        .attr("font-size", `${FONT_SIZE}px`)
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "central")
+        .on("click", onClick)
+        .on("mouseover", onMouseover)
+        .on("mouseout", onMouseout)
+        .merge(text);
+
+      node.attr("active", (d) => isCurrentPath(d.path) ? true : null);
+      text.attr("active", (d) => isCurrentPath(d.path) ? true : null);
+
+      simulation.nodes(nodesData);
+      simulation.force("link").links(linksData);
+      simulation.alpha(1).restart();
+      simulation.stop();
+
+      for (let i = 0; i < TICKS; i++) {
+        simulation.tick();
+      }
+
+      ticked();
+    };
+
+    const zoomHandler = d3.zoom().scaleExtent([0.2, 3]).on("zoom", resize);
+
+    zoomHandler(svg);
+    restart();
+
+    function isCurrentPath(notePath) {
+      return window.location.pathname.includes(notePath)
+    }
+
+    function shorten(str, maxLen, separator = ' ') {
+      if (str.length <= maxLen) return str;
+      return str.substr(0, str.lastIndexOf(separator, maxLen)) + '...';
+    }
+  </script>
+</div>
+
+</main>
+      <footer>This is the footer. Include anything you'd like here, like a link to an <a class="internal-link" href="/about">About</a> page.
+</footer>
+    </div>
+
+    <!-- That file is not particularly elegant. This will need a refactor at some point. -->
+<style>
+  content a.internal-link {
+    border-color: #8b88e6;
+    background-color: #efefff;
+  }
+
+  #tooltip-wrapper {
+    background: white;
+    padding: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    position: absolute;
+    width: 400px;
+    height: 250px;
+    font-size: 0.8em;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    opacity: 0;
+    transition: opacity 100ms;
+  }
+
+  #tooltip-wrapper:after {
+		content: "";
+		position: absolute;
+		z-index: 1;
+		bottom: 0;
+		left: 0;
+		pointer-events: none;
+		background-image: linear-gradient(to bottom, rgba(255,255,255, 0), rgba(255,255,255, 1) 90%);
+		width: 100%;
+		height: 75px;
+  }
+</style>
+
+<div style="opacity: 0; display: none;" id='tooltip-wrapper'>
+  <div id='tooltip-content'>
+  </div>
+</div>
+
+<iframe style="display: none; height: 0; width: 0;" id='link-preview-iframe' src="">
+</iframe>
+
+<script>
+  var opacityTimeout;
+  var contentTimeout;
+  var transitionDurationMs = 100;
+
+  var iframe = document.getElementById('link-preview-iframe')
+  var tooltipWrapper = document.getElementById('tooltip-wrapper')
+  var tooltipContent = document.getElementById('tooltip-content')
+
+  function hideTooltip() {
+    opacityTimeout = setTimeout(function() {
+      tooltipWrapper.style.opacity = 0;
+      contentTimeout = setTimeout(function() {
+        tooltipContent.innerHTML = '';
+        tooltipWrapper.style.display = 'none';
+      }, transitionDurationMs + 1);
+    }, transitionDurationMs)
+  }
+
+  function showTooltip(event) {
+    var elem = event.target;
+    var elem_props = elem.getClientRects()[elem.getClientRects().length - 1];
+    var top = window.pageYOffset || document.documentElement.scrollTop
+
+    if (event.target.host === window.location.host) {
+      iframe.src = event.target.href
+      iframe.onload = function() {
+        tooltipContentHtml = ''
+        tooltipContentHtml += '<div style="font-weight: bold;">' + iframe.contentWindow.document.querySelector('h1').innerHTML + '</div>'
+        tooltipContentHtml += iframe.contentWindow.document.querySelector('content').innerHTML
+
+        tooltipContent.innerHTML = tooltipContentHtml
+
+        tooltipWrapper.style.display = 'block';
+        setTimeout(function() {
+          tooltipWrapper.style.opacity = 1;
+        }, 1)
+      }
+
+      tooltipWrapper.style.left = elem_props.left - (tooltipWrapper.offsetWidth / 2) + (elem_props.width / 2) + "px";
+      if ((window.innerHeight - elem_props.top) < (tooltipWrapper.offsetHeight)) {
+          tooltipWrapper.style.top = elem_props.top + top - tooltipWrapper.offsetHeight - 10 + "px";
+      } else if ((window.innerHeight - elem_props.top) > (tooltipWrapper.offsetHeight)) {
+          tooltipWrapper.style.top = elem_props.top + top + 35 + "px";
+      }
+
+      if ((elem_props.left + (elem_props.width / 2)) < (tooltipWrapper.offsetWidth / 2)) {
+          tooltipWrapper.style.left = "10px";
+      } else if ((document.body.clientWidth - elem_props.left - (elem_props.width / 2)) < (tooltipWrapper.offsetWidth / 2)) {
+          tooltipWrapper.style.left = document.body.clientWidth - tooltipWrapper.offsetWidth - 20 + "px";
+      }
+    }
+  }
+
+  function setupListeners(linkElement) {
+    linkElement.addEventListener('mouseleave', function(_event) {
+      hideTooltip();
+    });
+
+    tooltipWrapper.addEventListener('mouseleave', function(_event) {
+      hideTooltip();
+    });
+
+    linkElement.addEventListener('mouseenter', function(event) {
+      clearTimeout(opacityTimeout);
+      clearTimeout(contentTimeout);
+      showTooltip(event);
+    });
+
+    tooltipWrapper.addEventListener('mouseenter', function(event) {
+      clearTimeout(opacityTimeout);
+      clearTimeout(contentTimeout);
+    });
+  }
+
+  document.querySelectorAll('content a').forEach(setupListeners);
+</script>
+
+  </body>
+</html>
